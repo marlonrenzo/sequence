@@ -1,0 +1,22 @@
+{
+  "name": "sequence",
+  "version": "1.0.0",
+  "description": "A web-based game made for the term project for COMP 4537.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marlonrenzo/sequence.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marlonrenzo/sequence/issues"
+  },
+  "homepage": "https://github.com/marlonrenzo/sequence#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
