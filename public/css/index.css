@@ -1,0 +1,75 @@
+body {
+    background-color: #333333;
+    font-family: 'Titillium Web', sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+
+.content {
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+.content > * {
+    border: 1px solid red;
+    margin: 5px;
+    display: flex;
+}
+
+.titleBar {
+    justify-content: center;
+}
+
+.title {
+    color: #43c4be;
+    font-weight: 200;
+    font-size: 70px;
+    text-align: center;
+    margin: 0;
+}
+
+div.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 300px;
+}
+
+#login {
+    font-family: 'Titillium Web';
+    font-size: 28px;
+    text-align: center;
+}
+
+#loginLabel {
+    color: white;
+    font-size: 39px;
+    margin: 0;
+}
+
+.sequenceButton:hover {
+    cursor: pointer;
+}
+
+.sequenceButton {
+    border: 0;
+    padding: 10px 10px;
+    border-radius: 30%;
+    background-color: #c44349;
+    color: white;
+    font-family: 'Titillium Web', 'sans-serif';
+    font-size: 50px;
+}
+
+.sequenceButton > div {
+    width: 78px;
+    height: 78px;
+}
+
+@media only screen and (min-width:620px) {
+    /* For Desktops: */
+    .title {
+        font-size: 100px;
+    }
+}
