@@ -6,7 +6,7 @@ body {
 }
 
 .content {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     justify-content: space-evenly;
     height: 100%;
@@ -15,10 +15,11 @@ body {
 .content > * {
     border: 1px solid red;
     margin: 5px;
+    display: flex;
 }
 
 .titleBar {
-    flex-grow: 1;
+    justify-content: center;
 }
 
 .title {
@@ -29,9 +30,9 @@ body {
     margin: 0;
 }
 
-#gameWindow {
-    flex-grow: 12;
-}
+/* #gameWindow {
+    width: 
+} */
 
 .sequenceButton:hover {
     cursor: pointer;
