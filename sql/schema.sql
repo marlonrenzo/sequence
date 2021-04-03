@@ -52,10 +52,11 @@ Accessed by PUT request to /scores
 */
 DROP PROCEDURE IF EXISTS add_score;
 DELIMITER //
-CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score INTEGER)
+CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score INTEGER, OUT result INTEGER)
 BEGIN
     INSERT INTO scores(userID, score_time)
     VALUES ((SELECT id FROM users WHERE username = current_username), new_score);
+    SELECT ROW_COUNT() INTO result;
 END//
 DELIMITER ;
 
@@ -66,10 +67,10 @@ Accessed by PUT request to /users
 */
 DROP PROCEDURE IF EXISTS add_user;
 DELIMITER //
-CREATE PROCEDURE add_user(IN new_username VARCHAR(30));
+CREATE PROCEDURE add_user(IN new_username VARCHAR(30), OUT result INTEGER);
 BEGIN
-    INSERT INTO users (username)
-    VALUES (new_username)
+    INSERT INTO users (username) VALUES (new_username);
+    SELECT ROW_COUNT() INTO result;
 END//
 DELIMITER ;
 
@@ -98,11 +99,12 @@ Accessed by POST request to users/change/
 */
 DROP PROCEDURE IF EXISTS change_name;
 DELIMITER //
-CREATE PROCEDURE change_name(IN old_username VARCHAR(30), IN new_username VARCHAR(30));
+CREATE PROCEDURE change_name(IN old_username VARCHAR(30), IN new_username VARCHAR(30), OUT result INTEGER);
 BEGIN
     UPDATE users
     SET username = new_username
     WHERE username = old_username;
+    SELECT ROW_COUNT() INTO result;
 END//
 DELIMITER ;
 
@@ -131,9 +133,10 @@ Accessed by DELETE request to /users
 */
 DROP PROCEDURE IF EXISTS delete_user;
 DELIMITER //
-CREATE PROCEDURE delete_user(IN input_name VARCHAR(30));
+CREATE PROCEDURE delete_user(IN input_name VARCHAR(30), OUT result INTEGER);
 BEGIN
     DELETE FROM users WHERE username = input_name;
+    SELECT ROW_COUNT() INTO result;
 END//
 DELIMITER ;
 
@@ -145,8 +148,9 @@ Accessed by DELETE request to /scores
 */
 DROP PROCEDURE IF EXISTS delete_score;
 DELIMITER //
-CREATE PROCEDURE delete_score(IN score_id VARCHAR(30));
+CREATE PROCEDURE delete_score(IN score_id VARCHAR(30), OUT result INTEGER);
 BEGIN
     DELETE FROM scores WHERE id = score_id;
+    SELECT ROW_COUNT() INTO result;
 END//
 DELIMITER ;
