@@ -23,20 +23,59 @@ app.set('views', __dirname + '/views/pages');
 
 // --- Routing ---
 
+// Get leaderboard of top 10 scores
 app.get('/scores', function(req, res) {
-    res.end("Get leaderboard of top 10 scores");
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = "SELECT * FROM get_scores"
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
-app.get('/scores/:username', function(req, res){
-    res.end("Get the scores for a user");
+// Get the scores for a user
+app.get('/scores/:username', function(req, res) {
+    let name = req.params.username;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = `CALL get_user_scores(${name})`
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
+// Get the list of users
 app.get('/users', function(req, res) {
-    res.end("Get the list of users");
+    let name = req.params.username;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = "SELECT username FROM users;"
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
+// Upload a new entry into the scores table
 app.put('/scores', function(req, res) {
-    res.end("Upload a new entry into the scores table");
+    let name = req.params.username;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = "CALL add_score"
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
 app.put('/users/:username', function(req, res) {
