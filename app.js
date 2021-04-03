@@ -150,8 +150,18 @@ app.delete('/users/:username', function(req, res) {
     });
 });
 
+// Delete a score from the database
 app.delete('/scores/:scoreID', function(req, res) {
-    res.end("Delete a score from the database")
+    let scoreID = req.params.scoreID;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = `CALL delete_score(${scoreID});`
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
 app.listen();
