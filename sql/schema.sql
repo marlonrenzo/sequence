@@ -1,0 +1,13 @@
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+
+);
+
+CREATE TABLE scores (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    userID INTEGER NOT NULL,
+    score_time INTEGER NOT NULL,
+    FOREIGN KEY (userID) REFERENCES users (id)
+);
+
