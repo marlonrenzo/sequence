@@ -69,7 +69,7 @@ app.put('/scores/:username/:score', function(req, res) {
     let value = req.params.score;
     db.connect(function (err) {
         if (err) throw err;
-        let sql = `CALL add_score(${name}, ${value})`
+        let sql = `CALL add_score(${name}, ${value});`
         db.query(sql, function (err, result) {
             if (err) throw err;
             let resultText = JSON.stringify(result);
@@ -78,8 +78,18 @@ app.put('/scores/:username/:score', function(req, res) {
     });
 });
 
+// Adds a new entry into the user table
 app.put('/users/:username', function(req, res) {
-    res.end("Adds a new entry into the user table");
+    let name = req.params.username;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = `CALL add_user(${name});`
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
 app.post('/users/:username', function(req, res) {
