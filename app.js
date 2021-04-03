@@ -92,8 +92,18 @@ app.put('/users/:username', function(req, res) {
     });
 });
 
+// Check existence in database, then login
 app.post('/users/:username', function(req, res) {
-    res.end("Check existence in database, then login");
+    let name = req.params.username;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = `SELECT authenticate(${name});`
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
 app.post('/users/change/:username/:newname', function(req, res) {
