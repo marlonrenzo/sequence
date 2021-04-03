@@ -121,12 +121,33 @@ app.post('/users/change/:username/:newname', function(req, res) {
     });
 })
 
-app.post('/users/:username/:pw', function(req, res) {
-    res.end("Authenticates credentials, and displays stats for all endpoints")
+// Authenticates credentials, and displays stats for all endpoints
+app.post('/users/authenticate/:username/:pw', function(req, res) {
+    let name = req.params.username;
+    let password = req.params.pw;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = `SELECT authenticate(${name}, ${password});`
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
+// Delete a user and all its scores from the tables
 app.delete('/users/:username', function(req, res) {
-    res.end("Delete a user and all its scores from the tables");
+    let name = req.params.username;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = `CALL delete_user(${name});`
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 });
 
 app.delete('/scores/:scoreID', function(req, res) {
