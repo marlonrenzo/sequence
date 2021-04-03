@@ -11,3 +11,17 @@ CREATE TABLE scores (
     FOREIGN KEY (userID) REFERENCES users (id)
 );
 
+
+-- STORED PROCEDURES and FUNCTIONS-- 
+
+
+/*
+Shows the top 10 high scores for the game.
+Accessed by GET request to /scores
+*/
+CREATE VIEW get_scores AS
+SELECT users.username, scores.score_time
+FROM scores JOIN users ON (scores.userID = users.id)
+ORDER BY scores.score_time ASC; 
+
+
