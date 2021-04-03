@@ -97,7 +97,7 @@ app.post('/users/:username', function(req, res) {
     let name = req.params.username;
     db.connect(function (err) {
         if (err) throw err;
-        let sql = `SELECT authenticate(${name});`
+        let sql = `SELECT user_exists(${name});`
         db.query(sql, function (err, result) {
             if (err) throw err;
             let resultText = JSON.stringify(result);
@@ -106,8 +106,19 @@ app.post('/users/:username', function(req, res) {
     });
 });
 
+// Change the name of a stored user.
 app.post('/users/change/:username/:newname', function(req, res) {
-    res.end("Change the name of a stored user.");
+    let name = req.params.username;
+    let newname = req.params.newname;
+    db.connect(function (err) {
+        if (err) throw err;
+        let sql = `CALL change_name(${name}, ${newName});`
+        db.query(sql, function (err, result) {
+            if (err) throw err;
+            let resultText = JSON.stringify(result);
+            res.end(resultText);
+        });
+    });
 })
 
 app.post('/users/:username/:pw', function(req, res) {
