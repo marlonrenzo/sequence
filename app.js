@@ -52,7 +52,6 @@ app.get('/scores/:username', function(req, res) {
 
 // Get the list of users
 app.get('/users', function(req, res) {
-    let name = req.params.username;
     db.connect(function (err) {
         if (err) throw err;
         let sql = "SELECT username FROM users;"
@@ -65,11 +64,12 @@ app.get('/users', function(req, res) {
 });
 
 // Upload a new entry into the scores table
-app.put('/scores', function(req, res) {
+app.put('/scores/:username/:score', function(req, res) {
     let name = req.params.username;
+    let value = req.params.score;
     db.connect(function (err) {
         if (err) throw err;
-        let sql = "CALL add_score"
+        let sql = `CALL add_score(${name}, ${value})`
         db.query(sql, function (err, result) {
             if (err) throw err;
             let resultText = JSON.stringify(result);
