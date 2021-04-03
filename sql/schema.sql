@@ -33,7 +33,7 @@ DROP PROCEDURE IF EXISTS get_user_scores;
 DELIMITER //
 CREATE PROCEDURE get_user_scores(IN current_username VARCHAR(30))
 BEGIN
-    SELECT * FROM scores
+    SELECT score_time FROM scores
     WHERE userID = (SELECT id FROM users WHERE username = current_username);
 END//
 DELIMITER ;
@@ -67,7 +67,7 @@ Accessed by PUT request to /users
 */
 DROP PROCEDURE IF EXISTS add_user;
 DELIMITER //
-CREATE PROCEDURE add_user(IN new_username VARCHAR(30));
+CREATE PROCEDURE add_user(IN new_username VARCHAR(30))
 BEGIN
     INSERT INTO users (username) VALUES (new_username);
     SELECT ROW_COUNT();
@@ -99,7 +99,7 @@ Accessed by POST request to users/change/
 */
 DROP PROCEDURE IF EXISTS change_name;
 DELIMITER //
-CREATE PROCEDURE change_name(IN old_username VARCHAR(30), IN new_username VARCHAR(30));
+CREATE PROCEDURE change_name(IN old_username VARCHAR(30), IN new_username VARCHAR(30))
 BEGIN
     UPDATE users
     SET username = new_username
@@ -133,8 +133,9 @@ Accessed by DELETE request to /users
 */
 DROP PROCEDURE IF EXISTS delete_user;
 DELIMITER //
-CREATE PROCEDURE delete_user(IN input_name VARCHAR(30));
+CREATE PROCEDURE delete_user(IN input_name VARCHAR(30))
 BEGIN
+    DELETE FROM scores WHERE userID = (SELECT id FROM users WHERE username = input_name);
     DELETE FROM users WHERE username = input_name;
     SELECT ROW_COUNT();
 END//
@@ -148,7 +149,7 @@ Accessed by DELETE request to /scores
 */
 DROP PROCEDURE IF EXISTS delete_score;
 DELIMITER //
-CREATE PROCEDURE delete_score(IN score_id VARCHAR(30));
+CREATE PROCEDURE delete_score(IN score_id VARCHAR(30))
 BEGIN
     DELETE FROM scores WHERE id = score_id;
     SELECT ROW_COUNT();
