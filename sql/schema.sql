@@ -11,6 +11,13 @@ CREATE TABLE scores (
     FOREIGN KEY (userID) REFERENCES users (id)
 );
 
+CREATE TABLE stats (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    end_point VARCHAR(30) NOT NULL,
+    method VARCHAR(6) NOT NULL,
+    total_requests INTEGER NOT NULL
+);
+
 
 -- PROCEDURES, FUNCTIONS and Queries-- 
 
@@ -142,7 +149,6 @@ END//
 DELIMITER ;
 
 
-
 /*
 Deletes a score from the database
 Accessed by DELETE request to /scores
@@ -155,3 +161,34 @@ BEGIN
     SELECT ROW_COUNT();
 END//
 DELIMITER ;
+
+
+/*
+Inserts a new request into the stats table
+Accessed by all requests
+*/
+DROP PROCEDURE IF EXISTS track_request;
+DELIMITER //
+CREATE PROCEDURE track_request(IN endpoint_str VARCHAR(50), method_str VARCHAR(6))
+BEGIN
+    UPDATE stats
+    SET total_requests = total_requests + 1
+    WHERE end_point = endpoint_str AND method = method_str;
+    SELECT ROW_COUNT();
+END//
+DELIMITER ;
+
+
+-- Initial Seeds for stats table 
+INSERT INTO stats (end_point, method, total_requests)
+VALUES 
+("sequence/v1/scores", "GET", 0),
+("sequence/v1/scores/username", "GET", 0),
+("sequence/v1/users", "GET", 0),
+("sequence/v1/scores/username/score", "PUT", 0),
+("sequence/v1/users/username", "PUT", 0),
+("sequence/v1/users/username", "POST", 0),
+("sequence/v1/users/change/username/newname", "POST", 0),
+("sequence/v1/users/authenticate/username/pw", "POST", 0),
+("sequence/v1/users/username", "DELETE", 0),
+("sequence/v1/scores/scoreID", "DELETE", 0);
