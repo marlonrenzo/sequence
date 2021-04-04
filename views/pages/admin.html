@@ -5,6 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
         <title>Admin Page</title>
+        <style>
+            td {
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
         <table id="statsTable">
@@ -20,28 +25,28 @@
         </table>
 
         <script>
+            function addToTable(cell1, cell2, cell3) {
+                let entries = document.getElementById("entries");
+                let row = entries.insertRow(0);
+                let method = row.insertCell(0);
+                let endpoint = row.insertCell(1);
+                let requests = row.insertCell(2);
+                method.innerHTML = cell1;
+                endpoint.innerHTML = cell2;
+                requests.innerHTML = cell3;
+            }
+
             const xhttp = new XMLHttpRequest();
             xhttp.open("GET", `https://diyarsalamatravandi.ca/sequence/v1/stats`, true);
             xhttp.send();
-            let entries = document.getElementById("entries");
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    let result = JSON.parse(this.responseText)[0];
-                    document.getElementById("questions").innerHTML = "";
-                    let currentQuestion = 1;
-                    let currentAnswers = [];
+                    let result = JSON.parse(this.responseText);
                     
-                    for (let i=0; i<result.length; i++) {
-                        if (result[i]['questionNum'] === currentQuestion) {
-                            currentAnswers.push(result[i]);
-                        } else {
-                            console.log(currentAnswers);
-                            printQuestion(currentQuestion, currentAnswers);
-                            currentQuestion = result[i]['questionNum'];
-                            currentAnswers = [result[i]];
-                        }
+                    for (let i=result.length; i>=0; i--) {
+                        let obj = result[i];
+                        addToTable(obj['method'], obj['end_point'], obj['total_requests']);
                     }
-                    sessionStorage.setItem("numberOfQuestions", currentQuestion)
                 }
             }
         </script>
