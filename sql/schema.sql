@@ -182,13 +182,13 @@ DELIMITER ;
 -- Initial Seeds for stats table 
 INSERT INTO stats (end_point, method, total_requests)
 VALUES 
-("sequence/v1/scores", "GET", 0),
-("sequence/v1/scores/username", "GET", 0),
-("sequence/v1/users", "GET", 0),
-("sequence/v1/scores/username/score", "PUT", 0),
-("sequence/v1/users/username", "PUT", 0),
-("sequence/v1/users/username", "POST", 0),
-("sequence/v1/users/change/username/newname", "POST", 0),
-("sequence/v1/users/authenticate/username/pw", "POST", 0),
-("sequence/v1/users/username", "DELETE", 0),
-("sequence/v1/scores/scoreID", "DELETE", 0);
+("/sequence/v1/scores", "GET", 0),
+("/sequence/v1/scores/username", "GET", 0),
+("/sequence/v1/users", "GET", 0),
+("/sequence/v1/scores/username/score", "PUT", 0),
+("/sequence/v1/users/username", "PUT", 0),
+("/sequence/v1/users/username", "POST", 0),
+("/sequence/v1/users/change/username/newname", "POST", 0),
+("/sequence/v1/users/authenticate/username/pw", "POST", 0),
+("/sequence/v1/users/username", "DELETE", 0),
+("/sequence/v1/scores/scoreID", "DELETE", 0);
