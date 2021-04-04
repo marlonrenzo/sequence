@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <title>Admin Page</title>
+    </head>
+    <body>
+        <table id="statsTable">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Requests</th>
+                </tr>
+            </thead>
+            <tbody id="entries">
+            </tbody>
+        </table>
+
+        <script>
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("GET", `https://diyarsalamatravandi.ca/sequence/v1/stats`, true);
+            xhttp.send();
+            let entries = document.getElementById("entries");
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let result = JSON.parse(this.responseText)[0];
+                    document.getElementById("questions").innerHTML = "";
+                    let currentQuestion = 1;
+                    let currentAnswers = [];
+                    
+                    for (let i=0; i<result.length; i++) {
+                        if (result[i]['questionNum'] === currentQuestion) {
+                            currentAnswers.push(result[i]);
+                        } else {
+                            console.log(currentAnswers);
+                            printQuestion(currentQuestion, currentAnswers);
+                            currentQuestion = result[i]['questionNum'];
+                            currentAnswers = [result[i]];
+                        }
+                    }
+                    sessionStorage.setItem("numberOfQuestions", currentQuestion)
+                }
+            }
+        </script>
+    </body>
+</html>
