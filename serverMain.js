@@ -7,77 +7,69 @@ const db = require('./modules/db');
 
 // Get leaderboard of top 10 scores
 app.get(ENDPOINT + '/scores', function(req, res) {
-    db.connect(function (err) {
+    let sql = "SELECT * FROM get_scores";
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = "SELECT * FROM get_scores";
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
-
-        let request = ENDPOINT + '/scores';
-        let method = "GET";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
     });
+
+    let request = ENDPOINT + '/scores';
+    let method = "GET";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
+    });
+
 });
 
 // Get the scores for a user
 app.get(ENDPOINT + '/scores/:username', function(req, res) {
     let name = req.params.username;
-    db.connect(function (err) {
+    let sql = `CALL get_user_scores('${name}')`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `CALL get_user_scores('${name}')`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/scores/username';
-        let method = "GET";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/scores/username';
+    let method = "GET";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
     });
 });
 
 // Get the list of users
 app.get(ENDPOINT + '/users', function(req, res) {
-    db.connect(function (err) {
+    let sql = "SELECT username FROM users;";
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = "SELECT username FROM users;";
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/users';
-        let method = "GET";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/users';
+    let method = "GET";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking " + request);
+        }
     });
 });
 
@@ -85,186 +77,164 @@ app.get(ENDPOINT + '/users', function(req, res) {
 app.put(ENDPOINT + '/scores/:username/:score', function(req, res) {
     let name = req.params.username;
     let value = req.params.score;
-    db.connect(function (err) {
+    let sql = `CALL add_score('${name}', ${value});`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `CALL add_score('${name}', ${value});`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/scores/username/score';
-        let method = "PUT";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/scores/username/score';
+    let method = "PUT";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
     });
 });
 
 // Adds a new entry into the user table
 app.put(ENDPOINT + '/users/:username', function(req, res) {
     let name = req.params.username;
-    db.connect(function (err) {
+    let sql = `CALL add_user('${name}');`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `CALL add_user('${name}');`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/users/username';
-        let method = "PUT";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/users/username';
+    let method = "PUT";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
     });
 });
 
 // Check existence in database, then login
 app.post(ENDPOINT + '/users/:username', function(req, res) {
     let name = req.params.username;
-    db.connect(function (err) {
+    let sql = `SELECT user_exists('${name}');`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `SELECT user_exists('${name}');`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/scores/username/score';
-        let method = "POST";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/scores/username/score';
+    let method = "POST";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
     });
 });
 
 // Change the name of a stored user.
 app.post(ENDPOINT + '/users/change/:username/:newname', function(req, res) {
     let name = req.params.username;
-    let newname = req.params.newname;
-    db.connect(function (err) {
+    let newName = req.params.newname;
+    let sql = `CALL change_name('${name}', '${newName}');`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `CALL change_name('${name}', '${newName}');`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
-
-        let request = ENDPOINT + '/users/change/username/newname';
-        let method = "POST";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
     });
-})
+
+    let request = ENDPOINT + '/users/change/username/newname';
+    let method = "POST";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
+    });
+});
 
 // Authenticates credentials, and displays stats for all endpoints
 app.post(ENDPOINT + '/users/authenticate/:username/:pw', function(req, res) {
     let name = req.params.username;
     let password = req.params.pw;
-    db.connect(function (err) {
+    let sql = `SELECT authenticate('${name}', '${password}');`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `SELECT authenticate('${name}', '${password}');`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/users/authenticate/username/pw';
-        let method = "POST";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/users/authenticate/username/pw';
+    let method = "POST";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
     });
 });
 
 // Delete a user and all its scores from the tables
 app.delete(ENDPOINT + '/users/:username', function(req, res) {
     let name = req.params.username;
-    db.connect(function (err) {
+    let sql = `CALL delete_user('${name}');`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `CALL delete_user('${name}');`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/users/username';
-        let method = "DELETE";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/users/username';
+    let method = "DELETE";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
     });
 });
 
 // Delete a score from the database
 app.delete(ENDPOINT + '/scores/:scoreID', function(req, res) {
     let scoreID = req.params.scoreID;
-    db.connect(function (err) {
+    let sql = `CALL delete_score(${scoreID});`;
+    db.query(sql, function (err, result) {
         if (err) throw err;
-        let sql = `CALL delete_score(${scoreID});`;
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            let resultText = JSON.stringify(result);
-            res.end(resultText);
-        });
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
 
-        let request = ENDPOINT + '/scores/scoreID';
-        let method = "DELETE";
-        let sql2 = `CALL track_request('${request}', '${method}');`; 
-        db.query(sql2, function (err, result) {
-            if (err) throw err;
-            if (result[0]["ROW_COUNT()"]) {
-                console.log("Successful");
-            } else {
-                console.log("Error tracking" + request);
-            }
-        });
+    let request = ENDPOINT + '/scores/scoreID';
+    let method = "DELETE";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
     });
 });
 
 app.listen();
- 
