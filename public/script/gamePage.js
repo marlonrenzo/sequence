@@ -5,6 +5,9 @@ function createNewButton(number) {
     btn.className = "sequenceButton"
     btn.onclick = function () { removeButtonAfterClick(btn.id) };
     btn.innerHTML = `<div id="div${number}">${number}</div>`;
+    // btn.style.position = 'relative';
+    // btn.style.marginTop = '400px';
+    // btn.style.marginLeft = '400px';
     div.appendChild(btn);
 }
 
@@ -18,6 +21,13 @@ function removeButtonAfterClick(id) {
     setTimeout(function() {
         div.removeChild(currentElm)
     }, 1000);
+}
+
+function spawnButtons() {
+    btn.style.position = 'absolute';
+    for(let i=10; i>=1; i--) {
+        console.log(i);
+    }
 }
 
 createNewButton(1);
