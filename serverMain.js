@@ -1,5 +1,4 @@
 const ENDPOINT = "/sequence/v1";
-const USER_ENDPOINT = "/sequence/users";
 
 const app = require('./modules/appSetup');
 const db = require('./modules/db');
@@ -16,6 +15,18 @@ app.get(ENDPOINT + '/scores', function(req, res) {
             let resultText = JSON.stringify(result);
             res.end(resultText);
         });
+
+        let request = ENDPOINT + '/scores';
+        let method = "GET";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
+        });
     });
 });
 
@@ -30,6 +41,18 @@ app.get(ENDPOINT + '/scores/:username', function(req, res) {
             let resultText = JSON.stringify(result);
             res.end(resultText);
         });
+
+        let request = ENDPOINT + '/scores/username';
+        let method = "GET";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
+        });
     });
 });
 
@@ -42,6 +65,18 @@ app.get(ENDPOINT + '/users', function(req, res) {
             if (err) throw err;
             let resultText = JSON.stringify(result);
             res.end(resultText);
+        });
+
+        let request = ENDPOINT + '/users';
+        let method = "GET";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
         });
     });
 });
@@ -58,6 +93,18 @@ app.put(ENDPOINT + '/scores/:username/:score', function(req, res) {
             let resultText = JSON.stringify(result);
             res.end(resultText);
         });
+
+        let request = ENDPOINT + '/scores/username/score';
+        let method = "PUT";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
+        });
     });
 });
 
@@ -72,6 +119,18 @@ app.put(ENDPOINT + '/users/:username', function(req, res) {
             let resultText = JSON.stringify(result);
             res.end(resultText);
         });
+
+        let request = ENDPOINT + '/users/username';
+        let method = "PUT";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
+        });
     });
 });
 
@@ -85,6 +144,18 @@ app.post(ENDPOINT + '/users/:username', function(req, res) {
             if (err) throw err;
             let resultText = JSON.stringify(result);
             res.end(resultText);
+        });
+
+        let request = ENDPOINT + '/scores/username/score';
+        let method = "POST";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
         });
     });
 });
@@ -101,6 +172,18 @@ app.post(ENDPOINT + '/users/change/:username/:newname', function(req, res) {
             let resultText = JSON.stringify(result);
             res.end(resultText);
         });
+
+        let request = ENDPOINT + '/users/change/username/newname';
+        let method = "POST";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
+        });
     });
 })
 
@@ -116,6 +199,18 @@ app.post(ENDPOINT + '/users/authenticate/:username/:pw', function(req, res) {
             let resultText = JSON.stringify(result);
             res.end(resultText);
         });
+
+        let request = ENDPOINT + '/users/authenticate/username/pw';
+        let method = "POST";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
+        });
     });
 });
 
@@ -130,6 +225,18 @@ app.delete(ENDPOINT + '/users/:username', function(req, res) {
             let resultText = JSON.stringify(result);
             res.end(resultText);
         });
+
+        let request = ENDPOINT + '/users/username';
+        let method = "DELETE";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
+        });
     });
 });
 
@@ -143,6 +250,18 @@ app.delete(ENDPOINT + '/scores/:scoreID', function(req, res) {
             if (err) throw err;
             let resultText = JSON.stringify(result);
             res.end(resultText);
+        });
+
+        let request = ENDPOINT + '/scores/scoreID';
+        let method = "DELETE";
+        let sql2 = `CALL track_request('${request}', '${method}');`; 
+        db.query(sql2, function (err, result) {
+            if (err) throw err;
+            if (result[0]["ROW_COUNT()"]) {
+                console.log("Successful");
+            } else {
+                console.log("Error tracking" + request);
+            }
         });
     });
 });
