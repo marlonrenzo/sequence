@@ -237,4 +237,14 @@ app.delete(ENDPOINT + '/scores/:scoreID', function(req, res) {
     });
 });
 
+// See the stats
+app.get(ENDPOINT + '/stats', function(req, res) {
+    let sql = "SELECT * FROM stats";
+    db.query(sql, function (err, result) {
+        if (err) throw err;
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
+});
+
 app.listen();
