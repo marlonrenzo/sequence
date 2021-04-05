@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Sequence</title>
+</head>
+<body>
+    <button id="1" value="GET">/scores</button><br>
+    <button id="2" value="GET">/scores/admin</button><br>
+    <button id="3" value="PUT">/scores/admin/60</button><br>
+    <button id="4" value="DELETE">/scores/3</button><br>
+    <button id="5" value="GET">/users</button><br>
+    <button id="6" value="PUT">/users/marlon</button><br>
+    <button id="7" value="POST">/users/marlon</button><br>
+    <button id="8" value="POST">/users/change/marlon/marloon</button><br>
+    <button id="9" value="POST">/users/authenticate/admin/password</button><br>
+    <button id="10" value="DELETE">/users/marloon</button><br>
+    <p id="result"></p>
+
+    
+    <script>
+        for(let i=1; i<11; i++) {
+            let element = document.getElementById(i);
+            element.onclick = function () {
+                request(element.value, element.innerText);
+            }
+        }
+
+        function request(method, endpoint){
+            let url = "https://diyarsalamatravandi.ca/sequence/v1";
+            console.log(method + ": " + url + endpoint);
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.open(method, url + endpoint, true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("result").innerText = this.responseText;
+                }
+            }
+        }
+        
+    </script>
+</body>
+</html>
