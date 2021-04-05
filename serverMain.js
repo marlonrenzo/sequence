@@ -25,7 +25,6 @@ app.get(ENDPOINT + '/scores', function(req, res) {
             console.log("Error tracking" + request);
         }
     });
-
 });
 
 // Get the scores for a user
