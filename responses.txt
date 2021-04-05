@@ -1,30 +1,161 @@
 GET /scores 
-[{"user":"admin","score":50}]
+[
+    {
+        "user":"admin",
+        "score":50
+    }
+]
 
 GET /scores/{username} 
-[[{"score_time":50}],{"fieldCount":0,"affectedRows":0,"insertId":0,"serverStatus":34,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+[
+    [
+        {
+            "score_time":50
+        }
+    ],
+    {
+        "fieldCount":0,
+        "affectedRows":0,
+        "insertId":0,
+        "serverStatus":34,
+        "warningCount":0,
+        "message":"",
+        "protocol41":true,
+        "changedRows":0
+    }
+]
 
 PUT /scores/{username}/{score} 
-[[{"ROW_COUNT()":1}],{"fieldCount":0,"affectedRows":1,"insertId":0,"serverStatus":34,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+[
+    [
+        {
+            "ROW_COUNT()":1
+        }
+    ],
+    {
+        "fieldCount":0,
+        "affectedRows":1,
+        "insertId":0,
+        "serverStatus":34,
+        "warningCount":0,
+        "message":"",
+        "protocol41":true,
+        "changedRows":0
+    }
+]
 
 DELETE /scores/{scoreID} 
-[[{"ROW_COUNT()":1}],{"fieldCount":0,"affectedRows":1,"insertId":0,"serverStatus":2,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+[
+    [
+        {
+            "ROW_COUNT()":1
+        }
+    ],
+    {
+        "fieldCount":0,
+        "affectedRows":1,
+        "insertId":0,
+        "serverStatus":2,
+        "warningCount":0,
+        "message":"",
+        "protocol41":true,
+        "changedRows":0
+    }
+]
 
 GET /users 
-[{"username":"admin"},{"username":"Marlon"},{"username":"Diyar"}]
+[
+    {
+        "username":"admin"
+    },
+    {
+        "username":"Marlon"
+    },
+    {
+        "username":"Diyar"
+    }
+]
 
 PUT /users/{username} 
-[[{"ROW_COUNT()":1}],{"fieldCount":0,"affectedRows":1,"insertId":0,"serverStatus":2,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+[
+    [
+        {
+            "ROW_COUNT()":1
+        }
+    ],
+    {
+        "fieldCount":0,
+        "affectedRows":1,
+        "insertId":0,
+        "serverStatus":2,
+        "warningCount":0,
+        "message":"",
+        "protocol41":true,
+        "changedRows":0
+    }
+]
 
 POST /users/{username} 
-[[{"ROW_COUNT()":1}],{"fieldCount":0,"affectedRows":1,"insertId":0,"serverStatus":2,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+[
+    {
+        "user_exists('marlon')":1
+    }
+]
 
 POST /users/change/{username}/{newname} 
-[[{"ROW_COUNT()":0}],{"fieldCount":0,"affectedRows":0,"insertId":0,"serverStatus":34,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+[
+    [
+        {
+            "ROW_COUNT()":0
+        }
+    ],
+    {
+        "fieldCount":0,
+        "affectedRows":0,
+        "insertId":0,
+        "serverStatus":34,
+        "warningCount":0,
+        "message":"",
+        "protocol41":true,
+        "changedRows":0
+    }
+]
 
-POST /users/\authenticate/{username}/{pw} 
-[[{"ROW_COUNT()":2}],{"fieldCount":0,"affectedRows":2,"insertId":0,"serverStatus":34,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+POST /users/authenticate/{username}/{pw} 
+[
+    [
+        {
+            "ROW_COUNT()":2
+        }
+    ],
+    {
+        "fieldCount":0,
+        "affectedRows":2,
+        "insertId":0,
+        "serverStatus":34,
+        "warningCount":0,
+        "message":"",
+        "protocol41":true,
+        "changedRows":0
+    }
+]
 
 DELETE /users/{username}
-[[{"ROW_COUNT()":1}],{"fieldCount":0,"affectedRows":1,"insertId":0,"serverStatus":34,"warningCount":0,"message":"","protocol41":true,"changedRows":0}]
+[
+    [
+        {
+            "ROW_COUNT()":1
+        }
+    ],
+    {
+        "fieldCount":0,
+        "affectedRows":1,
+        "insertId":0,
+        "serverStatus":34,
+        "warningCount":0,
+        "message":"",
+        "protocol41":true,
+        "changedRows":0
+    }
+]
 
