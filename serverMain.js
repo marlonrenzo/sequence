@@ -122,7 +122,7 @@ app.put(ENDPOINT + '/users/:username', function(req, res) {
 // Check existence in database, then login
 app.post(ENDPOINT + '/users/:username', function(req, res) {
     let name = req.params.username;
-    let sql = `SELECT user_exists('${name}') as exists;`;
+    let sql = `SELECT user_exists('${name}') AS user_exists;`;
     db.query(sql, function (err, result) {
         if (err) throw err;
         let resultText = JSON.stringify(result);
