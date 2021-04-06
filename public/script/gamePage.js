@@ -1,3 +1,4 @@
+var url = "https://diyarsalamatravandi.ca/sequence/v1";
 var GAME_SIZE = 20;
 var BUTTONS_TO_DISPLAY = 9;
 var timer_is_active = false;
@@ -42,6 +43,16 @@ function displayButton(id) {
     btn.style.transition = "1000ms";
 }
 
+function activateFinalButton(currentNum) {
+    if (currentNum == GAME_SIZE) {
+        let finalBtn = document.getElementById("btn" + GAME_SIZE);
+        finalBtn.onclick = function() {
+            removeButton("btn" + GAME_SIZE);
+            stopGame();
+        };
+    }
+}
+
 function removeButtonAfterClick(id) {
     let clickedNumber = id.match(/\d+/)[0];
     let currentNumber = document.getElementById("currentNumber").innerText;
@@ -56,6 +67,7 @@ function removeButtonAfterClick(id) {
     } else {
         wrongButtonClicked(id);
     }
+    activateFinalButton(currentNumber);
 }
 
 function wrongButtonClicked(id) {
@@ -77,10 +89,10 @@ function wrongButtonClicked(id) {
 function removeButton(id) {
     let div = document.getElementById("gameWindow");
     let currentElm = document.getElementById(id);
-    document.getElementById(id).style = `background-color: #333333;
-                                         color: #333333;
-                                         z-index: 2;
-                                         transition: 1000ms;`;
+    currentElm.style.transition = "1000ms";
+    currentElm.style.backgroundColor = "#EAAA00"
+    currentElm.style.opacity = "0.0";
+    currentElm.style.boxShadow = "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.0), 0 6px 20px 0 rgba(0, 0, 0, 0.0)";
     setTimeout(function() {
         div.removeChild(currentElm)
     }, 1000);
@@ -99,11 +111,6 @@ function spawnButtons() {
             createNewButtonInvisible(num, randomX, randomY);
         }
     }
-    let finalBtn = document.getElementById("btn" + GAME_SIZE);
-    finalBtn.onclick = function() {
-        removeButton("btn" + GAME_SIZE);
-        stopGame();
-    };
 }
 
 function randomNumber(max) {
@@ -159,10 +166,14 @@ function resetTimer() {
 }
 
 function stopGame() {
+    let username = localStorage.getItem("username");
     let time = stopTimer();
+    uploadScore(time);
     setTimeout(function() {
-        alert("Your score was " + time);
+        alert(`Good job ${username}! You finished in ${time} seconds!`);
         document.getElementById("start").style.display = "inline-block";
+        document.getElementById("currentNumber").innerText = "Sequence";
+        document.getElementById("currentNumber").style.color = "#43c4be";
         resetTimer();
     }, 1000);
     
@@ -184,17 +195,66 @@ function countDown() {
     }, 1000);
 }
 
+function getHighScore() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", url + `/scores`, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let result = JSON.parse(this.responseText);
+            let highScore = document.getElementById("highScore");
+            let score = result[0]['score'];
+            let user = result[0]['user'];
+            highScore.innerText = `Fastest Time: ${score}s (${user})`
+        }
+    }
+}
+
+function uploadScore(time) {
+    let username = localStorage.getItem("username");
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("PUT", url + `/scores/${username}/${time}`, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let result = JSON.parse(this.responseText)[0];
+            if (result[0]['ROW_COUNT()'] === 1) {
+                console.log(`Successfully logged ${time} for ${username}`);
+            } else {
+                console.log("Error uploading");
+            }
+        }
+    }
+}
+
 function startGame() {
     document.getElementById("currentNumber").innerText = 1;
+    document.getElementById("currentNumber").style.color = "white";
     removeStartButton();
     countDown();
     setTimeout(function () {
         spawnButtons();
         startTimer();
     }, 3000);
-
 }
 
-document.getElementById("start").onclick = startGame;
+function checkIfLoggedIn() {
+    if(localStorage.getItem("username") !== null) {
+        document.getElementById("start").onclick = startGame;
+    } else {
+        window.location.replace("https://marlonfajardo.ca/sequence");
+    }
+}
+
+function fixMobileSizing() {
+    if (window.innerWidth <= 620) {
+        let vh = window.innerHeight * 0.01;
+        document.body.style.setProperty('--vh', `${vh}px`);
+    }
+}
+
+fixMobileSizing();
+getHighScore();
+checkIfLoggedIn();
 
 // spawnButtons();
