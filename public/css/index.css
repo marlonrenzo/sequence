@@ -6,19 +6,12 @@ body {
 }
 
 .content {
-    flex-direction: column;
-    justify-content: space-evenly;
     height: 100%;
-}
-
-.content > * {
-    border: 1px solid red;
-    margin: 5px;
-    display: flex;
 }
 
 .titleBar {
     justify-content: center;
+    height: 10%;
 }
 
 .title {
@@ -29,14 +22,22 @@ body {
     margin: 0;
 }
 
-div.login {
+.window {
+    height: 90%;
+}
+
+.loginBlock {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
 }
 
-input#login {
+#login {
     font-family: 'Titillium Web';
     font-size: 28px;
     text-align: center;
@@ -55,7 +56,7 @@ input#login {
     font-family: 'Titillium Web';
     font-size: 28px;
     background-color: #EAAA00;
-    margin-top: 30%;
+    margin-top: 10px;
 }
 
 .sequenceButton:hover {
@@ -81,5 +82,13 @@ input#login {
     /* For Desktops: */
     .title {
         font-size: 100px;
+    }
+
+    .titleBar {
+        height: 20%;
+    }
+
+    .window {
+        height: 80%;
     }
 }
