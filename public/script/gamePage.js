@@ -235,16 +235,58 @@ function uploadScore(time) {
     }
 }
 
-// function pause() {
-//     document.getElementById("pauseOverlay").style.backgroundColor = "(0,0,0,0.5)";
-//     document.getElementById("pauseMenu").style.display = "block";
-//     console.log("pause");
-// }
+function displayStartButton() {
+    let gameWindow = document.getElementById("gameWindow");
+    let btn = document.createElement("BUTTON");
+    btn.id = "start";
+    btn.innerText = "Start";
+    btn.onclick = startGame;
+    gameWindow.appendChild(btn);
+}
 
-// function showPauseButton() {
-//     document.getElementById("pauseOverlay").style.display = "block";
-//     document.getElementById("pause").onclick = pause;
-// }
+function resetGameWindow() {
+    clearButtons();
+    document.getElementById("currentNumber").innerText = "Sequence";
+    document.getElementById("currentNumber").style.color = "#43c4be";
+    resetTimer();
+}
+
+function clearButtons() {
+    let gameWindow = document.getElementById("gameWindow");
+    gameWindow.innerHTML = "";
+}
+
+function quit() {
+    document.getElementById("pauseOverlay").style.display = "none";
+    resetGameWindow();
+    displayStartButton();
+    document.getElementById("start").style.display = "block";
+}
+
+function resume() {
+    document.getElementById("pauseOverlay").style.display = "none";
+    console.log("resuming");
+    countDown();
+    setTimeout(function () {
+        startTimer();
+        document.getElementById("pause").style.display = "block";
+    }, 3000);
+}
+
+function pause() {
+    stopTimer();
+    document.getElementById("pause").style.display = "none";
+    document.getElementById("resume").onclick = resume;
+    document.getElementById("quit").onclick = quit;
+    document.getElementById("pauseOverlay").style.display = "block";
+    document.getElementById("pauseOverlay").style.backgroundColor = "(0,0,0,0.5)";
+    console.log("pause");
+}
+
+function showPauseButton() {
+    document.getElementById("pause").style.display = "inline-block";
+    document.getElementById("pause").onclick = pause;
+}
 
 function startGame() {
     document.getElementById("currentNumber").innerText = 1;
@@ -252,7 +294,7 @@ function startGame() {
     removeStartButton();
     countDown();
     setTimeout(function () {
-        // showPauseButton();
+        showPauseButton();
         spawnButtons();
         startTimer();
     }, 3000);
@@ -274,7 +316,8 @@ function fixMobileSizing() {
 }
 
 fixMobileSizing();
-getHighScore();
-checkIfLoggedIn();
+// getHighScore();
+// checkIfLoggedIn();
+document.getElementById("start").onclick = startGame;
 
 // spawnButtons();
