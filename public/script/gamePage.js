@@ -235,16 +235,29 @@ function uploadScore(time) {
     }
 }
 
-// function pause() {
-//     document.getElementById("pauseOverlay").style.backgroundColor = "(0,0,0,0.5)";
-//     document.getElementById("pauseMenu").style.display = "block";
-//     console.log("pause");
-// }
+function resume() {
+    document.getElementById("pauseOverlay").style.display = "none";
+    console.log("resuming");
+    countDown();
+    setTimeout(function () {
+        startTimer();
+        document.getElementById("pause").style.display = "block";
+    }, 3000);
+}
 
-// function showPauseButton() {
-//     document.getElementById("pauseOverlay").style.display = "block";
-//     document.getElementById("pause").onclick = pause;
-// }
+function pause() {
+    stopTimer();
+    document.getElementById("pause").style.display = "none";
+    document.getElementById("resume").onclick = resume;
+    document.getElementById("pauseOverlay").style.display = "block";
+    document.getElementById("pauseOverlay").style.backgroundColor = "(0,0,0,0.5)";
+    console.log("pause");
+}
+
+function showPauseButton() {
+    document.getElementById("pause").style.display = "inline-block";
+    document.getElementById("pause").onclick = pause;
+}
 
 function startGame() {
     document.getElementById("currentNumber").innerText = 1;
@@ -252,7 +265,7 @@ function startGame() {
     removeStartButton();
     countDown();
     setTimeout(function () {
-        // showPauseButton();
+        showPauseButton();
         spawnButtons();
         startTimer();
     }, 3000);
@@ -274,7 +287,8 @@ function fixMobileSizing() {
 }
 
 fixMobileSizing();
-getHighScore();
-checkIfLoggedIn();
+// getHighScore();
+// checkIfLoggedIn();
+document.getElementById("start").onclick = startGame;
 
 // spawnButtons();

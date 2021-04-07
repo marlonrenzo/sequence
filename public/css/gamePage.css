@@ -127,6 +127,7 @@ body {
 
 #pause {
     position: absolute;
+    display: none;
     padding: 0;
     margin: 10px;
     bottom: 0;
@@ -139,13 +140,26 @@ body {
 
 #pauseMenu {
     position: absolute;
-    display: none;
+    display: flex;
+    flex-direction: column;
     top: 50%;
     left: 50%;
     font-size: 50px;
     color: white;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+}
+
+#pauseMenu > button {
+    width: 200px;
+    font-size: 50px;
+    height: 100px;
+    border: 0;
+    margin: 10px;
+    border-radius: 30px;
+    font-family: 'Titillium Web';
+    background-color: #EAAA00;
+    color: white;
 }
 
 #pause:focus {
