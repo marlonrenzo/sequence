@@ -235,6 +235,34 @@ function uploadScore(time) {
     }
 }
 
+function displayStartButton() {
+    let gameWindow = document.getElementById("gameWindow");
+    let btn = document.createElement("BUTTON");
+    btn.id = "start";
+    btn.innerText = "Start";
+    btn.onclick = startGame;
+    gameWindow.appendChild(btn);
+}
+
+function resetGameWindow() {
+    clearButtons();
+    document.getElementById("currentNumber").innerText = "Sequence";
+    document.getElementById("currentNumber").style.color = "#43c4be";
+    resetTimer();
+}
+
+function clearButtons() {
+    let gameWindow = document.getElementById("gameWindow");
+    gameWindow.innerHTML = "";
+}
+
+function quit() {
+    document.getElementById("pauseOverlay").style.display = "none";
+    resetGameWindow();
+    displayStartButton();
+    document.getElementById("start").style.display = "block";
+}
+
 function resume() {
     document.getElementById("pauseOverlay").style.display = "none";
     console.log("resuming");
@@ -249,6 +277,7 @@ function pause() {
     stopTimer();
     document.getElementById("pause").style.display = "none";
     document.getElementById("resume").onclick = resume;
+    document.getElementById("quit").onclick = quit;
     document.getElementById("pauseOverlay").style.display = "block";
     document.getElementById("pauseOverlay").style.backgroundColor = "(0,0,0,0.5)";
     console.log("pause");
