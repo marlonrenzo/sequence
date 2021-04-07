@@ -26,7 +26,7 @@ body {
     height: 90%;
 }
 
-.loginBlock {
+.leaderboard {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,28 +35,6 @@ body {
     left: 50%;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
-}
-
-#login {
-    font-family: 'Titillium Web';
-    font-size: 28px;
-    text-align: center;
-}
-
-#loginLabel {
-    color: white;
-    font-size: 39px;
-    margin: 0;
-}
-
-#loginBtn {
-    padding: 0 105px;
-    border: 1px solid #EAAA00;
-    border-radius: 5px;
-    font-family: 'Titillium Web';
-    font-size: 28px;
-    background-color: #EAAA00;
-    margin-top: 10px;
 }
 
 @media only screen and (min-width:620px) {
