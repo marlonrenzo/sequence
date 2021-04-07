@@ -47,6 +47,13 @@ function signUp(username) {
     }
 }
 
+function checkIfLoggedIn() {
+    if (localStorage.getItem("username") !== null) {
+        window.location.replace("https://marlonfajardo.ca/sequence/game")
+    }
+}
+
+checkIfLoggedIn();
 document.getElementById("loginBtn").onclick = function () {
     let username = document.getElementById("login").value;
     console.log(username);
