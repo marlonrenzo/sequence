@@ -316,8 +316,8 @@ function fixMobileSizing() {
 }
 
 fixMobileSizing();
-// getHighScore();
-// checkIfLoggedIn();
-document.getElementById("start").onclick = startGame;
+getHighScore();
+checkIfLoggedIn();
+// document.getElementById("start").onclick = startGame;
 
 // spawnButtons();
