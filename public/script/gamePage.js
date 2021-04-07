@@ -28,17 +28,14 @@ function createNewButtonInvisible(number, xPos, yPos) {
     btn.style.position = 'absolute';
     btn.style.marginTop = `${yPos}px`;
     btn.style.marginLeft = `${xPos}px`;
-    btn.style.color = "#333333";
+    btn.style.opacity = "0.0";
     btn.style.boxShadow = "none";
-    btn.style.backgroundColor = "#333333";
     div.appendChild(btn);
 }
 
 function displayButton(id) {
     let btn = document.getElementById(id);
-    btn.style.color = "white";
-    btn.style.boxShadow = "none";
-    btn.style.backgroundColor = "#c44349";
+    btn.style.opacity = "1.0";
     btn.style.boxShadow = "0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.5)";
     btn.style.transition = "1000ms";
 }
@@ -53,13 +50,22 @@ function activateFinalButton(currentNum) {
     }
 }
 
+function revealButton(currentNum) {
+    let buttonToReveal = parseInt(currentNum) + BUTTONS_TO_DISPLAY;
+    displayButton("btn" + buttonToReveal);
+}
+
+function getIntegerFromString(string) {
+    number = string.match(/\d+/)[0];
+    return number;
+}
+
 function removeButtonAfterClick(id) {
-    let clickedNumber = id.match(/\d+/)[0];
+    let clickedNumber = getIntegerFromString(id);
     let currentNumber = document.getElementById("currentNumber").innerText;
     if (clickedNumber == currentNumber) {
         if (currentNumber <= GAME_SIZE - BUTTONS_TO_DISPLAY) {
-            let buttonToShow = parseInt(currentNumber) + BUTTONS_TO_DISPLAY;
-            displayButton("btn" + buttonToShow);
+            revealButton(currentNumber);
         }
         currentNumber++;
         document.getElementById("currentNumber").innerText = currentNumber;
@@ -89,6 +95,8 @@ function wrongButtonClicked(id) {
 function removeButton(id) {
     let div = document.getElementById("gameWindow");
     let currentElm = document.getElementById(id);
+    currentElm.onclick = "";
+    currentElm.style.zIndex = "-1";
     currentElm.style.transition = "1000ms";
     currentElm.style.backgroundColor = "#EAAA00"
     currentElm.style.opacity = "0.0";
@@ -227,12 +235,24 @@ function uploadScore(time) {
     }
 }
 
+// function pause() {
+//     document.getElementById("pauseOverlay").style.backgroundColor = "(0,0,0,0.5)";
+//     document.getElementById("pauseMenu").style.display = "block";
+//     console.log("pause");
+// }
+
+// function showPauseButton() {
+//     document.getElementById("pauseOverlay").style.display = "block";
+//     document.getElementById("pause").onclick = pause;
+// }
+
 function startGame() {
     document.getElementById("currentNumber").innerText = 1;
     document.getElementById("currentNumber").style.color = "white";
     removeStartButton();
     countDown();
     setTimeout(function () {
+        // showPauseButton();
         spawnButtons();
         startTimer();
     }, 3000);
