@@ -129,7 +129,7 @@ app.post(ENDPOINT + '/users/:username', function(req, res) {
         res.end(resultText);
     });
 
-    let request = ENDPOINT + '/scores/username/score';
+    let request = ENDPOINT + '/users/username';
     let method = "POST";
     let sql2 = `CALL track_request('${request}', '${method}');`; 
     db.query(sql2, function (err, result) {
