@@ -144,6 +144,7 @@ function startClock() {
 
 function removeMenu() {
     document.getElementById("mainMenu").style.display = "none";
+    document.getElementById("logout").style.display = "none";
 }
 
 function startTimer() {
@@ -238,6 +239,8 @@ function visitLeaderboard() {
 
 function displayMainMenu() {
     document.getElementById('mainMenu').style.display = "flex";
+    document.getElementById('logout').style.display = "inline-block";
+    activateLogout();
 }
 
 function resetGameWindow() {
@@ -301,10 +304,42 @@ function startGame() {
     }, 3000);
 }
 
+function welcomeUser(name) {
+    let div = document.createElement("div");
+    let style = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                font-size: 40px;
+                text-align: center;
+                color: white;
+                transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                animation: disappear 1.5s`;
+    div.innerHTML = "Welcome, " + name;
+    div.style = style;
+    document.body.appendChild(div);
+    setTimeout(function() {
+        document.body.removeChild(div);
+    }, 1250);
+}
+
+function activateLogout() {
+    document.getElementById("logout").onclick = function () {
+        localStorage.setItem("username", null);
+        window.location.replace("https://marlonfajardo.ca/sequence");
+    }
+}
+
 function checkIfLoggedIn() {
-    if(localStorage.getItem("username") !== null) {
+    let username = localStorage.getItem("username");
+    if(username !== null) {
         document.getElementById("start").onclick = startGame;
         document.getElementById("leaderboard").onclick = visitLeaderboard;
+        welcomeUser(username);
+        setTimeout(displayMainMenu, 1000);
+        
     } else {
         window.location.replace("https://marlonfajardo.ca/sequence");
     }
