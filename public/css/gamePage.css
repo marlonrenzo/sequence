@@ -64,7 +64,7 @@ body {
 
 #mainMenu {
     position: absolute;
-    display: flex;
+    display: none;
     flex-direction: column;
     top: 50%;
     left: 50%;
@@ -83,6 +83,7 @@ body {
     background-color: #EAAA00;
     color: white;
     margin: 5px;
+    animation: reveal-top 1s;
 }
 
 #leaderboard {
@@ -95,6 +96,7 @@ body {
     background-color: #c44349;
     color: white;
     margin: 5px;
+    animation: reveal-bottom 1s;
 }
 
 
@@ -102,7 +104,7 @@ body {
     cursor: pointer;
 }
 
-.sequenceButton:focus {
+button:focus {
     outline: none;
 }
 
@@ -166,6 +168,21 @@ body {
     z-index: 5;
 }
 
+#logout {
+    position: absolute;
+    padding: 0;
+    margin: 10px;
+    bottom: 0;
+    right: 0;
+    height: 50px;
+    font-family: 'Titillium Web';
+    font-size: 30px;
+    color: lightgray;
+    border: none;
+    background-color: rgba(0,0,0,0.0);
+    z-index: 5;
+}
+
 #pauseMenu {
     position: absolute;
     display: flex;
@@ -219,6 +236,37 @@ body {
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
+@keyframes reveal-top {
+    0% { 
+        margin-bottom: 50px;
+        opacity: 0.0; 
+    }
+    100% { 
+        margin-bottom: 5px;
+        opacity: 1.0; 
+    }
+}
+
+@keyframes reveal-bottom {
+    0% { 
+        margin-top: 50px;
+        opacity: 0.0; 
+    }
+    100% { 
+        margin-top: 5px;
+        opacity: 1.0; 
+    }
+}
+
+@keyframes disappear {
+    0% { opacity: 1.0; }
+    50% { opacity: 1.0; }
+    100% { 
+        opacity: 0.0; 
+        display: none;
+    }
+}
+
 @media only screen and (min-width:620px) {
     /* For Desktops: */
     #currentNumber, #time {
@@ -229,12 +277,13 @@ body {
         font-size: 30px;
     }
 
-    #start {
-        margin-top: 40%;
-    }
-
     .titleBar > div:nth-child(3) {
         float: right;
         text-align: right;
+    }
+
+    #logout {
+        top: 0;
+        bottom: auto;
     }
 }
