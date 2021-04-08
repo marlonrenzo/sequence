@@ -27,9 +27,10 @@ Shows the top 10 high scores for the game.
 Accessed by GET request to /scores
 */
 CREATE VIEW get_scores AS
-SELECT users.username AS user, scores.score_time AS score
-FROM scores JOIN users ON (scores.userID = users.id)
-ORDER BY scores.score_time ASC LIMIT 10; 
+SELECT users.username AS user, min(scores.score_time) AS score 
+FROM scores JOIN users ON (scores.userID = users.id) 
+GROUP BY users.username 
+ORDER BY score LIMIT 10;
 
 
 /*
