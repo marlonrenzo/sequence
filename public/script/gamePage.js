@@ -142,8 +142,8 @@ function startClock() {
     }, 1000);
 }
 
-function removeStartButton() {
-    document.getElementById("start").style.display = "none";
+function removeMenu() {
+    document.getElementById("mainMenu").style.display = "none";
 }
 
 function startTimer() {
@@ -153,7 +153,7 @@ function startTimer() {
     timer_is_active = true;
     timer = setInterval(function () {
         currentTime++;
-        timeElement.innerText = `${currentTime}sec`;
+        timeElement.innerText = `${currentTime}s`;
     }, 1000);
 }
 
@@ -170,7 +170,7 @@ function stopTimer() {
 
 function resetTimer() {
     let timeElement = document.getElementById("time");
-    timeElement.innerText = "0sec";
+    timeElement.innerText = "0s";
 }
 
 function stopGame() {
@@ -179,10 +179,7 @@ function stopGame() {
     uploadScore(time);
     setTimeout(function() {
         alert(`Good job ${username}! You finished in ${time} seconds!`);
-        document.getElementById("start").style.display = "inline-block";
-        document.getElementById("currentNumber").innerText = "Sequence";
-        document.getElementById("currentNumber").style.color = "#43c4be";
-        resetTimer();
+        resetGameWindow();
     }, 1000);
     
 }
@@ -213,7 +210,7 @@ function getHighScore() {
             let highScore = document.getElementById("highScore");
             let score = result[0]['score'];
             let user = result[0]['user'];
-            highScore.innerText = `Fastest Time: ${score}s (${user})`
+            highScore.innerText = `👑 ${score}s (${user})`
         }
     }
 }
@@ -235,20 +232,22 @@ function uploadScore(time) {
     }
 }
 
-function displayStartButton() {
-    let gameWindow = document.getElementById("gameWindow");
-    let btn = document.createElement("BUTTON");
-    btn.id = "start";
-    btn.innerText = "Start";
-    btn.onclick = startGame;
-    gameWindow.appendChild(btn);
+function visitLeaderboard() {
+    window.location.replace("https://marlonfajardo.ca/sequence/leaderboard");
+}
+
+function displayMainMenu() {
+    document.getElementById('mainMenu').style.display = "flex";
 }
 
 function resetGameWindow() {
     clearButtons();
+    displayMainMenu();
     document.getElementById("currentNumber").innerText = "Sequence";
     document.getElementById("currentNumber").style.color = "#43c4be";
+    document.getElementById("pauseOverlay").style.display = "none";
     resetTimer();
+    document.getElementById("time").style.display = 'none';
 }
 
 function clearButtons() {
@@ -259,8 +258,6 @@ function clearButtons() {
 function quit() {
     document.getElementById("pauseOverlay").style.display = "none";
     resetGameWindow();
-    displayStartButton();
-    document.getElementById("start").style.display = "block";
 }
 
 function resume() {
@@ -279,7 +276,6 @@ function pause() {
     document.getElementById("resume").onclick = resume;
     document.getElementById("quit").onclick = quit;
     document.getElementById("pauseOverlay").style.display = "block";
-    document.getElementById("pauseOverlay").style.backgroundColor = "(0,0,0,0.5)";
     console.log("pause");
 }
 
@@ -288,10 +284,15 @@ function showPauseButton() {
     document.getElementById("pause").onclick = pause;
 }
 
-function startGame() {
+function initializeCounter() {
     document.getElementById("currentNumber").innerText = 1;
     document.getElementById("currentNumber").style.color = "white";
-    removeStartButton();
+    document.getElementById("time").style.display = "inline-block"
+}
+
+function startGame() {
+    initializeCounter();
+    removeMenu();
     countDown();
     setTimeout(function () {
         showPauseButton();
@@ -303,6 +304,7 @@ function startGame() {
 function checkIfLoggedIn() {
     if(localStorage.getItem("username") !== null) {
         document.getElementById("start").onclick = startGame;
+        document.getElementById("leaderboard").onclick = visitLeaderboard;
     } else {
         window.location.replace("https://marlonfajardo.ca/sequence");
     }
