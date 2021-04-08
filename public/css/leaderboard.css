@@ -26,15 +26,70 @@ body {
     height: 90%;
 }
 
-.leaderboard {
+#leaderboard {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+}
+
+.card {
+    width: 80%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+}
+
+.place, .username, .time {
+    text-align: center;
+    width: 100%;
+    /* border: 1px solid red; */
+    font-size: 30px;
+    color: white;
+}
+
+#back {
+    position: absolute;
+    width: 300px;
+    font-size: 35px;
+    height: 80px;
+    border: 0;
+    border-radius: 5px;
+    font-family: 'Titillium Web';
+    background-color: #EAAA00;
+    color: white;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+
+/*Loader credit goes to w3schools at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_loader*/
+
+.loader {
+    border: 10px solid #c44349;
+    border-radius: 50%;
+    border-top: 10px solid #EAAA00;
+    border-right: 10px solid #EAAA00;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media only screen and (min-width:620px) {
@@ -49,5 +104,21 @@ body {
 
     .window {
         height: 80%;
+    }
+
+    .card {
+        width: 50%;
+    }
+
+    #back {
+        position: absolute;
+        width: 300px;
+        font-size: 35px;
+        height: 80px;
+        border: 0;
+        border-radius: 5px;
+        font-family: 'Titillium Web';
+        background-color: #EAAA00;
+        color: white;
     }
 }
