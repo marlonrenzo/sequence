@@ -24,6 +24,10 @@ app.get("/sequence/game", function(req, res) {
     res.render("gamePage.html");
 });
 
+app.get("/sequence/leaderboard", function(req, res) {
+    res.render("leaderboard.html");
+})
+
 app.post("/sequence/game/:username", function(req, res) {
     let name = req.params.username;
     res.render("index.html", {name: name});
