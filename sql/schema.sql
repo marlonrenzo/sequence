@@ -27,23 +27,43 @@ Shows the top 10 high scores for the game.
 Accessed by GET request to /scores
 */
 CREATE VIEW get_scores AS
-SELECT users.username AS user, min(scores.score_time) AS score 
+SELECT scores.id AS id, users.username AS user, min(scores.score_time) AS score 
 FROM scores JOIN users ON (scores.userID = users.id) 
 GROUP BY users.username 
-ORDER BY score LIMIT 10;
+ORDER BY score;
 
 
 /*
-Gets all the scores for a given user.
+Gets the high score for a given user along with the current placing on the leaderboard.
 Accessed by GET request to /scores/:username
 */
 DROP PROCEDURE IF EXISTS get_user_scores;
 DELIMITER //
 CREATE PROCEDURE get_user_scores(IN current_username VARCHAR(30))
 BEGIN
-    SELECT score_time FROM scores
-    WHERE userID = (SELECT id FROM users WHERE username = current_username);
+    SELECT get_high_score(current_username) AS high_score, 
+    (
+        SELECT COUNT(*) + 1 FROM get_scores
+        WHERE score < (SELECT get_high_score(current_username))
+    ) AS place, username
+    FROM users WHERE username = current_username;
 END//
+DELIMITER ;
+
+/*
+Gets the high score for a given user.
+*/
+DROP FUNCTION IF EXISTS get_high_score;
+DELIMITER //
+CREATE FUNCTION get_high_score(current_username VARCHAR(30)) 
+RETURNS INT READS SQL DATA
+BEGIN
+    RETURN (
+      SELECT MIN(score_time)
+      FROM scores
+      WHERE userID = (SELECT id FROM users WHERE username = current_username)
+    );
+END //
 DELIMITER ;
 
 
