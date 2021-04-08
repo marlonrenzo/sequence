@@ -327,7 +327,7 @@ function welcomeUser(name) {
 
 function activateLogout() {
     document.getElementById("logout").onclick = function () {
-        localStorage.setItem("username", null);
+        localStorage.clear();
         window.location.replace("https://marlonfajardo.ca/sequence");
     }
 }
