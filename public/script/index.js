@@ -49,10 +49,18 @@ function signUp(username) {
 
 function checkIfLoggedIn() {
     if (localStorage.getItem("username") !== null) {
-        window.location.replace("https://marlonfajardo.ca/sequence/game")
+        window.location.replace("https://marlonfajardo.ca/sequence/game");
     }
 }
 
+function fixMobileSizing() {
+    if (window.innerWidth <= 620) {
+        let vh = window.innerHeight * 0.01;
+        document.body.style.setProperty('--vh', `${vh}px`);
+    }
+}
+
+fixMobileSizing();
 checkIfLoggedIn();
 document.getElementById("loginBtn").onclick = function () {
     let username = document.getElementById("login").value;
