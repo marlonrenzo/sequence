@@ -50,6 +50,8 @@ function signUp(username) {
 function checkIfLoggedIn() {
     if (localStorage.getItem("username") !== null) {
         window.location.replace("https://marlonfajardo.ca/sequence/game");
+    } else {
+        document.getElementById("loginBlock").style.display = "flex";
     }
 }
 
@@ -60,12 +62,39 @@ function fixMobileSizing() {
     }
 }
 
+function authenticate() {
+    document.getElementById("loginBtn").onclick = "";
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", url + `/users/authenticate/${username}/${password}`, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let result = JSON.parse(this.responseText)[0];
+            if (result['result'] === 1) {
+                login(username);
+            } else {
+                alert("Incorrect credentials, try again");
+                document.getElementById("loginBtn").onclick = function () {
+                    authenticate();
+                }
+            }
+        }
+    }
+}
+
 fixMobileSizing();
 checkIfLoggedIn();
 document.getElementById("loginBtn").onclick = function () {
-    let username = document.getElementById("login").value;
+    let username = document.getElementById("username").value;
     console.log(username);
-    if (username !== "" || username.length < 30) {
+    if (username === "admin") {
+        document.getElementById("password").style.display = "inline-block";
+        document.getElementById("loginBtn").onclick = function () {
+            authenticate();
+        }
+    } else if (username !== "" || username.length < 30) {
         checkExistence(username);
     } else {
         alert("Please enter a username that's under 30 characters");
