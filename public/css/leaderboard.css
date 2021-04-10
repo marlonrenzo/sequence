@@ -48,7 +48,7 @@ body {
     text-align: center;
     width: 100%;
     /* border: 1px solid red; */
-    font-size: 30px;
+    font-size: 25px;
     color: white;
 }
 
@@ -120,5 +120,9 @@ body {
         font-family: 'Titillium Web';
         background-color: #EAAA00;
         color: white;
+    }
+
+    .place, .username, .time {
+        font-size: 30px;
     }
 }
