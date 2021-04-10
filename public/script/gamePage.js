@@ -332,9 +332,37 @@ function activateLogout() {
     }
 }
 
+function redirectToAdminPage() {
+    window.location.replace("https://marlonfajardo.ca/sequence/views/pages/admin.html");
+}
+
+function activateAdminMode() {
+    let window = document.getElementById("mainMenu");
+    let btn = document.createElement("button");
+    btn.style = `
+        width: 300px;
+        font-size: 40px;
+        height: 100px;
+        border: 0;
+        border-radius: 5px;
+        font-family: 'Titillium Web';
+        background-color: #c44349;
+        color: white;
+        margin: 5px;
+        animation: reveal-bottom 1s;`;
+    btn.id = "adminBtn";
+    btn.innerText = "Admin Page";
+    btn.onclick = redirectToAdminPage;
+    window.appendChild(btn);
+}
+
 function checkIfLoggedIn() {
     let username = localStorage.getItem("username");
-    if(username !== null) {
+    if (username === "admin") {
+        console.log(username);
+        activateAdminMode();
+    }
+    if (username !== null) {
         document.getElementById("start").onclick = startGame;
         document.getElementById("leaderboard").onclick = visitLeaderboard;
         welcomeUser(username);
