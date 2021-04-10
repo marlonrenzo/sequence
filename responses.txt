@@ -123,20 +123,8 @@ POST /users/change/{username}/{newname}
 
 POST /users/authenticate/{username}/{pw} 
 [
-    [
-        {
-            "ROW_COUNT()":2
-        }
-    ],
     {
-        "fieldCount":0,
-        "affectedRows":2,
-        "insertId":0,
-        "serverStatus":34,
-        "warningCount":0,
-        "message":"",
-        "protocol41":true,
-        "changedRows":0
+        "authenticate('admin', 'password')":1
     }
 ]
 
