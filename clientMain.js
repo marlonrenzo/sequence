@@ -28,6 +28,10 @@ app.get("/sequence/leaderboard", function(req, res) {
     res.render("leaderboard.html");
 })
 
+app.get("/sequence/admin", function(req, res) {
+    res.render("admin.html");
+})
+
 app.post("/sequence/game/:username", function(req, res) {
     let name = req.params.username;
     res.render("index.html", {name: name});
