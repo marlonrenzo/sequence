@@ -41,11 +41,11 @@ DROP PROCEDURE IF EXISTS get_user_scores;
 DELIMITER //
 CREATE PROCEDURE get_user_scores(IN current_username VARCHAR(30))
 BEGIN
-    SELECT get_high_score(current_username) AS high_score, 
+    SELECT get_high_score(current_username) AS score, 
     (
         SELECT COUNT(*) + 1 FROM get_scores
         WHERE score < (SELECT get_high_score(current_username))
-    ) AS place, username
+    ) AS place, username AS user
     FROM users WHERE username = current_username;
 END//
 DELIMITER ;
