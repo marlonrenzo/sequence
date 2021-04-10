@@ -27,7 +27,7 @@ body {
 }
 
 .loginBlock {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     position: absolute;
@@ -37,10 +37,14 @@ body {
     -ms-transform: translate(-50%,-50%);
 }
 
-#login {
+#username, #password {
     font-family: 'Titillium Web';
     font-size: 28px;
     text-align: center;
+}
+
+#password {
+    display: none;
 }
 
 #loginLabel {
@@ -71,5 +75,9 @@ body {
 
     .window {
         height: 80%;
+    }
+
+    #loginLabel {
+        font-size: 39px;
     }
 }
