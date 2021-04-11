@@ -1,9 +1,16 @@
 const ENDPOINT = "/sequence/v1";
 
 const app = require('./modules/appSetup');
+app.set('views', __dirname + '/views/pages');
 const db = require('./modules/db');
 
 // --- Routing ---
+
+
+// Render documentation page
+app.get(ENDPOINT + "/docs", function (req, res) {
+    res.render("documentation.html");
+});
 
 // Get leaderboard of top 10 scores
 app.get(ENDPOINT + '/scores', function(req, res) {
