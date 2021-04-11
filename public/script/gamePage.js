@@ -249,6 +249,7 @@ function resetGameWindow() {
     document.getElementById("currentNumber").innerText = "Sequence";
     document.getElementById("currentNumber").style.color = "#43c4be";
     document.getElementById("pauseOverlay").style.display = "none";
+    document.getElementById("pause").style.display = "none";
     resetTimer();
     document.getElementById("time").style.display = 'none';
 }
