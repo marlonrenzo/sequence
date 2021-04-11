@@ -147,12 +147,18 @@ CREATE FUNCTION authenticate(input_name VARCHAR(30), passwrd VARCHAR(30))
 RETURNS INT READS SQL DATA
 BEGIN
     RETURN (
-      SELECT 1
-      FROM users
-      WHERE username = input_name AND pswrd = passwrd
+      SELECT 1 FROM `users`
+      WHERE username = input_name AND pswrd = AES_ENCRYPT(passwrd, UNHEX(SHA2('BCIT CST',512)))
     );
 END //
 DELIMITER ;
+
+
+/*
+UPDATE users
+SET pswrd = AES_ENCRYPT('comp4537', UNHEX(SHA2('BCIT CST',512)))
+WHERE username = 'admin';
+*/
 
 
 /*
