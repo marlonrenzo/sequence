@@ -1,4 +1,4 @@
-const url = "https://diyarsalamatravandi.ca/sequence/v1";
+const url = "https://marlonfajardo.ca/sequence/v1";
 let username;
 
 function checkIfLoggedIn() {

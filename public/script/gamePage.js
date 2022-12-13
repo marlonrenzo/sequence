@@ -1,8 +1,9 @@
-var url = "https://diyarsalamatravandi.ca/sequence/v1";
-var GAME_SIZE = 20;
-var BUTTONS_TO_DISPLAY = 9;
+var url = "https://marlonfajardo.ca/sequence/v1";
+var GAME_SIZE = 5;
+var BUTTONS_TO_DISPLAY = 5;
 var timer_is_active = false;
 var timer;
+var current_score = 0.0;
 
 function createNewButton(number, xPos, yPos) {
     let div = document.getElementById("gameWindow");
@@ -147,39 +148,78 @@ function removeMenu() {
     document.getElementById("logout").style.display = "none";
 }
 
-function startTimer() {
+`
+ 
+***
+
+let countdown = 3;
+
+let counter = setInterval(function() {
+	countdown--;
+	if (countdown > 0) {
+  	document.getElementById("countdown").innerHTML = countdown;
+  } else {
+  	let startTime = Date.now();
+  	clearInterval(counter);
+    document.getElementById("countdown").innerHTML = "";
+    let interval = setInterval(function() {
+    	let elapsedTime = Date.now() - startTime;
+    	document.getElementById("timer").innerHTML = (elapsedTime / 1000).toFixed(1);
+  	}, 50);
+  }
+}, 1000);
+
+`
+function getCurrentTimestamp() {
     let timeElement = document.getElementById("time");
-    let time = timeElement.innerText;
-    let currentTime = parseInt(time.match(/\d+/)[0]);
+    if (current_score == 0.0) {
+        return 0.0;
+     } else if (current_score > 0.0) {
+        let timeText = timeElement.innerText;
+        return parseFloat(timeText.match(/(\d+.\d+)/));
+     } else {
+        resetTimer();
+        return 0.0
+     }
+}
+
+function startTimer() {
     timer_is_active = true;
+    let timeElement = document.getElementById("time");
+    let currentTimestamp = getCurrentTimestamp();
+    let startTimestamp = Date.now();
     timer = setInterval(function () {
-        currentTime++;
-        timeElement.innerText = `${currentTime}s`;
-    }, 1000);
+        let timeDifference = (Date.now() - startTimestamp) / 1000;
+        let elapsedTime = (currentTimestamp + timeDifference).toFixed(3);
+        current_score = parseFloat(elapsedTime);
+        console.log(current_score)
+        timeElement.innerText = `${current_score.toFixed(1)}s`;
+    }, 50);
 }
 
 function stopTimer() {
     if (timer_is_active) {
-        let timeElement = document.getElementById("time");
-        let time = timeElement.innerText;
-        let currentTime = parseInt(time.match(/\d+/)[0]);
         timer_is_active = false;
         clearInterval(timer);
-        return currentTime;
+        // let timeElement = document.getElementById("time");
+        // let timeText = timeElement.innerText;
+        // let currentTimestamp =  parseFloat(timeText.match(/\d+\.\d+/));
+        // current_score = currentTimestamp;
     } 
 }
 
 function resetTimer() {
     let timeElement = document.getElementById("time");
-    timeElement.innerText = "0s";
+    timeElement.innerText = "0.0s";
 }
 
 function stopGame() {
-    let username = localStorage.getItem("username");
-    let time = stopTimer();
-    uploadScore(time);
+    // let username = localStorage.getItem("username");
+    let username = "marlon";
+    stopTimer();
+    // uploadScore(time);
     setTimeout(function() {
-        alert(`Good job ${username}! You finished in ${time} seconds!`);
+        alert(`Good job ${username}! You finished in ${current_score} seconds!`);
         resetGameWindow();
     }, 1000);
     
@@ -202,22 +242,26 @@ function countDown() {
 }
 
 function getHighScore() {
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", url + `/scores`, true);
-    xhttp.send();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let result = JSON.parse(this.responseText);
-            let highScore = document.getElementById("highScore");
-            let score = result[0]['score'];
-            let user = result[0]['user'];
-            highScore.innerText = `👑 ${score}s (${user})`
-        }
-    }
+    // const xhttp = new XMLHttpRequest();
+    // xhttp.open("GET", url + `/scores`, true);
+    // xhttp.send();
+    // xhttp.onreadystatechange = function () {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         let result = JSON.parse(this.responseText);
+            
+    //         let score = result[0]['score'];
+    //         let user = result[0]['user'];
+    //         highScore.innerText = `👑 ${score}s (${user})`
+    //     }
+    // }
+
+    let highScore = document.getElementById("highScore");
+    highScore.innerText = `👑 6.9s (marlon)`;
 }
 
 function uploadScore(time) {
-    let username = localStorage.getItem("username");
+    // let username = localStorage.getItem("username");
+    let username = 'marlon'
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", url + `/scores/${username}/${time}`, true);
     xhttp.send();
@@ -358,7 +402,8 @@ function activateAdminMode() {
 }
 
 function checkIfLoggedIn() {
-    let username = localStorage.getItem("username");
+    // let username = localStorage.getItem("username");
+    let username = "marlon"
     if (username === "admin") {
         console.log(username);
         activateAdminMode();
@@ -383,6 +428,7 @@ function fixMobileSizing() {
 
 fixMobileSizing();
 getHighScore();
+// startGame();
 checkIfLoggedIn();
 // document.getElementById("start").onclick = startGame;
 

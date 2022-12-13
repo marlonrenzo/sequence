@@ -1,4 +1,4 @@
-var url = "https://diyarsalamatravandi.ca/sequence/v1";
+var url = "https://marlonfajardo.ca/sequence/v1";
 var currentUrl = "https://marlonfajardo.ca/sequence";
 
 function checkExistence(username) {
@@ -84,19 +84,23 @@ function authenticate() {
     }
 }
 
-fixMobileSizing();
-checkIfLoggedIn();
-document.getElementById("loginBtn").onclick = function () {
-    let username = document.getElementById("username").value;
-    console.log(username);
-    if (username === "admin") {
-        document.getElementById("password").style.display = "inline-block";
-        document.getElementById("loginBtn").onclick = function () {
-            authenticate();
+function activateLoginButton() {
+    document.getElementById("loginBtn").onclick = function () {
+        let username = document.getElementById("username").value;
+        console.log(username);
+        if (username === "admin") {
+            document.getElementById("password").style.display = "inline-block";
+            document.getElementById("loginBtn").onclick = function () {
+                authenticate();
+            }
+        } else if (username !== "" || username.length < 30) {
+            checkExistence(username);
+        } else {
+            alert("Please enter a username that's under 30 characters");
         }
-    } else if (username !== "" || username.length < 30) {
-        checkExistence(username);
-    } else {
-        alert("Please enter a username that's under 30 characters");
     }
 }
+
+fixMobileSizing();
+checkIfLoggedIn();
+activateLoginButton();

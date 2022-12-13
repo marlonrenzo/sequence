@@ -2,7 +2,7 @@
   "name": "sequence",
   "version": "1.0.0",
   "description": "A web-based game made for the term project for COMP 4537.",
-  "main": "serverMain.js",
+  "main": "clientMain.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

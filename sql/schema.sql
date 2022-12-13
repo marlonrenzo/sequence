@@ -7,7 +7,7 @@ CREATE TABLE users (
 CREATE TABLE scores (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     userID INTEGER NOT NULL,
-    score_time INTEGER NOT NULL,
+    score_time DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (userID) REFERENCES users (id)
 );
 
@@ -56,7 +56,7 @@ Gets the high score for a given user.
 DROP FUNCTION IF EXISTS get_high_score;
 DELIMITER //
 CREATE FUNCTION get_high_score(current_username VARCHAR(30)) 
-RETURNS INT READS SQL DATA
+RETURNS DECIMAL READS SQL DATA
 BEGIN
     RETURN (
       SELECT MIN(score_time)
@@ -80,7 +80,7 @@ Accessed by PUT request to /scores
 */
 DROP PROCEDURE IF EXISTS add_score;
 DELIMITER //
-CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score INTEGER)
+CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL)
 BEGIN
     INSERT INTO scores(userID, score_time)
     VALUES ((SELECT id FROM users WHERE username = current_username), new_score);
