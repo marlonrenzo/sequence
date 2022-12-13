@@ -1,4 +1,4 @@
-const ENDPOINT = "/sequence/v1";
+const ENDPOINT = "/sequence_server/v1";
 
 const app = require('./modules/appSetup');
 app.set('views', __dirname + '/views/pages');
