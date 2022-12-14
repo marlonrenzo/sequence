@@ -2,12 +2,11 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/marlonfa/public_html/sequence_client
-    - /bin/cp -R * $DEPLOYPATH
-    # - /bin/cp /home/marlonfa/public_html/sequence_client/clientMain.js $DEPLOYPATH
-    # - /bin/cp /home/marlonfa/public_html/sequence_client/package.json $DEPLOYPATH
-    # - /bin/cp /home/marlonfa/public_html/sequence_client/package-lock.json $DEPLOYPATH
-    # - export DEPLOYPATH=/home/marlonfa/public_html/sequence_client/public
-    # - /bin/cp -r /home/marlonfa/public_html/sequence_client/public/css $DEPLOYPATH
-    # - /bin/cp -r /home/marlonfa/public_html/sequence_client/public/script $DEPLOYPATH
-    # - export DEPLOYPATH=/home/marlonfa/public_html/sequence_client/views 
-    # - /bin/cp -r /home/marlonfa/public_html/sequence_client/views/pages $DEPLOYPATH
+    - /bin/cp /home/marlonfa/public_html/sequence_client/clientMain.js $DEPLOYPATH
+    - /bin/cp /home/marlonfa/public_html/sequence_client/package.json $DEPLOYPATH
+    - /bin/cp /home/marlonfa/public_html/sequence_client/package-lock.json $DEPLOYPATH
+    - export DEPLOYPATH=/home/marlonfa/public_html/sequence_client/public
+    - /bin/cp -r /home/marlonfa/public_html/sequence_client/public/css $DEPLOYPATH
+    - /bin/cp -r /home/marlonfa/public_html/sequence_client/public/script $DEPLOYPATH
+    - export DEPLOYPATH=/home/marlonfa/public_html/sequence_client/views 
+    - /bin/cp -r /home/marlonfa/public_html/sequence_client/views/pages $DEPLOYPATH
