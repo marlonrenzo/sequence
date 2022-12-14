@@ -9,8 +9,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(express.urlencoded( {extended: true} ));
-app.use('/css', express.static(path.join(__dirname, 'public/css')));
-app.use('/script', express.static(path.join(__dirname, 'public/script')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', __dirname + '/views/pages');
 app.engine('html', require('ejs').renderFile);
 
