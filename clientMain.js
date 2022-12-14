@@ -38,5 +38,5 @@ app.post("/sequence/game/:username", function(req, res) {
     let name = req.params.username;
     res.render("index.html", {name: name});
 });
-
-app.listen();
+ 
+app.listen(3001);
