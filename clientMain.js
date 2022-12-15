@@ -39,6 +39,12 @@ app.get("/sequence/css/:filename", function (req, res) {
     res.sendFile(__dirname + `/public/css/${css}`);
 });
 
+app.get("/sequence/script/:filename", function (req, res) {
+    let css = req.params.filename;
+    res.sendFile(__dirname + `/public/css/${css}`);
+});
+
+
 app.post("/sequence/game/:username", function(req, res) {
     let name = req.params.username;
     res.render("index.html", {name: name});
