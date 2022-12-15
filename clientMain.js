@@ -34,7 +34,7 @@ app.get("/sequence/admin", function(req, res) {
     res.render("admin.html");
 })
 
-app.get("seqence/css/:filename", function (req, res) {
+app.get("sequence/css/:filename", function (req, res) {
     let css = req.params.filename;
     res.sendFile(__dirname + `/public/css/${css}`);
 });
