@@ -41,7 +41,7 @@ app.get("/sequence/css/:filename", function (req, res) {
 
 app.get("/sequence/script/:filename", function (req, res) {
     let css = req.params.filename;
-    res.sendFile(__dirname + `/public/css/${css}`);
+    res.sendFile(__dirname + `/public/script/${css}`);
 });
 
 
