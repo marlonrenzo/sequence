@@ -1,4 +1,4 @@
-var url = "https://marlonfajardo.ca/sequence/v1";
+var url = "https://marlonfajardo.ca/sequence_server/v1";
 var GAME_SIZE = 5;
 var BUTTONS_TO_DISPLAY = 5;
 var timer_is_active = false;
