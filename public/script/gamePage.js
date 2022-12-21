@@ -190,9 +190,8 @@ function startTimer() {
     let startTimestamp = Date.now();
     timer = setInterval(function () {
         let timeDifference = (Date.now() - startTimestamp) / 1000;
-        let elapsedTime = (currentTimestamp + timeDifference).toFixed(3);
+        let elapsedTime = (currentTimestamp + timeDifference).toFixed(2);
         current_score = parseFloat(elapsedTime);
-        console.log(current_score)
         timeElement.innerText = `${current_score.toFixed(1)}s`;
     }, 50);
 }
