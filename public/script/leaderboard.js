@@ -52,11 +52,18 @@ function createCard(place, name, time, number) {
     return card;
 }
 
+function formatScore(scoreText) {
+    let fullScore = parseFloat(scoreText);
+    let roundedScore = Math.floor(fullScore * 10) / 10;
+    return roundedScore.toFixed(1);
+}
+
 function createLeaderboardEntry(scoreObj, place) {
     const color = "white";
     let window = document.getElementById("leaderboard");
     let placeText = createSpanElement("place", place, place, color);
     let usernameText = createSpanElement("username", place, scoreObj['user'], color);
+    let score = formatScore(scoreObj['score']);
     let timeText = createSpanElement("time", place, scoreObj['score'], color);
     let card = createCard(placeText, usernameText, timeText, place);
     window.appendChild(card);
