@@ -222,8 +222,9 @@ function getHighScore() {
         if (this.readyState == 4 && this.status == 200) {
             let result = JSON.parse(this.responseText);
             
-            let score = parseFloat(result[0]['score']);
-            let scoreFormatted = score.toFixed(1);
+            let fullScore = parseFloat(result[0]['score']);
+            let roundedScore = Math.floor(fullScore * 10) / 10;
+            let scoreFormatted = roundedScore.toFixed(1);
             let user = result[0]['user'];
             highScore.innerText = `👑 ${scoreFormatted}s (${user})`
         }
