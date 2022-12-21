@@ -1,6 +1,6 @@
 var url = "https://marlonfajardo.ca/sequence_server/v1";
-var GAME_SIZE = 5;
-var BUTTONS_TO_DISPLAY = 5;
+var GAME_SIZE = 20;
+var BUTTONS_TO_DISPLAY = 9;
 var timer_is_active = false;
 var timer;
 var current_score = 0.0;
@@ -148,28 +148,6 @@ function removeMenu() {
     document.getElementById("logout").style.display = "none";
 }
 
-`
- 
-***
-
-let countdown = 3;
-
-let counter = setInterval(function() {
-	countdown--;
-	if (countdown > 0) {
-  	document.getElementById("countdown").innerHTML = countdown;
-  } else {
-  	let startTime = Date.now();
-  	clearInterval(counter);
-    document.getElementById("countdown").innerHTML = "";
-    let interval = setInterval(function() {
-    	let elapsedTime = Date.now() - startTime;
-    	document.getElementById("timer").innerHTML = (elapsedTime / 1000).toFixed(1);
-  	}, 50);
-  }
-}, 1000);
-
-`
 function getCurrentTimestamp() {
     let timeElement = document.getElementById("time");
     if (current_score == 0.0) {
@@ -200,10 +178,6 @@ function stopTimer() {
     if (timer_is_active) {
         timer_is_active = false;
         clearInterval(timer);
-        // let timeElement = document.getElementById("time");
-        // let timeText = timeElement.innerText;
-        // let currentTimestamp =  parseFloat(timeText.match(/\d+\.\d+/));
-        // current_score = currentTimestamp;
     } 
 }
 
@@ -219,8 +193,7 @@ function stopGame() {
     setTimeout(function() {
         alert(`Good job ${username}! You finished in ${current_score} seconds!`);
         resetGameWindow();
-    }, 1000);
-    
+    }, 1000);   
 }
 
 function countDown() {
@@ -240,21 +213,21 @@ function countDown() {
 }
 
 function getHighScore() {
-    // const xhttp = new XMLHttpRequest();
-    // xhttp.open("GET", url + `/scores`, true);
-    // xhttp.send();
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //         let result = JSON.parse(this.responseText);
-            
-    //         let score = result[0]['score'];
-    //         let user = result[0]['user'];
-    //         highScore.innerText = `👑 ${score}s (${user})`
-    //     }
-    // }
-
     let highScore = document.getElementById("highScore");
-    highScore.innerText = `👑 6.9s (marlon)`;
+    // highScore.innerText = `👑 6.9s (marlon)`;  // placeholder
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", url + `/scores`, true);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let result = JSON.parse(this.responseText);
+            
+            let score = parseFloat(result[0]['score']);
+            let scoreFormatted = score.toFixed(1);
+            let user = result[0]['user'];
+            highScore.innerText = `👑 ${scoreFormatted}s (${user})`
+        }
+    }
 }
 
 function uploadScore(time) {
@@ -400,8 +373,7 @@ function activateAdminMode() {
 }
 
 function checkIfLoggedIn() {
-    // let username = localStorage.getItem("username");
-    let username = "marlon"
+    let username = localStorage.getItem("username");
     if (username === "admin") {
         console.log(username);
         activateAdminMode();
@@ -426,8 +398,4 @@ function fixMobileSizing() {
 
 fixMobileSizing();
 getHighScore();
-// startGame();
 checkIfLoggedIn();
-// document.getElementById("start").onclick = startGame;
-
-// spawnButtons();
