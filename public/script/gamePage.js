@@ -214,8 +214,7 @@ function resetTimer() {
 }
 
 function stopGame() {
-    // let username = localStorage.getItem("username");
-    let username = "marlon";
+    let username = localStorage.getItem("username");
     stopTimer();
     uploadScore(current_score);
     setTimeout(function() {
