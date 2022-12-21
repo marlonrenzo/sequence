@@ -217,7 +217,7 @@ function stopGame() {
     // let username = localStorage.getItem("username");
     let username = "marlon";
     stopTimer();
-    // uploadScore(time);
+    uploadScore(current_score);
     setTimeout(function() {
         alert(`Good job ${username}! You finished in ${current_score} seconds!`);
         resetGameWindow();
