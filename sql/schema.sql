@@ -80,7 +80,7 @@ Accessed by PUT request to /scores
 */
 DROP PROCEDURE IF EXISTS add_score;
 DELIMITER //
-CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL)
+CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2))
 BEGIN
     INSERT INTO scores(userID, score_time)
     VALUES ((SELECT id FROM users WHERE username = current_username), new_score);
