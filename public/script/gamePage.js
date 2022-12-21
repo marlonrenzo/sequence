@@ -232,8 +232,7 @@ function getHighScore() {
 }
 
 function uploadScore(time) {
-    // let username = localStorage.getItem("username");
-    let username = 'marlon'
+    let username = localStorage.getItem("username");
     const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", url + `/scores/${username}/${time}`, true);
     xhttp.send();
