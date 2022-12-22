@@ -13,8 +13,8 @@ app.use(function (req, res, next) {
 app.use(express.urlencoded( {extended: true} ));
 // app.use(favicon(path.join(__dirname,'public','images','favicon_io', 'favicon.ico')));
 app.use('/public', express.static('public'));
-app.use('/css', express.static(path.join(__dirname, 'public/css')));
-app.use('/script', express.static(path.join(__dirname, 'public/script')));
+// app.use('/css', express.static(path.join(__dirname, 'public/css')));
+// app.use('/script', express.static(path.join(__dirname, 'public/script')));
 app.set('views', __dirname + '/views/pages');
 app.engine('html', require('ejs').renderFile);
 
