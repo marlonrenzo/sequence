@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const favicon = require('serve-favicon');
 const app = express();
 
 // Middle Ware
@@ -10,6 +11,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(express.urlencoded( {extended: true} ));
+app.use(favicon(path.join(__dirname,'public','images','favicon_io', 'favicon.ico')));
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
 app.use('/script', express.static(path.join(__dirname, 'public/script')));
 app.set('views', __dirname + '/views/pages');
