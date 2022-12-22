@@ -22,7 +22,7 @@ app.engine('html', require('ejs').renderFile);
 // Routing
 
 app.get("/sequence", function(req, res) {
-    res.sendFile("index.html");
+    res.sendFile("views/pages/index.html");
 });
 
 app.get("/sequence/game", function(req, res) {
