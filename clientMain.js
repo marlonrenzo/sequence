@@ -12,7 +12,7 @@ app.use(function (req, res, next) {
 });
 app.use(express.urlencoded( {extended: true} ));
 // app.use(favicon(path.join(__dirname,'public','images','favicon_io', 'favicon.ico')));
-app.use('/sequence/public', express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 // app.use('/css', express.static(path.join(__dirname, 'public/css')));
 // app.use('/script', express.static(path.join(__dirname, 'public/script')));
 app.set('views', __dirname + '/views/pages');
@@ -22,7 +22,7 @@ app.engine('html', require('ejs').renderFile);
 // Routing
 
 app.get("/sequence", function(req, res) {
-    res.sendFile(__dirname + '/views/pages/index.html');
+    res.render("index.html")
 });
 
 app.get("/sequence/game", function(req, res) {
@@ -43,10 +43,14 @@ app.get("/sequence/css/:filename", function (req, res) {
 });
 
 app.get("/sequence/script/:filename", function (req, res) {
-    let css = req.params.filename;
-    res.sendFile(__dirname + `/public/script/${css}`);
+    let script = req.params.filename;
+    res.sendFile(__dirname + `/public/script/${script}`);
 });
 
+app.get("/sequence/favicon/:filename", function (req, res) {
+    let favicon = req.params.filename;
+    res.sendFile(__dirname + `/public/images/favicon_io/${favicon}`);
+});
 
 app.post("/sequence/game/:username", function(req, res) {
     let name = req.params.username;
