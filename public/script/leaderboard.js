@@ -98,7 +98,7 @@ function fillLeaderboard(scores, highScore) {
     for (let index=0; index<leaderBoardSize; index++) {
         if (scores[index]['user'] == username) {
             userIsInTop10 = true;
-            createLeaderboardEntry(scores[index], place, 'EAAA00');
+            createLeaderboardEntry(scores[index], place, '#EAAA00');
         } else {
             createLeaderboardEntry(scores[index], place, 'white');
         }
