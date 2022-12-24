@@ -60,8 +60,7 @@ function formatScore(scoreText) {
     return roundedScore.toFixed(1);
 }
 
-function createLeaderboardEntry(scoreObj, place) {
-    const color = "white";
+function createLeaderboardEntry(scoreObj, place, color) {
     let window = document.getElementById("leaderboard");
     let placeText = createSpanElement("place", place, place, color);
     let usernameText = createSpanElement("username", place, scoreObj['user'], color);
@@ -98,13 +97,15 @@ function fillLeaderboard(scores, highScore) {
     document.getElementById("leaderboard").innerHTML = "";
     for (let index=0; index<leaderBoardSize; index++) {
         if (scores[index]['user'] == username) {
-            console.log("you are in the top 10!");
             userIsInTop10 = true;
+            createLeaderboardEntry(scores[index], place, 'EAAA00');
+        } else {
+            createLeaderboardEntry(scores[index], place, 'white');
         }
-        createLeaderboardEntry(scores[index], place);
+        
         place++;
     }
-    if (userIsInTop10) {
+    if (!userIsInTop10) {
         displayHighScore(highScore);
     }
 }
