@@ -98,13 +98,13 @@ function fillLeaderboard(scores, highScore) {
     document.getElementById("leaderboard").innerHTML = "";
     for (let index=0; index<leaderBoardSize; index++) {
         if (scores[index]['user'] == username) {
-            console.log("your are in the top 10!");
+            console.log("you are in the top 10!");
             userIsInTop10 = true;
         }
         createLeaderboardEntry(scores[index], place);
         place++;
     }
-    if (!userIsInTop10) {
+    if (userIsInTop10) {
         displayHighScore(highScore);
     }
 }
