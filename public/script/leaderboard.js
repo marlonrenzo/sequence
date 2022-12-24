@@ -3,6 +3,7 @@ let username;
 
 function checkIfLoggedIn() {
     username = localStorage.getItem("username");
+    console.log("hello " + username);
     if(username == null) {
         window.location.replace("https://marlonfajardo.ca/sequence");
     }
@@ -97,6 +98,7 @@ function fillLeaderboard(scores, highScore) {
     document.getElementById("leaderboard").innerHTML = "";
     for (let index=0; index<leaderBoardSize; index++) {
         if (scores[index]['user'] == username) {
+            console.log("your are in the top 10!");
             userIsInTop10 = true;
         }
         createLeaderboardEntry(scores[index], place);
