@@ -2,10 +2,11 @@ const url = "https://marlonfajardo.ca/sequence_server/v1";
 let username;
 
 function checkIfLoggedIn() {
-    username = localStorage.getItem("username");
-    if(username == null) {
-        window.location.replace("https://marlonfajardo.ca/sequence");
-    }
+    username = "marlon";
+    // username = localStorage.getItem("username");
+    // if(username == null) {
+    //     window.location.replace("https://marlonfajardo.ca/sequence");
+    // }
 }
 
 function getHighScore(scores) {
@@ -87,6 +88,7 @@ function displayHighScore(highScore) {
     let timeText = createSpanElement("time", place, highScore['score'], color);
     let card = createCard(placeText, usernameText, timeText, place);
     window.appendChild(card);
+    console.log("heres your score");
 }
 
 function fillLeaderboard(scores, highScore) {
