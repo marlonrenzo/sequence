@@ -2,11 +2,10 @@ const url = "https://marlonfajardo.ca/sequence_server/v1";
 let username;
 
 function checkIfLoggedIn() {
-    username = "marlon";
-    // username = localStorage.getItem("username");
-    // if(username == null) {
-    //     window.location.replace("https://marlonfajardo.ca/sequence");
-    // }
+    username = localStorage.getItem("username");
+    if(username == null) {
+        window.location.replace("https://marlonfajardo.ca/sequence");
+    }
 }
 
 function getHighScore(scores) {
