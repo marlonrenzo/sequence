@@ -41,6 +41,7 @@ body {
     font-family: 'Titillium Web';
     font-size: 28px;
     text-align: center;
+    padding: 0px;
 }
 
 #password {
@@ -54,13 +55,14 @@ body {
 }
 
 #loginBtn {
-    padding: 0 105px;
+    padding: 0 109px;
     border: 1px solid #EAAA00;
     border-radius: 5px;
     font-family: 'Titillium Web';
     font-size: 28px;
     background-color: #EAAA00;
     margin-top: 10px;
+    color: white;
 }
 
 @media only screen and (min-width:620px) {
