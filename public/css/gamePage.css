@@ -211,6 +211,8 @@ button:focus {
     font-family: 'Titillium Web';
     background-color: #EAAA00;
     color: white;
+    padding: 0;
+    
 }
 
 #pause:focus {

@@ -25,7 +25,7 @@ function login(username) {
         localStorage.setItem("username", username);
         window.location.replace(currentUrl + "/game");
     } else {
-        console.log("You browser doesn't support storage");
+        alert("Sorry, your browser is too out of date to play Sequence.");
     }
 }
 
@@ -86,8 +86,7 @@ function authenticate() {
 
 function activateLoginButton() {
     document.getElementById("loginBtn").onclick = function () {
-        let username = document.getElementById("username").value;
-        console.log(username);
+        let username = (document.getElementById("username").value).toLowerCase();
         if (username === "admin") {
             document.getElementById("password").style.display = "inline-block";
             document.getElementById("loginBtn").onclick = function () {

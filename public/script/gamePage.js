@@ -189,7 +189,7 @@ function resetTimer() {
 function stopGame() {
     let username = localStorage.getItem("username");
     stopTimer();
-    uploadScore(current_score);
+    uploadScore();
     setTimeout(function() {
         alert(`Good job ${username}! You finished in ${current_score} seconds!`);
         resetGameWindow();
@@ -231,16 +231,16 @@ function getHighScore() {
     }
 }
 
-function uploadScore(time) {
+function uploadScore() {
     let username = localStorage.getItem("username");
     const xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", url + `/scores/${username}/${time}`, true);
+    xhttp.open("PUT", url + `/scores/${username}/${current_score}`, true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let result = JSON.parse(this.responseText)[0];
             if (result[0]['ROW_COUNT()'] === 1) {
-                console.log(`Successfully logged ${time} for ${username}`);
+                console.log(`Successfully logged ${current_score} for ${username}`);
             } else {
                 console.log("Error uploading");
             }
