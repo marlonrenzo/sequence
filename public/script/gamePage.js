@@ -250,7 +250,7 @@ function uploadScore() {
 
 function visitLeaderboard() {
     setTimeout(function() {
-        document.getElementById("contentDiv").style.animation = "fade-out 1s;";
+        document.getElementById("contentDiv").style.animation = "fade-out 1s";
     }, 1000);
     window.location.replace("https://marlonfajardo.ca/sequence/leaderboard");
 }
