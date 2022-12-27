@@ -87,7 +87,6 @@ function displayHighScore(highScore) {
     let timeText = createSpanElement("time", place, highScore['score'], color);
     let card = createCard(placeText, usernameText, timeText, place);
     window.appendChild(card);
-    console.log("heres your score");
 }
 
 function fillLeaderboard(scores, highScore) {
@@ -102,7 +101,6 @@ function fillLeaderboard(scores, highScore) {
         } else {
             createLeaderboardEntry(scores[index], place, 'white');
         }
-        
         place++;
     }
     if (!userIsInTop10) {
