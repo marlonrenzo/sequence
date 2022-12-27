@@ -3,6 +3,7 @@ body {
     font-family: 'Titillium Web', sans-serif;
     height: 100vh;
     margin: 0;
+    overflow: hidden;
 }
 
 .content {
@@ -11,7 +12,7 @@ body {
 
 .titleBar {
     justify-content: center;
-    height: 10%;
+    height: 5%;
 }
 
 .title {
