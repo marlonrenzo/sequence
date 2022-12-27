@@ -56,7 +56,7 @@ Gets the high score for a given user.
 DROP FUNCTION IF EXISTS get_high_score;
 DELIMITER //
 CREATE FUNCTION get_high_score(current_username VARCHAR(30)) 
-RETURNS DECIMAL READS SQL DATA
+RETURNS DECIMAL(10,2) READS SQL DATA
 BEGIN
     RETURN (
       SELECT MIN(score_time)
