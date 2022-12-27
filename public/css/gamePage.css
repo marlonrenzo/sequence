@@ -115,6 +115,7 @@ button:focus {
 }
 
 .sequenceButton {
+    touch-action: manipulation;
     box-sizing: border-box;
     border: 0;
     padding: 10px 10px;
@@ -212,7 +213,7 @@ button:focus {
     background-color: #EAAA00;
     color: white;
     padding: 0;
-    
+
 }
 
 #pause:focus {
