@@ -38,7 +38,7 @@ body {
 }
 
 .card {
-    width: 80%;
+    width: 97%;
     border: 1px solid black;
     display: flex;
     justify-content: space-between;
