@@ -277,6 +277,11 @@ button:focus {
     }
 }
 
+@keyframes fade-out {
+    0% { opacity: 1.0; }
+    100% { opacity: 0.0; }
+}
+
 @keyframes appear {
     0% { opacity: 0.0; }
     50% { opacity: 0.0; }
