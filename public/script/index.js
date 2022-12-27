@@ -86,7 +86,7 @@ function authenticate() {
 
 function activateLoginButton() {
     document.getElementById("loginBtn").onclick = function () {
-        let username = (document.getElementById("username").value).toLowerCase();
+        let username = (document.getElementById("username").value).toLowerCase().trim();
         if (username === "admin") {
             document.getElementById("password").style.display = "inline-block";
             document.getElementById("loginBtn").onclick = function () {
