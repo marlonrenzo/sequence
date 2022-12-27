@@ -4,6 +4,7 @@ var BUTTONS_TO_DISPLAY = 9;
 var timer_is_active = false;
 var timer;
 var current_score = 0.0;
+const game_modes = {'classic': ['20', '40', '60'], 'timed': ['15', '30', '45']};
 
 function createNewButton(number, xPos, yPos) {
     let div = document.getElementById("gameWindow");
@@ -187,16 +188,24 @@ function resetTimer() {
 }
 
 function stopGame() {
-    let username = localStorage.getItem("username");
+    // let username = localStorage.getItem("username");  //placeholder
+    let username = "marlon"; // placeholder
     stopTimer();
-    uploadScore();
+    // uploadScore();  // placeholder
     setTimeout(function() {
         alert(`Good job ${username}! You finished in ${current_score} seconds!`);
         resetGameWindow();
     }, 1000);   
 }
 
+function initializeCounter() {
+    document.getElementById("currentNumber").innerText = 1;
+    document.getElementById("currentNumber").style.color = "white";
+    document.getElementById("time").style.display = "inline-block"
+}
+
 function countDown() {
+    initializeCounter();
     document.getElementById("overlay").style.display = "block";
     let text = document.getElementById("countdown");
     text.innerHTML = 3;
@@ -214,21 +223,21 @@ function countDown() {
 
 function getHighScore() {
     let highScore = document.getElementById("highScore");
-    // highScore.innerText = `👑 6.9s (marlon)`;  // placeholder
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", url + `/scores`, true);
-    xhttp.send();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let result = JSON.parse(this.responseText);
+    highScore.innerText = `👑 6.9s (marlon)`;  // placeholder
+    // const xhttp = new XMLHttpRequest();
+    // xhttp.open("GET", url + `/scores`, true);
+    // xhttp.send();
+    // xhttp.onreadystatechange = function () {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         let result = JSON.parse(this.responseText);
             
-            let fullScore = parseFloat(result[0]['score']);
-            let roundedScore = Math.floor(fullScore * 10) / 10;
-            let scoreFormatted = roundedScore.toFixed(1);
-            let user = result[0]['user'];
-            highScore.innerText = `👑 ${scoreFormatted}s (${user})`
-        }
-    }
+    //         let fullScore = parseFloat(result[0]['score']);
+    //         let roundedScore = Math.floor(fullScore * 10) / 10;
+    //         let scoreFormatted = roundedScore.toFixed(1);
+    //         let user = result[0]['user'];
+    //         highScore.innerText = `👑 ${scoreFormatted}s (${user})`
+    //     }
+    // }
 }
 
 function uploadScore() {
@@ -249,10 +258,7 @@ function uploadScore() {
 }
 
 function visitLeaderboard() {
-    document.getElementById("contentDiv").style.animation = "disappear 0.5s";
-    setTimeout(function() {
-        window.location.replace("https://marlonfajardo.ca/sequence/leaderboard");
-    }, 1000);
+    window.location.replace("https://marlonfajardo.ca/sequence/leaderboard");
 }
 
 function displayMainMenu() {
@@ -306,14 +312,54 @@ function showPauseButton() {
     document.getElementById("pause").onclick = pause;
 }
 
-function initializeCounter() {
-    document.getElementById("currentNumber").innerText = 1;
-    document.getElementById("currentNumber").style.color = "white";
-    document.getElementById("time").style.display = "inline-block"
+function startClassicGame() {
+    initializeCounter();
+    removeMenu();
+    countDown();
+    setTimeout(function () {
+        showPauseButton();
+        spawnButtons();
+        startTimer();
+    }, 3000);
 }
 
-function startGame() {
-    initializeCounter();
+function switchToMainMenu() {
+    document.getElementById("gameMenu").style.display = "none";
+    displayMainMenu();
+}
+
+function switchToGameMenu() {
+    document.getElementById("mainMenu").style.display = "none";
+    document.getElementById("gameMenu").style.display = "flex";
+    document.getElementById("back").onclick = switchToMainMenu;
+}
+
+function enableGameMenu() {
+    let gameModes = document.querySelectorAll("input[name=gameModeRadio]");
+    gameModes.forEach(gameMode => {
+        gameMode.addEventListener("change", function() {
+            let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
+            if(this.checked) {
+                gameModeElm.style.display = "none";
+                console.log("unchecked");
+            } else {
+                console.log("no longer checked");
+                gameModeElm.style.display = "flex";
+            }
+        });
+    });
+    // Object.keys(game_modes).forEach(gameMode => {
+        
+    //     
+    //     gameModeElm.
+    // });
+    // let classic = document.getElementById("classicDiv");
+    // let timed = document.getElementById("timedDiv");
+    
+    
+}
+
+function startTimedGame() {
     removeMenu();
     countDown();
     setTimeout(function () {
@@ -376,13 +422,14 @@ function activateAdminMode() {
 }
 
 function checkIfLoggedIn() {
-    let username = localStorage.getItem("username");
+    // let username = localStorage.getItem("username"); // placeholder
+    let username = "marlon";  // placeholder
     if (username === "admin") {
         console.log(username);
         activateAdminMode();
     }
     if (username !== null) {
-        document.getElementById("start").onclick = startGame;
+        document.getElementById("start").onclick = switchToGameMenu;
         document.getElementById("leaderboard").onclick = visitLeaderboard;
         welcomeUser(username);
         setTimeout(displayMainMenu, 1000);
@@ -402,3 +449,4 @@ function fixMobileSizing() {
 fixMobileSizing();
 getHighScore();
 checkIfLoggedIn();
+enableGameMenu();

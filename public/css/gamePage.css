@@ -79,7 +79,94 @@ body {
     -ms-transform: translate(-50%,-50%);
 }
 
+#gameMenu {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+
+#gameModes {
+    display: flex;
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 5px;
+    flex-direction: row;
+    margin: 5px;
+}
+
+.gameMode {
+    width: 50%;
+    text-align: center;
+}
+
+.gameModeLabel {
+    font-size: 30px;
+    left: 50%;
+    width: 100%;
+    color: white
+}
+
+input[type="radio"] {
+    appearance: none;
+}
+
+input[type="radio"]:checked ~ label{
+    color: #EAAA00;
+}
+
+#classicGameSizes {
+    display: flex;
+}
+
+#timedGameSizes {
+    display: none;
+}
+
+.gameSizes {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.gameSize {
+    color: white;
+    font-size: 30px;
+}
+
+
 #start {
+    width: 300px;
+    font-size: 50px;
+    height: 100px;
+    border: 0;
+    border-radius: 5px;
+    font-family: 'Titillium Web';
+    background-color: #c44349;
+    color: white;
+    margin: 5px;
+    animation: reveal-top 1s;
+}
+
+#startGame {
+    width: 300px;
+    font-size: 50px;
+    height: 100px;
+    border: 0;
+    border-radius: 5px;
+    font-family: 'Titillium Web';
+    background-color: #c44349;
+    color: white;
+    margin: 5px;
+}
+
+#back {
     width: 300px;
     font-size: 50px;
     height: 100px;
@@ -89,7 +176,6 @@ body {
     background-color: #EAAA00;
     color: white;
     margin: 5px;
-    animation: reveal-top 1s;
 }
 
 #leaderboard {
@@ -100,7 +186,7 @@ body {
     padding: 0px;
     border-radius: 5px;
     font-family: 'Titillium Web';
-    background-color: #c44349;
+    background-color: #EAAA00;
     color: white;
     margin: 5px;
     animation: reveal-bottom 1s;

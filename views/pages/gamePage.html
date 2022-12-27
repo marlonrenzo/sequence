@@ -7,7 +7,8 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/gamePage.css">
+    <!-- <link rel="stylesheet" href="css/gamePage.css"> -->
+    <link rel="stylesheet" href="../../public/css/gamePage.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -52,6 +53,52 @@
             <button id="start">Play</button>
             <button id="leaderboard">Leaderboard</button>
         </div>
+        <div id="gameMenu">
+            <div id="gameModes">
+                <div class="gameMode" id="classicDiv">
+                    <input type="radio" id="classic" name="gameModeRadio" value="classic" checked>
+                    <label class="gameModeLabel" for="classic">Classic</label>
+                </div>
+                <div class="gameMode" id="timedDiv">
+                    <input type="radio" id="timed" name="gameModeRadio" value="timed">
+                    <label class="gameModeLabel" for="timed">Timed</label>
+                </div>
+            </div>
+            <div class="gameSizes" id="classicGameSizes">
+                <div class="gameSize">
+                    <input type="radio" id="classic20" name="classicSize" value="20" checked>
+                    <label for="classic20" class="classicSize gameSize">20</label>
+                </div>
+
+                <div class="gameSize">
+                    <input type="radio" id="classic40" name="classicSize" value="40">
+                    <label for="classic40" class="classicSize gameSize">40</label>
+                </div>
+
+                <div class="gameSize">
+                    <input type="radio" id="classic60" name="classicSize" value="60">
+                    <label for="classic60" class="classicSize gameSize">60</label>
+                </div>
+            </div>
+            <div class="gameSizes" id="timedGameSizes">
+                <div class="gameSize">
+                    <input type="radio" id="timed15" name="timedSize" value="15" checked>
+                    <label for="timed15" class="timedSize gameSize">15s</label>
+                </div>
+
+                <div class="gameSize">
+                    <input type="radio" id="timed30" name="timedSize" value="30">
+                    <label for="timed30" class="timedSize gameSize">30s</label>
+                </div>
+
+                <div class="gameSize">
+                    <input type="radio" id="timed45" name="timedSize" value="45">
+                    <label for="timed45" class="timedSize gameSize">45s</label>
+                </div>
+            </div>
+            <button id="startGame">Start</button>
+            <button id="back">Back</button>
+        </div>
         <button id="logout">logout</button>
 
         <div id="gameWindow">
@@ -61,7 +108,8 @@
     </div>
 
 
-    <script src="script/gamePage.js"></script>
+    <!-- <script src="script/gamePage.js"></script> -->
+    <script src="../../public/script/gamePage.js"></script>
 </body>
 
 </html>
