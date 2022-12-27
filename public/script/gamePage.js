@@ -249,10 +249,10 @@ function uploadScore() {
 }
 
 function visitLeaderboard() {
-    document.getElementById("contentDiv").style.animation = "fade-out 0.5s";
+    document.getElementById("contentDiv").style.animation = "disappear 0.5s";
     setTimeout(function() {
         window.location.replace("https://marlonfajardo.ca/sequence/leaderboard");
-    }, 600);
+    }, 800);
 }
 
 function displayMainMenu() {
