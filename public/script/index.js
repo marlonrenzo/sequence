@@ -92,10 +92,10 @@ function activateLoginButton() {
             document.getElementById("loginBtn").onclick = function () {
                 authenticate();
             }
-        } else if (username !== "" || username.length < 30) {
+        } else if (username !== "" || username.length < 14) {
             checkExistence(username);
         } else {
-            alert("Please enter a username that's under 30 characters");
+            alert("Please enter a username that's under 14 characters");
         }
     }
 }
