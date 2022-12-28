@@ -353,6 +353,7 @@ function switchGameSizes(element, gameMode, gameSizes) {
         for(let i=0; i<gameSizes.length; i++) {
             gameSizes[i].style.display = "none";
         }
+        gameModeElm.style.animation = "none";
         gameModeElm.style.display = "flex";
         selected_game_mode = gameMode.value;
     }
@@ -380,8 +381,6 @@ function enableGameMenu() {
         });
     });
     document.getElementById("startGame").onclick = startGame;
-    
-    
 }
 
 function welcomeUser(name) {
