@@ -336,11 +336,15 @@ function switchToGameMenu() {
 
 function enableGameMenu() {
     let gameModes = document.querySelectorAll("input[name=gameModeRadio]");
+    let gameSizes = document.getElementsByClassName("gameSizes");
     gameModes.forEach(gameMode => {
         gameMode.addEventListener("change", function() {
             let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
             if(this.checked) {
-                gameModeElm.style.display = "none";
+                for(let i=0; i<gameSizes.length; i++) {
+                    gameSizes[i].style.display = "none";
+                }
+                gameModeElm.style.display = "flex";
                 console.log("unchecked");
             } else {
                 console.log("no longer checked");
