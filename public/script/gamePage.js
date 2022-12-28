@@ -1,10 +1,11 @@
 var url = "https://marlonfajardo.ca/sequence_server/v1";
-var GAME_SIZE = 20;
+var GAME_SIZE;
 var BUTTONS_TO_DISPLAY = 9;
 var timer_is_active = false;
 var timer;
 var current_score = 0.0;
-const game_modes = {'classic': ['20', '40', '60'], 'timed': ['15', '30', '45']};
+const game_modes = {'classic': startClassicGame, 'timed': startTimedGame};
+var selected_game_mode = "classic";
 
 function createNewButton(number, xPos, yPos) {
     let div = document.getElementById("gameWindow");
@@ -115,7 +116,7 @@ function spawnButtons() {
     for(let num=GAME_SIZE; num>=1; num--) {
         let randomX = randomNumber(xLimit);
         let randomY = randomNumber(yLimit);
-        if (num < 10) {
+        if (num < (GAME_SIZE / 2)) {
             createNewButton(num, randomX, randomY);
         } else {
             createNewButtonInvisible(num, randomX, randomY);
@@ -313,14 +314,26 @@ function showPauseButton() {
 }
 
 function startClassicGame() {
-    initializeCounter();
-    removeMenu();
-    countDown();
-    setTimeout(function () {
-        showPauseButton();
-        spawnButtons();
-        startTimer();
-    }, 3000);
+    console.log("starting classic game " + GAME_SIZE);
+    // initializeCounter();
+    // removeMenu();
+    // countDown();
+    // setTimeout(function () {
+    //     showPauseButton();
+    //     spawnButtons();
+    //     startTimer();
+    // }, 3000);
+}
+
+function startTimedGame() {
+    console.log("starting " + GAME_SIZE + "s timed game");
+    // removeMenu();
+    // countDown();
+    // setTimeout(function () {
+    //     showPauseButton();
+    //     spawnButtons();
+    //     startTimer();
+    // }, 3000);
 }
 
 function switchToMainMenu() {
@@ -334,43 +347,41 @@ function switchToGameMenu() {
     document.getElementById("back").onclick = switchToMainMenu;
 }
 
+function switchGameSizes(element, gameMode, gameSizes) {
+    let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
+    if(element.checked) {
+        for(let i=0; i<gameSizes.length; i++) {
+            gameSizes[i].style.display = "none";
+        }
+        gameModeElm.style.display = "flex";
+        selected_game_mode = gameMode.value;
+    }
+}
+
+function determineGameSize() {
+    let gameSizes = document.querySelectorAll(`input[name=${selected_game_mode}Size]`);
+    for(let i=0; i<gameSizes.length; i++) {
+        if (gameSizes[i].checked) {
+            GAME_SIZE = gameSizes[i].value;
+        }
+    }
+}
+function startGame() {
+    determineGameSize();
+    game_modes[selected_game_mode]();
+}
+
 function enableGameMenu() {
     let gameModes = document.querySelectorAll("input[name=gameModeRadio]");
     let gameSizes = document.getElementsByClassName("gameSizes");
     gameModes.forEach(gameMode => {
         gameMode.addEventListener("change", function() {
-            let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
-            if(this.checked) {
-                for(let i=0; i<gameSizes.length; i++) {
-                    gameSizes[i].style.display = "none";
-                }
-                gameModeElm.style.display = "flex";
-                console.log("unchecked");
-            } else {
-                console.log("no longer checked");
-                gameModeElm.style.display = "flex";
-            }
+            switchGameSizes(this, gameMode, gameSizes);
         });
     });
-    // Object.keys(game_modes).forEach(gameMode => {
-        
-    //     
-    //     gameModeElm.
-    // });
-    // let classic = document.getElementById("classicDiv");
-    // let timed = document.getElementById("timedDiv");
+    document.getElementById("startGame").onclick = startGame;
     
     
-}
-
-function startTimedGame() {
-    removeMenu();
-    countDown();
-    setTimeout(function () {
-        showPauseButton();
-        spawnButtons();
-        startTimer();
-    }, 3000);
 }
 
 function welcomeUser(name) {
