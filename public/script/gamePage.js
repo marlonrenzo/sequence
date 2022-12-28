@@ -116,7 +116,7 @@ function spawnButtons() {
     for(let num=GAME_SIZE; num>=1; num--) {
         let randomX = randomNumber(xLimit);
         let randomY = randomNumber(yLimit);
-        if (num < (GAME_SIZE / 2)) {
+        if (num <= BUTTONS_TO_DISPLAY) {
             createNewButton(num, randomX, randomY);
         } else {
             createNewButtonInvisible(num, randomX, randomY);
@@ -146,7 +146,7 @@ function startClock() {
 }
 
 function removeMenu() {
-    document.getElementById("mainMenu").style.display = "none";
+    document.getElementById("gameMenu").style.display = "none";
     document.getElementById("logout").style.display = "none";
 }
 
@@ -194,7 +194,7 @@ function stopGame() {
     stopTimer();
     // uploadScore();  // placeholder
     setTimeout(function() {
-        alert(`Good job ${username}! You finished in ${current_score} seconds!`);
+        alert(`Good job ${username}! You finished in ${current_score} seconds! Game mode: ${selected_game_mode} ${GAME_SIZE}`);
         resetGameWindow();
     }, 1000);   
 }
@@ -314,15 +314,15 @@ function showPauseButton() {
 }
 
 function startClassicGame() {
-    console.log("starting classic game " + GAME_SIZE);
-    // initializeCounter();
-    // removeMenu();
-    // countDown();
-    // setTimeout(function () {
-    //     showPauseButton();
-    //     spawnButtons();
-    //     startTimer();
-    // }, 3000);
+    // console.log("starting classic game " + GAME_SIZE);
+    initializeCounter();
+    removeMenu();
+    countDown();
+    setTimeout(function () {
+        showPauseButton();
+        spawnButtons();
+        startTimer();
+    }, 3000);
 }
 
 function startTimedGame() {
