@@ -6,6 +6,7 @@ var timer;
 var current_score = 0.0;
 const game_modes = {'classic': startClassicGame, 'timed': startTimedGame};
 var selected_game_mode = "classic";
+var pausedTimeStamp;
 
 function createNewButton(number, xPos, yPos) {
     let div = document.getElementById("gameWindow");
@@ -151,19 +152,56 @@ function removeMenu() {
 }
 
 function getCurrentTimestamp() {
-    let timeElement = document.getElementById("time");
-    if (current_score == 0.0) {
-        return 0.0;
-     } else if (current_score > 0.0) {
-        let timeText = timeElement.innerText;
-        return parseFloat(timeText.match(/(\d+.\d+)/));
-     } else {
+    let timeElement = document.getElementById("time").innerText;
+    let time = parseFloat(timeElement.match(/(\d+.\d+)/))
+    if (time < 0.0) {
         resetTimer();
-        return 0.0
-     }
+    }
+    return time
 }
 
 function startTimer() {
+    if (selected_game_mode == "classic") {
+        startClassicTimer();
+    } else {
+        startTimedTimer();
+    }
+}
+
+function startTimedTimer() {
+    timer_is_active = true;
+    let timeElement = document.getElementById("time");
+    let currentTimestamp = getCurrentTimestamp();
+    let startTimestamp = Date.now();
+    if (currentTimestamp == GAME_SIZE) {
+        timer = setInterval(function () {
+            let timeDifference = (Date.now() - startTimestamp) / 1000;
+            currentTimestamp = GAME_SIZE - timeDifference;
+            timeElement.innerText = `${currentTimestamp.toFixed(1)}s`;
+            if (currentTimestamp <= 0.05) {
+                timeElement.innerText = `0.0s`;
+                stopTimer();
+                alert("Finished");
+            }
+        }, 50);
+    } else if (currentTimestamp < GAME_SIZE && currentTimestamp > 0) {
+        let resumedTimeStamp = currentTimestamp;
+        timer = setInterval(function () {
+            let timeDifference = (Date.now() - startTimestamp) / 1000;
+            currentTimestamp = resumedTimeStamp - timeDifference;
+            timeElement.innerText = `${currentTimestamp.toFixed(1)}s`;
+            if (currentTimestamp <= 0.05) {
+                timeElement.innerText = `0.0s`;
+                stopTimer();
+                alert("Finished");
+            }
+            
+
+        }, 50);
+    }
+}
+
+function startClassicTimer() {
     timer_is_active = true;
     let timeElement = document.getElementById("time");
     let currentTimestamp = getCurrentTimestamp();
@@ -185,7 +223,12 @@ function stopTimer() {
 
 function resetTimer() {
     let timeElement = document.getElementById("time");
-    timeElement.innerText = "0.0s";
+    if (selected_game_mode == "classic") {
+        timeElement.innerText = "0.0s";
+    } else if (selected_game_mode == "timed"){
+        timeElement.innerText = `${GAME_SIZE}.0s`;
+    }
+    
 }
 
 function stopGame() {
@@ -305,7 +348,6 @@ function pause() {
     document.getElementById("resume").onclick = resume;
     document.getElementById("quit").onclick = quit;
     document.getElementById("pauseOverlay").style.display = "block";
-    console.log("pause");
 }
 
 function showPauseButton() {
@@ -327,13 +369,15 @@ function startClassicGame() {
 
 function startTimedGame() {
     console.log("starting " + GAME_SIZE + "s timed game");
-    // removeMenu();
-    // countDown();
-    // setTimeout(function () {
-    //     showPauseButton();
-    //     spawnButtons();
-    //     startTimer();
-    // }, 3000);
+    current_score = parseFloat(GAME_SIZE);
+    resetTimer();
+    removeMenu();
+    countDown();
+    setTimeout(function () {
+        showPauseButton();
+        // spawnButtons();
+        startTimer();
+    }, 3000);
 }
 
 function switchToMainMenu() {
@@ -369,7 +413,8 @@ function determineGameSize() {
 }
 function startGame() {
     determineGameSize();
-    game_modes[selected_game_mode]();
+    let run_game = game_modes[selected_game_mode]
+    run_game();
 }
 
 function enableGameMenu() {
@@ -380,7 +425,9 @@ function enableGameMenu() {
             switchGameSizes(this, gameMode, gameSizes);
         });
     });
-    document.getElementById("startGame").onclick = startGame;
+    document.getElementById("startGame").onclick = function() {
+        startGame()
+    };
 }
 
 function welcomeUser(name) {
