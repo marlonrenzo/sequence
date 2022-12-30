@@ -68,7 +68,7 @@ function removeButtonAfterClick(id) {
     let clickedNumber = getIntegerFromString(id);
     let currentNumber = document.getElementById("currentNumber").innerText;
     if (clickedNumber == currentNumber) {
-        if (currentNumber <= GAME_SIZE - BUTTONS_TO_DISPLAY) {
+        if (selected_game_mode == "timed" || currentNumber <= GAME_SIZE - BUTTONS_TO_DISPLAY) {
             revealButton(currentNumber);
         }
         currentNumber++;
@@ -77,7 +77,9 @@ function removeButtonAfterClick(id) {
     } else {
         wrongButtonClicked(id);
     }
-    activateFinalButton(currentNumber);
+    if (selected_game_mode == "classic") {
+        activateFinalButton(currentNumber);
+    }
 }
 
 function wrongButtonClicked(id) {
@@ -110,11 +112,19 @@ function removeButton(id) {
     }, 1000);
 }
 
-function spawnButtons() {
+function spawnButtons(gameMode) {
     let div = document.getElementById("gameWindow");
     let yLimit = div.offsetHeight - 100;
     let xLimit = div.offsetWidth - 100;
-    for(let num=GAME_SIZE; num>=1; num--) {
+    let gameSize;
+    if (gameMode == "classic") {
+        gameSize = GAME_SIZE;
+        console.log("classic")
+    } else if (gameMode == "timed") {
+        gameSize = 200;
+    }
+    console.log("Gamesize: " + gameSize)
+    for(let num=gameSize; num>=1; num--) {
         let randomX = randomNumber(xLimit);
         let randomY = randomNumber(yLimit);
         if (num <= BUTTONS_TO_DISPLAY) {
@@ -122,28 +132,11 @@ function spawnButtons() {
         } else {
             createNewButtonInvisible(num, randomX, randomY);
         }
-    }
+    } 
 }
 
 function randomNumber(max) {
     return Math.floor(Math.random() * max);
-}
-
-
-function restartClock() {
-    time = 0;
-    document.getElementById("timerText").innerHTML = time;
-}
-
-function stopClock() {
-    clearInterval(countDown);
-}
-
-function startClock() {
-    countDown = setInterval(function() {
-        time++;
-        document.getElementById("timerText").innerHTML = time;
-    }, 1000);
 }
 
 function removeMenu() {
@@ -168,37 +161,30 @@ function startTimer() {
     }
 }
 
+function getInitialTimestamp() {
+    let currentTimestamp = getCurrentTimestamp();
+    if (currentTimestamp == GAME_SIZE) {
+        return GAME_SIZE;
+    } else if (currentTimestamp < GAME_SIZE && currentTimestamp > 0) {
+        return currentTimestamp;
+    }
+}
+
 function startTimedTimer() {
     timer_is_active = true;
     let timeElement = document.getElementById("time");
-    let currentTimestamp = getCurrentTimestamp();
     let startTimestamp = Date.now();
-    if (currentTimestamp == GAME_SIZE) {
-        timer = setInterval(function () {
-            let timeDifference = (Date.now() - startTimestamp) / 1000;
-            currentTimestamp = GAME_SIZE - timeDifference;
-            timeElement.innerText = `${currentTimestamp.toFixed(1)}s`;
-            if (currentTimestamp <= 0.05) {
-                timeElement.innerText = `0.0s`;
-                stopTimer();
-                alert("Finished");
-            }
-        }, 50);
-    } else if (currentTimestamp < GAME_SIZE && currentTimestamp > 0) {
-        let resumedTimeStamp = currentTimestamp;
-        timer = setInterval(function () {
-            let timeDifference = (Date.now() - startTimestamp) / 1000;
-            currentTimestamp = resumedTimeStamp - timeDifference;
-            timeElement.innerText = `${currentTimestamp.toFixed(1)}s`;
-            if (currentTimestamp <= 0.05) {
-                timeElement.innerText = `0.0s`;
-                stopTimer();
-                alert("Finished");
-            }
-            
-
-        }, 50);
-    }
+    let initialTime = getInitialTimestamp();
+    let currentTimestamp;
+    timer = setInterval(function () {
+        let timeDifference = (Date.now() - startTimestamp) / 1000;
+        currentTimestamp = initialTime - timeDifference;
+        timeElement.innerText = `${currentTimestamp.toFixed(1)}s`;
+        if (currentTimestamp <= 0.05) {
+            timeElement.innerText = `0.0s`;
+            stopGame();
+        }
+    }, 50);
 }
 
 function startClassicTimer() {
@@ -237,7 +223,11 @@ function stopGame() {
     stopTimer();
     // uploadScore();  // placeholder
     setTimeout(function() {
-        alert(`Good job ${username}! You finished in ${current_score} seconds! Game mode: ${selected_game_mode} ${GAME_SIZE}`);
+        if (selected_game_mode == "classic") {
+            alert(`Good job ${username}! You finished in ${current_score} seconds!`);
+        } else if (selected_game_mode == "timed") {
+            alert(`Good job ${username}! You finished with a score of ${current_score}`);
+        }
         resetGameWindow();
     }, 1000);   
 }
@@ -249,7 +239,6 @@ function initializeCounter() {
 }
 
 function countDown() {
-    initializeCounter();
     document.getElementById("overlay").style.display = "block";
     let text = document.getElementById("countdown");
     text.innerHTML = 3;
@@ -356,26 +345,25 @@ function showPauseButton() {
 }
 
 function startClassicGame() {
-    // console.log("starting classic game " + GAME_SIZE);
     initializeCounter();
     removeMenu();
     countDown();
     setTimeout(function () {
         showPauseButton();
-        spawnButtons();
+        spawnButtons(selected_game_mode);
         startTimer();
     }, 3000);
 }
 
 function startTimedGame() {
-    console.log("starting " + GAME_SIZE + "s timed game");
     current_score = parseFloat(GAME_SIZE);
+    initializeCounter();
     resetTimer();
     removeMenu();
     countDown();
     setTimeout(function () {
         showPauseButton();
-        // spawnButtons();
+        spawnButtons(selected_game_mode);
         startTimer();
     }, 3000);
 }
@@ -408,6 +396,7 @@ function determineGameSize() {
     for(let i=0; i<gameSizes.length; i++) {
         if (gameSizes[i].checked) {
             GAME_SIZE = gameSizes[i].value;
+            console.log("This the game size: " + GAME_SIZE)
         }
     }
 }
