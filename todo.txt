@@ -1,0 +1,5 @@
+1. Create a procedure that inserts a new score only if it's better than the previous score for a user
+2. Modify endpoints in serverMain.js to include game mode (classic 20,40,60 and timed 15,30,45) when uploading new score
+3. Modify stored procedures to show top 10 scores for every game mode
+4. Modify endpoints to work with sequence.marlonfajardo.ca domain
+5. Create sequence_server/v2 directory in cpanel and initialize NodeJS application
