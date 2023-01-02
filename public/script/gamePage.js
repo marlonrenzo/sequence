@@ -70,6 +70,8 @@ function removeButtonAfterClick(id) {
     if (clickedNumber == currentNumber) {
         if (selected_game_mode == "timed" || currentNumber <= GAME_SIZE - BUTTONS_TO_DISPLAY) {
             revealButton(currentNumber);
+            current_score += 1
+            console.log(current_score)
         }
         currentNumber++;
         document.getElementById("currentNumber").innerText = currentNumber;
@@ -356,7 +358,7 @@ function startClassicGame() {
 }
 
 function startTimedGame() {
-    current_score = parseFloat(GAME_SIZE);
+    current_score = 1
     initializeCounter();
     resetTimer();
     removeMenu();
