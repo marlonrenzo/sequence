@@ -8,7 +8,9 @@ CREATE TABLE scores (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     userID INTEGER NOT NULL,
     score_time DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (userID) REFERENCES users (id)
+    game_mode INTEGER NOT NULL DEFAULT 1,
+    FOREIGN KEY (userID) REFERENCES users (id),
+    FOREIGN KEY (game_mode) REFERENCES game_modes(id)
 );
 
 CREATE TABLE stats (
@@ -17,6 +19,11 @@ CREATE TABLE stats (
     method VARCHAR(6) NOT NULL,
     total_requests INTEGER NOT NULL
 );
+
+CREATE TABLE game_modes (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    mode VARCHAR(30) NOT NULL
+)
 
 
 -- PROCEDURES, FUNCTIONS and Queries-- 
@@ -66,6 +73,23 @@ BEGIN
 END //
 DELIMITER ;
 
+/*
+Gets the high score id for a given user.
+*/
+DROP FUNCTION IF EXISTS get_high_score_id;
+DELIMITER //
+CREATE FUNCTION get_high_score_id(current_username VARCHAR(30)) 
+RETURNS INTEGER READS SQL DATA
+BEGIN
+    RETURN (
+      SELECT id 
+      FROM scores 
+      WHERE userID = (SELECT id FROM users WHERE username = current_username)
+      ORDER BY score_time limit 1
+    );
+END //
+DELIMITER ;
+
 
 /*
 Gets a list of users.
@@ -80,10 +104,22 @@ Accessed by PUT request to /scores
 */
 DROP PROCEDURE IF EXISTS add_score;
 DELIMITER //
-CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2))
+CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode INTEGER)
 BEGIN
-    INSERT INTO scores(userID, score_time)
-    VALUES ((SELECT id FROM users WHERE username = current_username), new_score);
+    INSERT INTO scores(userID, score_time, game_mode)
+    VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode);
+    SELECT ROW_COUNT();
+END//
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS add_score_with_if;
+DELIMITER //
+CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode INTEGER)
+IF (new_score < get_high_score(current_username))
+BEGIN
+    INSERT INTO scores(userID, score_time, game_mode)
+    VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode);
     SELECT ROW_COUNT();
 END//
 DELIMITER ;
@@ -205,6 +241,18 @@ BEGIN
 END//
 DELIMITER ;
 
+/*
+Deletes all scores that are not the best score for each user.
+*/
+DELETE FROM scores
+WHERE id NOT IN (
+    SELECT sid FROM (
+        SELECT scores.id as sid FROM scores 
+        JOIN users ON users.id = scores.userID 
+        WHERE scores.id = get_high_score_id(users.username)
+    ) as s
+);
+
 
 -- Initial Seeds for stats table 
 INSERT INTO stats (end_point, method, total_requests)
@@ -219,3 +267,12 @@ VALUES
 ("/sequence/v1/users/authenticate/username/pw", "POST", 0),
 ("/sequence/v1/users/username", "DELETE", 0),
 ("/sequence/v1/scores/scoreID", "DELETE", 0);
+
+INSERT INTO game_modes (mode)
+VALUES
+("classic20"),
+("classic40"),
+("classic60"),
+("timed15"),
+("timed30"),
+("timed45");
