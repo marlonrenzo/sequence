@@ -225,6 +225,7 @@ function stopGame() {
     stopTimer();
     // uploadScore();  // placeholder
     setTimeout(function() {
+        console.log("Finished " + selected_game_mode + GAME_SIZE);
         if (selected_game_mode == "classic") {
             alert(`Good job ${username}! You finished in ${current_score} seconds!`);
         } else if (selected_game_mode == "timed") {
@@ -278,6 +279,7 @@ function getHighScore() {
 function uploadScore() {
     let username = localStorage.getItem("username");
     const xhttp = new XMLHttpRequest();
+    let gameModeSize = `${selected_game_mode}${GAME_SIZE}`;
     xhttp.open("PUT", url + `/scores/${username}/${current_score}`, true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
@@ -358,7 +360,6 @@ function startClassicGame() {
 }
 
 function startTimedGame() {
-    current_score = 1
     initializeCounter();
     resetTimer();
     removeMenu();
