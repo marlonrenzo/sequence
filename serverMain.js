@@ -80,10 +80,11 @@ app.get(ENDPOINT + '/users', function(req, res) {
 });
 
 // Upload a new entry into the scores table
-app.put(ENDPOINT + '/scores/:username/:score', function(req, res) {
+app.put(ENDPOINT + '/scores/:username/:score/:mode', function(req, res) {
     let name = req.params.username;
     let value = req.params.score;
-    let sql = `CALL add_score('${name}', ${value});`;
+    let mode = req.params.mode;
+    let sql = `CALL add_score('${name}', ${value}, ${mode});`;
     db.query(sql, function (err, result) {
         if (err) throw err;
         let resultText = JSON.stringify(result);
