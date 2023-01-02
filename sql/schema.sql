@@ -113,14 +113,20 @@ END//
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS add_score_with_if;
+DROP PROCEDURE IF EXISTS add_score_with_gamemode;
 DELIMITER //
-CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode INTEGER)
-IF (new_score < get_high_score(current_username))
+CREATE PROCEDURE add_score_with_gamemode(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode INTEGER)
 BEGIN
-    INSERT INTO scores(userID, score_time, game_mode)
-    VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode);
-    SELECT ROW_COUNT();
+    DECLARE current_score DECIMAL(10,2);
+    DECLARE old_score INTEGER;
+    SELECT get_high_score(current_username) INTO current_score;
+    IF (new_score < current_score) THEN
+        SELECT get_high_score_id(current_username) INTO old_score;
+        DELETE FROM scores WHERE id = old_score;
+        INSERT INTO scores(userID, score_time, game_mode)
+        VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode);
+        SELECT ROW_COUNT();
+    END IF;
 END//
 DELIMITER ;
 
