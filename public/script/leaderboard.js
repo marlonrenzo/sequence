@@ -1,4 +1,4 @@
-const url = "https://marlonfajardo.ca/sequence_server/v2";
+const url = "https://sequence.marlonfajardo.ca/server/v2";
 let username;
 
 function checkIfLoggedIn() {
