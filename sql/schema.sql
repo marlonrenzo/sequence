@@ -46,14 +46,62 @@ Accessed by GET request to /scores/:username
 */
 DROP PROCEDURE IF EXISTS get_user_scores;
 DELIMITER //
-CREATE PROCEDURE get_user_scores(IN current_username VARCHAR(30))
+CREATE PROCEDURE get_user_scores(IN current_username VARCHAR(30), IN g_mode VARCHAR(30))
 BEGIN
+    DECLARE game_mode_id INTEGER;
+    SELECT get_game_mode_id(g_mode) INTO game_mode_id;
     SELECT get_high_score(current_username) AS score, 
     (
         SELECT COUNT(*) + 1 FROM get_scores
         WHERE score < (SELECT get_high_score(current_username))
+        AND game_mode = game_mode_id
     ) AS place, username AS user
     FROM users WHERE username = current_username;
+END//
+DELIMITER ;
+
+
+/*
+Gets the high score for a given user along with the current placing on the leaderboard.
+Accessed by GET request to /scores/:username
+
+CALL get_user_score_placing('marlon');
+*/
+DROP PROCEDURE IF EXISTS get_user_score_placing;
+DELIMITER //
+CREATE PROCEDURE get_user_score_placing(IN current_username VARCHAR(30))
+BEGIN
+    SELECT get_high_score_game_mode(current_username, game_modes.mode) AS score, game_modes.mode, (CASE 
+        WHEN game_modes.id <= 3 THEN (
+            SELECT COUNT(*) + 1 FROM scores
+            WHERE score_time < (SELECT get_high_score_game_mode(current_username, game_modes.mode))
+            AND game_mode = game_modes.id
+        ) 
+        ELSE (
+            SELECT COUNT(*) + 1 FROM scores
+            WHERE score_time > (SELECT get_high_score_game_mode(current_username, game_modes.mode))
+            AND game_mode = game_modes.id
+        ) 
+    END) AS place
+    FROM game_modes;
+END//
+DELIMITER ;
+
+/*
+********TODO*********
+Gets the high score for each game mode
+Accessed by GET request to /scores/:username
+*/
+DROP PROCEDURE IF EXISTS get_all_high_scores;
+DELIMITER //
+CREATE PROCEDURE get_all_high_scores()
+BEGIN
+    SELECT scores.score_time, scores.userID, game_modes.id, CASE
+        WHEN game_modes.id <= 3 THEN (SELECT scores.id, MIN(scores.score_time) FROM scores GROUP BY scores.id)
+        ELSE (SELECT scores.id, MAX(scores.score_time) FROM scores GROUP BY scores.id)
+        END AS high_score
+    FROM game_modes JOIN scores ON game_modes.id = scores.game_mode
+    GROUP BY scores.id;
 END//
 DELIMITER ;
 
@@ -72,6 +120,40 @@ BEGIN
     );
 END //
 DELIMITER ;
+
+
+/*
+Gets the high score for a given user based on game mode.
+
+SELECT get_high_score_game_mode('marlon', 'classic60'); 23.4
+SELECT get_high_score_game_mode('marlon', 'timed15');   25
+SELECT get_high_score_game_mode('marlon', 'timed45');   55
+
+SELECT CASE
+WHEN (SELECT get_high_score_game_mode('marlon', 'classic60')) IS NOT NULL THEN 'exists'
+ELSE 'Doesnt exist'
+END AS test;
+
+*/
+DROP FUNCTION IF EXISTS get_high_score_game_mode;
+DELIMITER //
+CREATE FUNCTION get_high_score_game_mode(current_username VARCHAR(30), g_mode VARCHAR(30)) 
+RETURNS DECIMAL(10,2) READS SQL DATA
+BEGIN
+    DECLARE game_mode_id INTEGER;
+    SELECT get_game_mode_id(g_mode) INTO game_mode_id;
+    RETURN (
+      SELECT CASE 
+        WHEN game_mode_id <= 3 THEN MIN(score_time)
+        ELSE MAX(score_time)
+        END AS high_score
+      FROM scores
+      WHERE userID = (SELECT id FROM users WHERE username = current_username)
+      AND game_mode = game_mode_id
+    );
+END //
+DELIMITER ;
+
 
 /*
 Gets the high score id for a given user.
@@ -92,6 +174,23 @@ DELIMITER ;
 
 
 /*
+Gets the game mode id based on its correlating name.
+*/
+DROP FUNCTION IF EXISTS get_game_mode_id;
+DELIMITER //
+CREATE FUNCTION get_game_mode_id(g_mode VARCHAR(30)) 
+RETURNS INTEGER READS SQL DATA
+BEGIN
+    RETURN (
+      SELECT id 
+      FROM game_modes 
+      WHERE mode = g_mode
+    );
+END //
+DELIMITER ;
+
+
+/*
 Gets a list of users.
 Accessed by GET request to /users
 */
@@ -101,30 +200,64 @@ SELECT username FROM users;
 /*
 Inserts a new score into the database
 Accessed by PUT request to /scores
+
+CALL add_score_with_gamemode('marlon', 23.4, 'classic60');
+CALL add_score_with_gamemode('marlon', 34.5, 'classic60');
+CALL add_score_with_gamemode('marlon', 15, 'timed15');
+CALL add_score_with_gamemode('marlon', 25, 'timed15');
+CALL add_score_with_gamemode('marlon', 45, 'timed45');
+CALL add_score_with_gamemode('marlon', 55, 'timed45');
 */
 DROP PROCEDURE IF EXISTS add_score;
 DELIMITER //
-CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode INTEGER)
+CREATE PROCEDURE add_score(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode VARCHAR(30))
 BEGIN
+    DECLARE game_mode_id INTEGER;
+    SELECT get_game_mode_id(g_mode) INTO game_mode_id;
     INSERT INTO scores(userID, score_time, game_mode)
-    VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode);
+    VALUES ((SELECT id FROM users WHERE username = current_username), new_score, game_mode_id);
     SELECT ROW_COUNT();
 END//
 DELIMITER ;
 
 
+/*
+***IN PROGRESS***
+Inserts a new score if it beats a user's current high score based on game mode
+Accessed by PUT request to /scores
+*/
 DROP PROCEDURE IF EXISTS add_score_with_gamemode;
 DELIMITER //
-CREATE PROCEDURE add_score_with_gamemode(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode INTEGER)
+CREATE PROCEDURE add_score_with_gamemode(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode VARCHAR(30))
+BEGIN
+    DECLARE g_mode_id INTEGER;
+    SELECT get_game_mode_id(g_mode) INTO g_mode_id;
+    INSERT INTO scores(userID, score_time, game_mode)
+    VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode_id);
+    SELECT ROW_COUNT();
+END//
+DELIMITER ;
+
+
+/*
+***IN PROGRESS***
+Inserts a new score if it beats a user's current high score based on game mode
+Accessed by PUT request to /scores
+*/
+DROP PROCEDURE IF EXISTS add_score_with_gamemode;
+DELIMITER //
+CREATE PROCEDURE add_score_with_gamemode(IN current_username VARCHAR(30), IN new_score DECIMAL(10,2), IN g_mode VARCHAR(30))
 BEGIN
     DECLARE current_score DECIMAL(10,2);
     DECLARE old_score INTEGER;
+    DECLARE g_mode_id INTEGER;
     SELECT get_high_score(current_username) INTO current_score;
-    IF (new_score < current_score) THEN
+    SELECT get_game_mode_id(g_mode) INTO g_mode_id;
+    IF ((g_mode_id <= 3 AND new_score < old_score) OR (g_mode_id > 3 AND new_score > old_score)) THEN
         SELECT get_high_score_id(current_username) INTO old_score;
         DELETE FROM scores WHERE id = old_score;
         INSERT INTO scores(userID, score_time, game_mode)
-        VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode);
+        VALUES ((SELECT id FROM users WHERE username = current_username), new_score, g_mode_id);
         SELECT ROW_COUNT();
     END IF;
 END//
