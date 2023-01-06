@@ -5,7 +5,7 @@ const app = express();
 
 // Middle Ware
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://marlonfajardo.ca');
+    res.header('Access-Control-Allow-Origin', 'https://sequence.marlonfajardo.ca');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
     next();
@@ -21,38 +21,38 @@ app.engine('html', require('ejs').renderFile);
 
 // Routing
 
-app.get("/sequence", function(req, res) {
+app.get("/login", function(req, res) {
     res.render("index.html")
 });
 
-app.get("/sequence/game", function(req, res) {
+app.get("/", function(req, res) {
     res.render("gamePage.html");
 });
 
-app.get("/sequence/leaderboard", function(req, res) {
+app.get("/leaderboard", function(req, res) {
     res.render("leaderboard.html");
 })
 
-app.get("/sequence/admin", function(req, res) {
+app.get("/admin", function(req, res) {
     res.render("admin.html");
 })
 
-app.get("/sequence/css/:filename", function (req, res) {
+app.get("/css/:filename", function (req, res) {
     let css = req.params.filename;
     res.sendFile(__dirname + `/public/css/${css}`);
 });
 
-app.get("/sequence/script/:filename", function (req, res) {
+app.get("/script/:filename", function (req, res) {
     let script = req.params.filename;
     res.sendFile(__dirname + `/public/script/${script}`);
 });
 
-app.get("/sequence/favicon/:filename", function (req, res) {
+app.get("/favicon/:filename", function (req, res) {
     let favicon = req.params.filename;
     res.sendFile(__dirname + `/public/images/favicon_io/${favicon}`);
 });
 
-app.post("/sequence/game/:username", function(req, res) {
+app.post("/game/:username", function(req, res) {
     let name = req.params.username;
     res.render("index.html", {name: name});
 });
