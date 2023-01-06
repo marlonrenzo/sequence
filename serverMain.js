@@ -109,7 +109,7 @@ app.put(ENDPOINT + '/scores/:username/:score/:mode', function(req, res) {
     let name = req.params.username;
     let value = req.params.score;
     let mode = req.params.mode;
-    let sql = `CALL add_score_with_gamemode('${name}', ${value}, ${mode});`;
+    let sql = `CALL add_score_with_gamemode('${name}', ${value}, '${mode}');`;
     db.query(sql, function (err, result) {
         if (err) throw err;
         let resultText = JSON.stringify(result);
