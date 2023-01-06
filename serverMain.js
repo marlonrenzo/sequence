@@ -1,4 +1,4 @@
-const ENDPOINT = "/sequence_server/v1";
+const ENDPOINT = "/sequence_server/v2";
 
 const app = require('./modules/appSetup');
 app.set('views', __dirname + '/views/pages');
@@ -34,10 +34,35 @@ app.get(ENDPOINT + '/scores', function(req, res) {
     });
 });
 
-// Get the scores for a user
-app.get(ENDPOINT + '/scores/:username', function(req, res) {
+// Get the high scores for a user for all game modes
+app.get(ENDPOINT + '/scores/:username/', function(req, res) {
     let name = req.params.username;
-    let sql = `CALL get_user_scores('${name}')`;
+    let mode = req.params.gameMode;
+    let sql = `CALL get_user_score_placing('${name}')`;
+    db.query(sql, function (err, result) {
+        if (err) throw err;
+        let resultText = JSON.stringify(result);
+        res.end(resultText);
+    });
+
+    let request = ENDPOINT + '/scores/username';
+    let method = "GET";
+    let sql2 = `CALL track_request('${request}', '${method}');`; 
+    db.query(sql2, function (err, result) {
+        if (err) throw err;
+        if (result[0]["ROW_COUNT()"]) {
+            console.log("Successful");
+        } else {
+            console.log("Error tracking" + request);
+        }
+    });
+});
+
+// Get the high scores for a user for a game mode
+app.get(ENDPOINT + '/scores/:username/', function(req, res) {
+    let name = req.params.username;
+    let mode = req.params.gameMode;
+    let sql = `CALL get_user_score_placing('${name}')`;
     db.query(sql, function (err, result) {
         if (err) throw err;
         let resultText = JSON.stringify(result);
@@ -84,7 +109,7 @@ app.put(ENDPOINT + '/scores/:username/:score/:mode', function(req, res) {
     let name = req.params.username;
     let value = req.params.score;
     let mode = req.params.mode;
-    let sql = `CALL add_score('${name}', ${value}, ${mode});`;
+    let sql = `CALL add_score_with_gamemode('${name}', ${value}, ${mode});`;
     db.query(sql, function (err, result) {
         if (err) throw err;
         let resultText = JSON.stringify(result);
