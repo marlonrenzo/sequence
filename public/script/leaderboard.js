@@ -5,7 +5,7 @@ function checkIfLoggedIn() {
     username = localStorage.getItem("username");
     console.log("hello " + username);
     if(username == null) {
-        window.location.replace("https://marlonfajardo.ca/sequence");
+        window.location.replace("https://sequence.marlonfajardo.ca/login");
     }
 }
 
@@ -110,5 +110,5 @@ function fillLeaderboard(scores, highScore) {
 
 getScores();
 document.getElementById("back").onclick = function () {
-    window.location.replace("https://marlonfajardo.ca/sequence/game");
+    window.location.replace("https://sequence.marlonfajardo.ca");
 }

@@ -1,5 +1,5 @@
 const url = "https://sequence.marlonfajardo.ca/server/v2";
-var currentUrl = "https://marlonfajardo.ca/sequence";
+var currentUrl = "https://sequence.marlonfajardo.ca/";
 
 function checkExistence(username) {
     const xhttp = new XMLHttpRequest();

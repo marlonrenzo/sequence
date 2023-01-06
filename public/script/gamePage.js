@@ -296,7 +296,7 @@ function uploadScore() {
 }
 
 function visitLeaderboard() {
-    window.location.replace("https://marlonfajardo.ca/sequence/leaderboard");
+    window.location.replace("https://sequence.marlonfajardo.ca/leaderboard");
 }
 
 function displayMainMenu() {
@@ -448,7 +448,7 @@ function welcomeUser(name) {
 function activateLogout() {
     document.getElementById("logout").onclick = function () {
         localStorage.clear();
-        window.location.replace("https://marlonfajardo.ca/sequence");
+        window.location.replace("https://sequence.marlonfajardo.ca/login");
     }
 }
 
@@ -477,8 +477,7 @@ function activateAdminMode() {
 }
 
 function checkIfLoggedIn() {
-    // let username = localStorage.getItem("username"); // placeholder
-    let username = "marlon";  // placeholder
+    let username = localStorage.getItem("username"); // placeholder
     if (username === "admin") {
         console.log(username);
         activateAdminMode();
@@ -490,7 +489,7 @@ function checkIfLoggedIn() {
         setTimeout(displayMainMenu, 1000);
         
     } else {
-        window.location.replace("https://marlonfajardo.ca/sequence");
+        window.location.replace("https://sequence.marlonfajardo.ca/login");
     }
 }
 
