@@ -223,7 +223,7 @@ function stopGame() {
     // let username = localStorage.getItem("username");  //placeholder
     let username = "marlon"; // placeholder
     stopTimer();
-    // uploadScore();  // placeholder
+    uploadScore();  // placeholder
     setTimeout(function() {
         console.log("Finished " + selected_game_mode + GAME_SIZE);
         if (selected_game_mode == "classic") {
@@ -277,16 +277,17 @@ function getHighScore() {
 }
 
 function uploadScore() {
-    let username = localStorage.getItem("username");
+    // let username = localStorage.getItem("username");
+    let username = "marlon";
     const xhttp = new XMLHttpRequest();
     let gameModeSize = `${selected_game_mode}${GAME_SIZE}`;
-    xhttp.open("PUT", url + `/scores/${username}/${current_score}`, true);
+    xhttp.open("PUT", url + `/scores/${username}/${current_score}/${gameModeSize}`, true);
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let result = JSON.parse(this.responseText)[0];
             if (result[0]['ROW_COUNT()'] === 1) {
-                console.log(`Successfully logged ${current_score} for ${username}`);
+                console.log(`Successfully logged ${current_score} for ${username} in ${gameModeSize}`);
             } else {
                 console.log("Error uploading");
             }
@@ -377,6 +378,7 @@ function switchToMainMenu() {
 }
 
 function switchToGameMenu() {
+    // getHighScore();
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("gameMenu").style.display = "flex";
     document.getElementById("back").onclick = switchToMainMenu;
@@ -500,6 +502,5 @@ function fixMobileSizing() {
 }
 
 fixMobileSizing();
-getHighScore();
 checkIfLoggedIn();
 enableGameMenu();
