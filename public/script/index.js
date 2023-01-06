@@ -1,4 +1,4 @@
-var url = "https://marlonfajardo.ca/sequence_server/v1";
+var url = "https://marlonfajardo.ca/sequence_server/v2";
 var currentUrl = "https://marlonfajardo.ca/sequence";
 
 function checkExistence(username) {
