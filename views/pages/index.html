@@ -7,7 +7,8 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/index.css">
+    <!-- <link rel="stylesheet" href="css/index.css"> -->
+    <link rel="stylesheet" href="../../public/css/index.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -27,17 +28,18 @@
         </div>
 
         <div class="window">
-            <div class="loginBlock" id="loginBlock">
+            <form name="login" class="loginBlock" id="loginBlock" onsubmit="return activateLoginButton()">
                 <p id="loginLabel">Enter your name</p>
                 <input class="login" type="text" id="username" placeholder="Username">
                 <input class="login" type="password" id="password" placeholder="Password">
-                <button id="loginBtn">Enter</button>
-            </div>
+                <input type="submit" id="loginBtn" value="Enter">
+            </form>
         </div>
     </div>
 
 
-    <script src="script/index.js"></script>
+    <!-- <script src="script/index.js"></script> -->
+    <script src="../../public/script/index.js"></script>
 </body>
 
 </html>

@@ -85,21 +85,19 @@ function authenticate() {
 }
 
 function activateLoginButton() {
-    document.getElementById("loginBtn").onclick = function () {
-        let username = (document.getElementById("username").value).toLowerCase().trim();
-        if (username === "admin") {
-            document.getElementById("password").style.display = "inline-block";
-            document.getElementById("loginBtn").onclick = function () {
-                authenticate();
-            }
-        } else if (username !== "" || username.length < 13) {
-            checkExistence(username);
-        } else {
-            alert("Please enter a username that is 1-12 characters in length");
+    let username = (document.getElementById("username").value).toLowerCase().trim();
+    if (username === "admin") {
+        document.getElementById("password").style.display = "inline-block";
+        document.getElementById("loginBtn").onclick = function () {
+            authenticate();
         }
+    } else if (username !== "" || username.length < 13) {
+        checkExistence(username);
+    } else {
+        alert("Please enter a username that is 1-12 characters in length");
     }
+    return false;
 }
 
 fixMobileSizing();
 checkIfLoggedIn();
-activateLoginButton();
