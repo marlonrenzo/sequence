@@ -63,6 +63,7 @@ body {
     background-color: #EAAA00;
     margin-top: 10px;
     color: white;
+    font-weight: normal;
 }
 
 @media only screen and (min-width:620px) {
