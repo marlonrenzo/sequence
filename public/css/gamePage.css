@@ -116,6 +116,7 @@ body {
 
 input[type="radio"] {
     appearance: none;
+    display: none;
 }
 
 input[type="radio"]:checked ~ label{
