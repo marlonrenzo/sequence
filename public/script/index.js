@@ -1,5 +1,5 @@
 const url = "https://sequence.marlonfajardo.ca/server/v2";
-var currentUrl = "https://sequence.marlonfajardo.ca/";
+var gameUrl = "https://sequence.marlonfajardo.ca";
 
 function checkExistence(username) {
     const xhttp = new XMLHttpRequest();
@@ -23,7 +23,7 @@ function checkExistence(username) {
 function login(username) {
     if (typeof(Storage) !== "undefined") {
         localStorage.setItem("username", username);
-        window.location.replace(currentUrl + "/game");
+        window.location.replace(gameUrl);
     } else {
         alert("Sorry, your browser is too out of date to play Sequence.");
     }
@@ -49,7 +49,7 @@ function signUp(username) {
 
 function checkIfLoggedIn() {
     if (localStorage.getItem("username") !== null) {
-        window.location.replace("https://marlonfajardo.ca/sequence/game");
+        window.location.replace("https://sequence.marlonfajardo.ca");
     } else {
         document.getElementById("loginBlock").style.display = "flex";
     }
