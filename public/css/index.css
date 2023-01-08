@@ -55,7 +55,7 @@ body {
 }
 
 #loginBtn {
-    padding: 0 109px;
+    width: 100%;
     border: 1px solid #EAAA00;
     border-radius: 5px;
     font-family: 'Titillium Web';
