@@ -286,8 +286,7 @@ function getHighScore() {
 }
 
 function uploadScore() {
-  // let username = localStorage.getItem("username");
-  let username = "marlon";
+  let username = localStorage.getItem("username");
   const xhttp = new XMLHttpRequest();
   let gameModeSize = `${selected_game_mode}${GAME_SIZE}`;
   xhttp.open(
