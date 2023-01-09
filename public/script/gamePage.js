@@ -229,7 +229,6 @@ function resetTimer() {
 
 function stopGame() {
   let username = localStorage.getItem("username");
-  current_score = 0.0;
   stopTimer();
   uploadScore();
   setTimeout(function () {
@@ -330,6 +329,7 @@ function resetGameWindow() {
   document.getElementById("pause").style.display = "none";
   resetTimer();
   document.getElementById("time").style.display = "none";
+  current_score = 0.0;
 }
 
 function clearButtons() {
