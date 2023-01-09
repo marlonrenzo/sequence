@@ -328,7 +328,6 @@ function resetGameWindow() {
   document.getElementById("pause").style.display = "none";
   resetTimer();
   document.getElementById("time").style.display = "none";
-  current_score = 0.0;
 }
 
 function clearButtons() {
@@ -425,6 +424,7 @@ function determineGameSize() {
 function startGame() {
   determineGameSize();
   let run_game = game_modes[selected_game_mode];
+  current_score = 0.0;
   run_game();
 }
 
