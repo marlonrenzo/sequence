@@ -34,7 +34,7 @@ app.get("/", function (req, res) {
   let test = {
     "this a test": "testing it out",
   };
-  res.render("gamePage.html", { test: test });
+  res.render("gamePage.html", { test: JSON.stringify(test) });
 });
 
 app.get("/leaderboard", function (req, res) {
