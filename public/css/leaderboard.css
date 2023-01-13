@@ -12,7 +12,7 @@ body {
 
 .titleBar {
     justify-content: center;
-    height: 5%;
+    height: 10%;
 }
 
 .title {
@@ -25,27 +25,28 @@ body {
 
 .window {
     height: 90%;
+    padding-top: 50px;
 }
 
 .leaderboard {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
+    animation: reveal-bottom 1s;
+}
+
+#gameModeMenu {
+    display: none;
 }
 
 .gameModes, .gameSizes {
+    left: 50%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     width: 300px;
     border: 1px solid black;
     border-radius: 5px;
-    margin: 5px;
+    margin: 5px auto 5px auto;
 }
 
 .gameMode {
@@ -58,6 +59,7 @@ body {
     width: 100%;
     color: white;
     font-size: 25px;
+    cursor: pointer;
 }
 
 .selected {
@@ -91,11 +93,14 @@ body {
     left: 50%;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+    z-index: 2;
 }
 
 /*Loader credit goes to w3schools at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_loader*/
 
 .loader {
+    margin: 0 auto;
+    margin-top: 300px;
     border: 10px solid #c44349;
     border-radius: 50%;
     border-top: 10px solid #EAAA00;
@@ -104,6 +109,17 @@ body {
     height: 50px;
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
+}
+
+#loaderOverlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
 }
 
 /* Safari */
@@ -117,6 +133,17 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+@keyframes reveal-bottom {
+    0% { 
+        margin-top: 50px;
+        opacity: 0.0; 
+    }
+    100% { 
+        margin-top: 5px;
+        opacity: 1.0; 
+    }
+}
+
 @media only screen and (min-width:620px) {
     /* For Desktops: */
     .title {
@@ -124,11 +151,12 @@ body {
     }
 
     .titleBar {
-        height: 20%;
+        height: 15%;
     }
 
     .window {
-        height: 80%;
+        height: 85%;
+        padding-top: 0px;
     }
 
     .card {
