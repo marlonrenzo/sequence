@@ -20,8 +20,9 @@
 
     <title>Sequence</title>
     <script>
-        var test = JSON.parse('<%= test %>');
-        console.log(test);
+        var test = '<%= test %>'
+        var test = test.replace('&#34;', '"');
+        console.log(JSON.parse(test));
     </script>
 </head>
 
