@@ -452,16 +452,16 @@ function loadLeaderboard(scores, gameMode, highScore) {
   let leaderBoardSize = getSize(scores);
   if (scores != []) {
     for (let index = 0; index < leaderBoardSize; index++) {
-      if (scores[index]["user"] == username && scores[index]["scores"]) {
+      if (scores[index]["user"]) {
         userIsInTop10 = true;
         console.log(`user in top 10 ${gameMode}`);
         createLeaderboardEntry(gameMode, scores[index], place, "#EAAA00");
-      } else if (scores[index]["scores"]) {
+      } else {
         createLeaderboardEntry(gameMode, scores[index], place, "white");
       }
       place++;
     }
-    if (!userIsInTop10) {
+    if (!userIsInTop10 && highScore[gameMode]["score"]) {
       displayHighScore(highScore, gameMode);
     }
   }
