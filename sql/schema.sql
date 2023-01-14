@@ -143,7 +143,7 @@ DROP PROCEDURE IF EXISTS get_user_score_placing;
 DELIMITER //
 CREATE PROCEDURE get_user_score_placing(IN current_username VARCHAR(30))
 BEGIN
-    SELECT get_high_score_game_mode(current_username, game_modes.mode) AS score, game_modes.mode, (CASE 
+    SELECT current_username AS user, get_high_score_game_mode(current_username, game_modes.mode) AS score, game_modes.mode, (CASE 
         WHEN game_modes.id <= 3 THEN (
             SELECT COUNT(*) + 1 FROM scores
             WHERE score_time < (SELECT get_high_score_game_mode(current_username, game_modes.mode))
