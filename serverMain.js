@@ -51,10 +51,18 @@ app.get(ENDPOINT + "/scores", function (req, res) {
 app.get(ENDPOINT + "/scores/:username", function (req, res) {
   let name = req.params.username;
   let sql = `CALL get_user_score_placing('${name}')`;
+  let parsedResult = {};
   db.query(sql, function (err, result) {
     if (err) throw err;
-    let resultText = JSON.stringify(result[0]);
-    res.end(resultText);
+    result = result[0];
+    for (let i = 0; i < result.length; i++) {
+      parsedResult[result[i]["mode"]] = {
+        user: result[i]["user"],
+        score: result[i]["score"],
+        place: result[i]["place"],
+      };
+    }
+    res.end(JSON.stringify(parsedResult));
   });
 
   let request = ENDPOINT + "/scores/username";

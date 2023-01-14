@@ -362,7 +362,7 @@ function getHighScore(scores) {
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      let highScores = JSON.parse(this.responseText)[0];
+      let highScores = JSON.parse(this.responseText);
       console.log(highScores);
       fillLeaderboards(scores, highScores);
     }
