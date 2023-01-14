@@ -23,7 +23,7 @@ CREATE TABLE stats (
 CREATE TABLE game_modes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     mode VARCHAR(30) NOT NULL
-)
+);
 
 
 -- PROCEDURES, FUNCTIONS and Queries-- 
@@ -52,11 +52,83 @@ BEGIN
     SELECT get_game_mode_id(g_mode) INTO game_mode_id;
     SELECT get_high_score(current_username) AS score, 
     (
-        SELECT COUNT(*) + 1 FROM get_scores
+        SELECT COUNT(*) + 1 FROM scores
         WHERE score < (SELECT get_high_score(current_username))
         AND game_mode = game_mode_id
     ) AS place, username AS user
     FROM users WHERE username = current_username;
+END//
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS get_all_scores;
+DELIMITER //
+CREATE PROCEDURE get_all_scores()
+BEGIN
+    CALL get_top_ten_game_mode('classic20');
+    CALL get_top_ten_game_mode('classic40');
+    CALL get_top_ten_game_mode('classic60');
+    CALL get_top_ten_game_mode('timed15');
+    CALL get_top_ten_game_mode('timed30');
+    CALL get_top_ten_game_mode('timed45');
+END//
+DELIMITER ;
+
+
+/*
+Gets the top 10 scores for a game mode.
+Accessed by GET request to /scores
+*/
+DROP PROCEDURE IF EXISTS get_top_ten_game_mode;
+DELIMITER //
+CREATE PROCEDURE get_top_ten_game_mode(IN g_mode VARCHAR(30))
+BEGIN
+    DECLARE game_mode_id INTEGER;
+    SELECT get_game_mode_id(g_mode) INTO game_mode_id;
+    IF game_mode_id <= 3 THEN
+        CALL get_top_ten_classic(game_mode_id);
+    ELSE
+        CALL get_top_ten_timed(game_mode_id);
+    END IF;
+END//
+DELIMITER ;
+
+
+/*
+Gets the top 10 scores for classic game modes.
+
+Called by get_top_ten_game_mode()
+*/
+DROP PROCEDURE IF EXISTS get_top_ten_classic;
+DELIMITER //
+CREATE PROCEDURE get_top_ten_classic(IN game_mode_id INTEGER)
+BEGIN
+    SELECT scores.id AS id, users.username AS user, min(scores.score_time) AS score
+    FROM scores JOIN users ON (scores.userID = users.id) 
+    WHERE game_mode = game_mode_id
+    GROUP BY users.username 
+    ORDER BY score
+    LIMIT 10;
+END//
+DELIMITER ;
+
+
+/*
+Gets the top 10 scores for timed game modes.
+
+Called by get_top_ten_game_mode()
+*/
+DROP PROCEDURE IF EXISTS get_top_ten_timed;
+DELIMITER //
+CREATE PROCEDURE get_top_ten_timed(IN game_mode_id INTEGER)
+BEGIN
+    SELECT scores.id AS id, users.username AS user, max(scores.score_time) AS score
+    FROM scores JOIN users ON (scores.userID = users.id) 
+    WHERE game_mode = game_mode_id
+    GROUP BY users.username 
+    ORDER BY score DESC
+    LIMIT 10;
 END//
 DELIMITER ;
 
@@ -161,6 +233,24 @@ Gets the high score id for a given user.
 DROP FUNCTION IF EXISTS get_high_score_id;
 DELIMITER //
 CREATE FUNCTION get_high_score_id(current_username VARCHAR(30)) 
+RETURNS INTEGER READS SQL DATA
+BEGIN
+    RETURN (
+      SELECT id 
+      FROM scores 
+      WHERE userID = (SELECT id FROM users WHERE username = current_username)
+      ORDER BY score_time limit 1
+    );
+END //
+DELIMITER ;
+
+
+/*
+Gets the high score id for a given user.
+*/
+DROP FUNCTION IF EXISTS get_high_score_game_mode_id;
+DELIMITER //
+CREATE FUNCTION get_high_score_game_mode_id(current_username VARCHAR(30)) 
 RETURNS INTEGER READS SQL DATA
 BEGIN
     RETURN (
