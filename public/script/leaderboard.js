@@ -452,7 +452,7 @@ function loadLeaderboard(scores, gameMode, highScore) {
   let leaderBoardSize = getSize(scores);
   if (scores != []) {
     for (let index = 0; index < leaderBoardSize; index++) {
-      if (scores[index]["user"]) {
+      if (scores[index]["user"] == username) {
         userIsInTop10 = true;
         console.log(`user in top 10 ${gameMode}`);
         createLeaderboardEntry(gameMode, scores[index], place, "#EAAA00");
