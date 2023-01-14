@@ -48,13 +48,12 @@ app.get(ENDPOINT + "/scores", function (req, res) {
 });
 
 // Get the high scores for a user for all game modes
-app.get(ENDPOINT + "/scores/:username/", function (req, res) {
+app.get(ENDPOINT + "/scores/:username", function (req, res) {
   let name = req.params.username;
-  let mode = req.params.gameMode;
   let sql = `CALL get_user_score_placing('${name}')`;
   db.query(sql, function (err, result) {
     if (err) throw err;
-    let resultText = JSON.stringify(result);
+    let resultText = JSON.stringify(result[0]);
     res.end(resultText);
   });
 
