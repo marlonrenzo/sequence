@@ -18,13 +18,36 @@ const game_modes = [
 ];
 
 var highScoresTEMP = {
-  // placeholder
-  classic20: { id: 613, user: "marlon", score: 5.48, place: 14 },
-  classic40: { id: 613, user: "marlon", score: 15.48, place: 14 },
-  classic60: { id: 613, user: "marlon", score: 25.48, place: 14 },
-  timed15: { id: 613, user: "marlon", score: 40, place: 14 },
-  timed30: { id: 613, user: "marlon", score: 60, place: 14 },
-  timed45: { id: 613, user: "marlon", score: 80, place: 14 },
+  classic20: {
+    user: "rizzyneutron",
+    score: 11.62,
+    place: 13,
+  },
+  classic40: {
+    user: "rizzyneutron",
+    score: 21.45,
+    place: 1,
+  },
+  classic60: {
+    user: "rizzyneutron",
+    score: null,
+    place: 1,
+  },
+  timed15: {
+    user: "rizzyneutron",
+    score: null,
+    place: 1,
+  },
+  timed30: {
+    user: "rizzyneutron",
+    score: null,
+    place: 1,
+  },
+  timed45: {
+    user: "rizzyneutron",
+    score: null,
+    place: 1,
+  },
 };
 
 var leaderboardScores = {
@@ -345,6 +368,7 @@ var leaderboardScores = {
 
 function checkIfLoggedIn() {
   username = localStorage.getItem("username");
+  // username = "rizzyneutron";
   console.log("hello " + username);
   if (username == null) {
     window.location.replace("https://sequence.marlonfajardo.ca/login");
@@ -461,7 +485,7 @@ function loadLeaderboard(scores, gameMode, highScore) {
       }
       place++;
     }
-    if (!userIsInTop10 && highScore[gameMode]["score"]) {
+    if (!userIsInTop10 && highScore["score"]) {
       displayHighScore(highScore, gameMode);
     }
   }
