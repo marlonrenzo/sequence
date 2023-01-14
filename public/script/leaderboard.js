@@ -19,12 +19,12 @@ const game_modes = [
 
 var highScoresTEMP = {
   // placeholder
-  classic20: { id: 613, user: "marlon", score: 5.48, place: 1 },
-  classic40: { id: 613, user: "marlon", score: 15.48, place: 1 },
-  classic60: { id: 613, user: "marlon", score: 25.48, place: 1 },
-  timed15: { id: 613, user: "marlon", score: 40, place: 1 },
-  timed30: { id: 613, user: "marlon", score: 60, place: 1 },
-  timed45: { id: 613, user: "marlon", score: 80, place: 1 },
+  classic20: { id: 613, user: "marlon", score: 5.48, place: 14 },
+  classic40: { id: 613, user: "marlon", score: 15.48, place: 14 },
+  classic60: { id: 613, user: "marlon", score: 25.48, place: 14 },
+  timed15: { id: 613, user: "marlon", score: 40, place: 14 },
+  timed30: { id: 613, user: "marlon", score: 60, place: 14 },
+  timed45: { id: 613, user: "marlon", score: 80, place: 14 },
 };
 
 var leaderboardScores = {
@@ -344,8 +344,8 @@ var leaderboardScores = {
 };
 
 function checkIfLoggedIn() {
-  username = localStorage.getItem("username");
-  // username = "marlon";
+  // username = localStorage.getItem("username");
+  username = "marlon";
   console.log("hello " + username);
   if (username == null) {
     window.location.replace("https://sequence.marlonfajardo.ca/login");
@@ -358,30 +358,30 @@ function checkIfLoggedIn() {
 }
 
 function getHighScore(scores) {
-  // const xhttp = new XMLHttpRequest();
-  // xhttp.open("GET", url + `/scores/${username}`, true);
-  // xhttp.send();
-  // xhttp.onreadystatechange = function () {
-  //   if (this.readyState == 4 && this.status == 200) {
-  //     let highScores = JSON.parse(this.responseText)[0][0];
-  //     console.log(highScores);
-  //     fillLeaderboards(scores, highScores);
-  //   }
-  // };
-  fillLeaderboards(scores, highScoresTEMP);
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", url + `/scores/${username}`, true);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let highScores = JSON.parse(this.responseText)[0][0];
+      console.log(highScores);
+      fillLeaderboards(scores, highScores);
+    }
+  };
+  // fillLeaderboards(scores, highScoresTEMP);
 }
 
 function getScores() {
-  // const xhttp = new XMLHttpRequest();
-  // xhttp.open("GET", url + `/scores`, true);
-  // xhttp.send();
-  // xhttp.onreadystatechange = function () {
-  //   if (this.readyState == 4 && this.status == 200) {
-  //     getHighScore(JSON.parse(this.responseText));
-  //     console.log(JSON.parse(this.responseText));
-  //   }
-  // };
-  getHighScore(leaderboardScores);
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", url + `/scores`, true);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      getHighScore(JSON.parse(this.responseText));
+      console.log(JSON.parse(this.responseText));
+    }
+  };
+  // getHighScore(leaderboardScores);
 }
 
 function createSpanElement(type, number, text, color) {
