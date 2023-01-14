@@ -344,8 +344,7 @@ var leaderboardScores = {
 };
 
 function checkIfLoggedIn() {
-  // username = localStorage.getItem("username");
-  username = "marlon";
+  username = localStorage.getItem("username");
   console.log("hello " + username);
   if (username == null) {
     window.location.replace("https://sequence.marlonfajardo.ca/login");
