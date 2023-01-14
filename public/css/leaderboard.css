@@ -12,20 +12,19 @@ body {
 
 .titleBar {
     justify-content: center;
-    height: 10%;
+    height: 9%;
 }
 
 .title {
     color: #43c4be;
     font-weight: 200;
-    font-size: 50px;
+    font-size: 45px;
     text-align: center;
     margin: 0;
 }
 
 .window {
-    height: 90%;
-    padding-top: 50px;
+    height: 91%;
 }
 
 .leaderboard {
@@ -46,7 +45,7 @@ body {
     width: 300px;
     border: 1px solid black;
     border-radius: 5px;
-    margin: 5px auto 5px auto;
+    margin: 0px auto 2px auto;
 }
 
 .gameMode {
@@ -71,6 +70,10 @@ body {
     width: 95%;
     display: flex;
     justify-content: space-between;
+}
+
+.card > span {
+    height: 37px;
 }
 
 .place, .username, .time {
@@ -173,6 +176,10 @@ body {
         font-family: 'Titillium Web';
         background-color: #EAAA00;
         color: white;
+    }
+
+    .card > span {
+        height: auto;
     }
 
     .place, .username, .time {
