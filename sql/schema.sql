@@ -168,12 +168,9 @@ DROP PROCEDURE IF EXISTS get_all_high_scores;
 DELIMITER //
 CREATE PROCEDURE get_all_high_scores()
 BEGIN
-    SELECT scores.score_time, scores.userID, game_modes.id, CASE
-        WHEN game_modes.id <= 3 THEN (SELECT scores.id, MIN(scores.score_time) FROM scores GROUP BY scores.id)
-        ELSE (SELECT scores.id, MAX(scores.score_time) FROM scores GROUP BY scores.id)
-        END AS high_score
+    SELECT get_user_name(scores.userID) as user, scores.score_time, game_modes.mode
     FROM game_modes JOIN scores ON game_modes.id = scores.game_mode
-    GROUP BY scores.id;
+    WHERE scores.id = get_high_score_game_mode_id(game_modes.id);
 END//
 DELIMITER ;
 
@@ -227,6 +224,20 @@ END //
 DELIMITER ;
 
 
+DROP FUNCTION IF EXISTS get_user_name;
+DELIMITER //
+CREATE FUNCTION get_user_name(in_user_id INTEGER) 
+RETURNS VARCHAR(30) READS SQL DATA
+BEGIN
+    RETURN (
+        SELECT username
+        FROM users
+        WHERE id = in_user_id
+    );
+END //
+DELIMITER ;
+
+
 /*
 Gets the high score id for a given user.
 */
@@ -246,19 +257,28 @@ DELIMITER ;
 
 
 /*
-Gets the high score id for a given user.
+Gets the high score id for a given game mode.
 */
 DROP FUNCTION IF EXISTS get_high_score_game_mode_id;
 DELIMITER //
-CREATE FUNCTION get_high_score_game_mode_id(current_username VARCHAR(30)) 
+CREATE FUNCTION get_high_score_game_mode_id(g_mode INTEGER) 
 RETURNS INTEGER READS SQL DATA
 BEGIN
-    RETURN (
-      SELECT id 
-      FROM scores 
-      WHERE userID = (SELECT id FROM users WHERE username = current_username)
-      ORDER BY score_time limit 1
-    );
+    IF g_mode <= 3 THEN
+        RETURN (
+            SELECT id 
+            FROM scores 
+            WHERE game_mode = g_mode
+            ORDER BY score_time limit 1
+        );
+    ELSE
+        RETURN (
+            SELECT id 
+            FROM scores 
+            WHERE game_mode = g_mode
+            ORDER BY score_time DESC limit 1
+        );
+    END IF;
 END //
 DELIMITER ;
 
