@@ -78,15 +78,20 @@ app.get(ENDPOINT + "/scores/:username", function (req, res) {
   });
 });
 
-// Get the high scores for a user for a game mode
-app.get(ENDPOINT + "/scores/:username/", function (req, res) {
-  let name = req.params.username;
-  let mode = req.params.gameMode;
-  let sql = `CALL get_user_score_placing('${name}')`;
+// Get the high scores for all game modes
+app.get(ENDPOINT + "/highscores", function (req, res) {
+  let parsedResult = {};
+  let sql = `CALL get_all_high_scores();`;
   db.query(sql, function (err, result) {
-    if (err) throw err;
-    let resultText = JSON.stringify(result);
-    res.end(resultText);
+    result = result[0];
+    for (let i = 0; i < 6; i++) {
+      if (err) throw err;
+      parsedResult[result[i]["mode"]] = {
+        user: result[i]["user"],
+        score: result[i]["score_time"],
+      };
+    }
+    res.end(JSON.stringify(parsedResult));
   });
 
   let request = ENDPOINT + "/scores/username";
