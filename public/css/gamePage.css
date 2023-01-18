@@ -136,6 +136,10 @@ input[type="radio"]:checked ~ label{
     display: none;
 }
 
+.selectedGameModeScore {
+    display: block;
+}
+
 .gameSizes {
     flex-direction: row;
     justify-content: space-around;

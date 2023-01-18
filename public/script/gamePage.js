@@ -419,8 +419,8 @@ function switchGameSizes(element, gameMode, gameSizes) {
     }
     gameModeElm.style.animation = "none";
     gameModeElm.style.display = "flex";
-    previousHighScoreElm.style.display = "none";
-    highScoreElm.style.display = "block";
+    previousHighScoreElm.classList.remove("selectedGameScore");
+    highScoreElm.classList.add("selectedGameScore");
     selected_game_mode = gameMode.value;
   }
 }
@@ -535,4 +535,5 @@ function fixMobileSizing() {
 
 fixMobileSizing();
 checkIfLoggedIn();
+getHighScore();
 enableGameMenu();
