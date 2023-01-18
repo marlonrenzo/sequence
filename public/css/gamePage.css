@@ -132,6 +132,10 @@ input[type="radio"]:checked ~ label{
     display: none;
 }
 
+.gameModeHighScore {
+    display: none;
+}
+
 .gameSizes {
     flex-direction: row;
     justify-content: space-around;
@@ -141,7 +145,7 @@ input[type="radio"]:checked ~ label{
     margin: 5px;
 }
 
-.gameSize {
+.gameSize, .highScoreText {
     color: white;
     font-size: 30px;
 }

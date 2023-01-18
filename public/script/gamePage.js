@@ -1,3 +1,5 @@
+const { resourceLimits } = require("worker_threads");
+
 const url = "https://sequence.marlonfajardo.ca/server/v2";
 var GAME_SIZE;
 var BUTTONS_TO_DISPLAY = 9;
@@ -267,22 +269,31 @@ function countDown() {
 }
 
 function getHighScore() {
-  let highScore = document.getElementById("highScore");
   highScore.innerText = `👑 6.9s (marlon)`; // placeholder
-  // const xhttp = new XMLHttpRequest();
-  // xhttp.open("GET", url + `/scores`, true);
-  // xhttp.send();
-  // xhttp.onreadystatechange = function () {
-  //     if (this.readyState == 4 && this.status == 200) {
-  //         let result = JSON.parse(this.responseText);
-
-  //         let fullScore = parseFloat(result[0]['score']);
-  //         let roundedScore = Math.floor(fullScore * 10) / 10;
-  //         let scoreFormatted = roundedScore.toFixed(1);
-  //         let user = result[0]['user'];
-  //         highScore.innerText = `👑 ${scoreFormatted}s (${user})`
-  //     }
-  // }
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", url + `/scores`, true);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let result = JSON.parse(this.responseText);
+      for (let mode = 0; mode < 6; mode++) {
+        let current_mode = Object.keys(result)[mode];
+        let scoreElm = document.getElementById(`${current_mode}HS`);
+        if (mode <= 3) {
+          let roundedScore = Math.floor(fullScore * 10) / 10;
+          let scoreFormatted = roundedScore.toFixed(1);
+          scoreElm.innerText = `👑 ${scoreFormatted}s (${result[current_mode]["user"]})`;
+        } else {
+          scoreElm.innerText = `👑 ${result[current_mode]["score"]} (${result[current_mode]["user"]})`;
+        }
+      }
+      // let fullScore = parseFloat(result[0]["score"]);
+      // let roundedScore = Math.floor(fullScore * 10) / 10;
+      // let scoreFormatted = roundedScore.toFixed(1);
+      // let user = result[0]["user"];
+      // highScore.innerText = `👑 ${scoreFormatted}s (${user})`;
+    }
+  };
 }
 
 function uploadScore() {
@@ -400,12 +411,18 @@ function switchToGameMenu() {
 
 function switchGameSizes(element, gameMode, gameSizes) {
   let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
+  let highScoreElm = document.getElementById(`${gameMode.value}HS`);
+  let previousHighScoreElm = document.getElementById(
+    `${selected_game_mode}${GAME_SIZE}HS`
+  );
   if (element.checked) {
     for (let i = 0; i < gameSizes.length; i++) {
       gameSizes[i].style.display = "none";
     }
     gameModeElm.style.animation = "none";
     gameModeElm.style.display = "flex";
+    previousHighScoreElm.style.display = "none";
+    highScoreElm.style.display = "block";
     selected_game_mode = gameMode.value;
   }
 }
