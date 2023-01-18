@@ -278,7 +278,8 @@ function getHighScore() {
         let current_mode = Object.keys(result)[mode];
         let scoreElm = document.getElementById(`${current_mode}HS`);
         if (mode <= 3) {
-          let roundedScore = Math.floor(fullScore * 10) / 10;
+          let roundedScore =
+            Math.floor(result[current_mode]["score"] * 10) / 10;
           let scoreFormatted = roundedScore.toFixed(1);
           scoreElm.innerText = `👑 ${scoreFormatted}s (${result[current_mode]["user"]})`;
         } else {
