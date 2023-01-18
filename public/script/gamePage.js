@@ -409,6 +409,7 @@ function switchToGameMenu() {
 }
 
 function switchGameSizes(element, gameMode, gameSizes) {
+  determineGameSize();
   let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
   let highScoreElm = document.getElementById(`${gameMode.value}HS`);
   let previousHighScoreElm = document.getElementById(
