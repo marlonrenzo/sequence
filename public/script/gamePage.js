@@ -1,5 +1,3 @@
-const { resourceLimits } = require("worker_threads");
-
 const url = "https://sequence.marlonfajardo.ca/server/v2";
 var GAME_SIZE;
 var BUTTONS_TO_DISPLAY = 9;
