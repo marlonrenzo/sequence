@@ -414,6 +414,8 @@ function switchGameSizes(element, gameMode, gameSizes) {
   let previousHighScoreElm = document.getElementById(
     `${selected_game_mode}${GAME_SIZE}HS`
   );
+  console.log(`${gameMode.value}HS`);
+  console.log(`${selected_game_mode}${GAME_SIZE}HS`);
   if (element.checked) {
     for (let i = 0; i < gameSizes.length; i++) {
       gameSizes[i].style.display = "none";
