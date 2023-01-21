@@ -454,7 +454,7 @@ function startGame() {
 
 function enableGameMenu() {
   let gameModes = document.querySelectorAll("input[name=gameModeRadio]");
-  let gameSizes = document.getElementsByClassName("gameSizes");
+  let gameSizes = document.querySelectorAll("div.gameSizes");
   gameModes.forEach((gameMode) => {
     gameMode.addEventListener("change", function () {
       switchGameSizes(this, gameMode, gameSizes);
