@@ -274,6 +274,7 @@ function getHighScore() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       let result = JSON.parse(this.responseText);
+      console.log(result);
       for (let mode = 0; mode < 6; mode++) {
         let current_mode = Object.keys(result)[mode];
         let scoreElm = document.getElementById(`${current_mode}HS`);
@@ -408,13 +409,18 @@ function switchToGameMenu() {
   document.getElementById("back").onclick = switchToMainMenu;
 }
 
-function switchGameSizes(element, gameMode, gameSizes) {
-  determineGameSize();
-  let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
+function switchHighScore(gameSize) {
   let highScoreElm = document.getElementById(`${gameMode.value}${GAME_SIZE}HS`);
   let previousHighScoreElm = document.getElementById(
     `${selected_game_mode}${GAME_SIZE}HS`
   );
+  previousHighScoreElm.classList.remove("selectedGameScore");
+  highScoreElm.classList.add("selectedGameScore");
+  GAME_SIZE = gameSize.value;
+}
+
+function switchGameSizes(element, gameMode, gameSizes) {
+  let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
   console.log(highScoreElm);
   console.log(previousHighScoreElm);
   if (element.checked) {
@@ -423,9 +429,8 @@ function switchGameSizes(element, gameMode, gameSizes) {
     }
     gameModeElm.style.animation = "none";
     gameModeElm.style.display = "flex";
-    previousHighScoreElm.classList.remove("selectedGameScore");
-    highScoreElm.classList.add("selectedGameScore");
     selected_game_mode = gameMode.value;
+    determineGameSize();
   }
 }
 
@@ -436,10 +441,10 @@ function determineGameSize() {
   for (let i = 0; i < gameSizes.length; i++) {
     if (gameSizes[i].checked) {
       GAME_SIZE = gameSizes[i].value;
-      console.log("This the game size: " + GAME_SIZE);
     }
   }
 }
+
 function startGame() {
   determineGameSize();
   let run_game = game_modes[selected_game_mode];
@@ -453,6 +458,11 @@ function enableGameMenu() {
   gameModes.forEach((gameMode) => {
     gameMode.addEventListener("change", function () {
       switchGameSizes(this, gameMode, gameSizes);
+    });
+  });
+  gameSizes.forEach((gameSize) => {
+    gameSize.addEventListener("change", function () {
+      switchHighScore(this, gameSize);
     });
   });
   document.getElementById("startGame").onclick = function () {
