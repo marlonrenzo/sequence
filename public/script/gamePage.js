@@ -6,7 +6,37 @@ var timer;
 var current_score = 0.0;
 const game_modes = { classic: startClassicGame, timed: startTimedGame };
 var selected_game_mode = "classic";
+var selected_game_size = {
+  classic: "classic20",
+  timed: "timed15",
+};
 var pausedTimeStamp;
+let testScores = {
+  classic20: {
+    user: "marlon",
+    score: 5.48,
+  },
+  classic40: {
+    user: "rizzyneutron",
+    score: 21.45,
+  },
+  classic60: {
+    user: "marlon",
+    score: 23.4,
+  },
+  timed15: {
+    user: "marlon",
+    score: 33,
+  },
+  timed30: {
+    user: "kathy",
+    score: 51,
+  },
+  timed45: {
+    user: "kathy",
+    score: 68,
+  },
+};
 
 function createNewButton(number, xPos, yPos) {
   let div = document.getElementById("gameWindow");
@@ -50,7 +80,7 @@ function displayButton(id) {
 }
 
 function activateFinalButton(currentNum) {
-  if (currentNum == GAME_SIZE) {
+  if (currentNum == selected_game_size[selected_game_mode]) {
     let finalBtn = document.getElementById("btn" + GAME_SIZE);
     finalBtn.onclick = function () {
       removeButton("btn" + GAME_SIZE);
@@ -130,11 +160,9 @@ function spawnButtons(gameMode) {
   let gameSize;
   if (gameMode == "classic") {
     gameSize = GAME_SIZE;
-    console.log("classic");
   } else if (gameMode == "timed") {
     gameSize = 200;
   }
-  console.log("Gamesize: " + gameSize);
   for (let num = gameSize; num >= 1; num--) {
     let randomX = randomNumber(xLimit);
     let randomY = randomNumber(yLimit);
@@ -267,33 +295,40 @@ function countDown() {
 }
 
 function getHighScore() {
-  highScore.innerText = `👑 6.9s (marlon)`; // placeholder
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", url + `/scores`, true);
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      let result = JSON.parse(this.responseText);
-      console.log(result);
-      for (let mode = 0; mode < 6; mode++) {
-        let current_mode = Object.keys(result)[mode];
-        let scoreElm = document.getElementById(`${current_mode}HS`);
-        if (mode <= 3) {
-          let roundedScore =
-            Math.floor(result[current_mode]["score"] * 10) / 10;
-          let scoreFormatted = roundedScore.toFixed(1);
-          scoreElm.innerText = `👑 ${scoreFormatted}s (${result[current_mode]["user"]})`;
-        } else {
-          scoreElm.innerText = `👑 ${result[current_mode]["score"]} (${result[current_mode]["user"]})`;
-        }
-      }
-      // let fullScore = parseFloat(result[0]["score"]);
-      // let roundedScore = Math.floor(fullScore * 10) / 10;
-      // let scoreFormatted = roundedScore.toFixed(1);
-      // let user = result[0]["user"];
-      // highScore.innerText = `👑 ${scoreFormatted}s (${user})`;
+  // highScore.innerText = `👑 6.9s (marlon)`; // placeholder
+  // const xhttp = new XMLHttpRequest();
+  // xhttp.open("GET", url + `/scores`, true);
+  // xhttp.send();
+  // xhttp.onreadystatechange = function () {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //     let result = JSON.parse(this.responseText);
+  //     console.log(result);
+  //     for (let mode = 0; mode < 6; mode++) {
+  //       let current_mode = Object.keys(result)[mode];
+  //       let scoreElm = document.getElementById(`${current_mode}HS`);
+  //       if (mode <= 3) {
+  //         let roundedScore =
+  //           Math.floor(result[current_mode]["score"] * 10) / 10;
+  //         let scoreFormatted = roundedScore.toFixed(1);
+  //         scoreElm.innerText = `👑 ${scoreFormatted}s (${result[current_mode]["user"]})`;
+  //       } else {
+  //         scoreElm.innerText = `👑 ${result[current_mode]["score"]} (${result[current_mode]["user"]})`;
+  //       }
+  //     }
+  //   }
+  // };
+  let result = testScores;
+  for (let mode = 0; mode < 6; mode++) {
+    let current_mode = Object.keys(result)[mode];
+    let scoreElm = document.getElementById(`${current_mode}HS`);
+    if (mode <= 3) {
+      let roundedScore = Math.floor(result[current_mode]["score"] * 10) / 10;
+      let scoreFormatted = roundedScore.toFixed(1);
+      scoreElm.innerHTML = `👑 ${scoreFormatted}s (${result[current_mode]["user"]})`;
+    } else {
+      scoreElm.innerHTML = `👑 ${result[current_mode]["score"]} (${result[current_mode]["user"]})`;
     }
-  };
+  }
 }
 
 function uploadScore() {
@@ -410,39 +445,49 @@ function switchToGameMenu() {
 }
 
 function switchHighScore(gameSize) {
-  let highScoreElm = document.getElementById(`${gameMode.value}${GAME_SIZE}HS`);
-  let previousHighScoreElm = document.getElementById(
-    `${selected_game_mode}${GAME_SIZE}HS`
-  );
-  previousHighScoreElm.classList.remove("selectedGameScore");
-  highScoreElm.classList.add("selectedGameScore");
-  GAME_SIZE = gameSize.value;
+  let previouslySelected = selected_game_size[selected_game_mode];
+  let highScoreElm = document.getElementById(`${gameSize.id}HS`);
+  let previousHighScoreElm = document.getElementById(`${previouslySelected}HS`);
+  previousHighScoreElm.classList.remove("selectedGameSizeScore");
+  highScoreElm.classList.add("selectedGameSizeScore");
 }
 
-function switchGameSizes(element, gameMode, gameSizes) {
-  let gameModeElm = document.getElementById(`${gameMode.value}GameSizes`);
-  console.log(highScoreElm);
-  console.log(previousHighScoreElm);
-  if (element.checked) {
-    for (let i = 0; i < gameSizes.length; i++) {
-      gameSizes[i].style.display = "none";
-    }
-    gameModeElm.style.animation = "none";
-    gameModeElm.style.display = "flex";
-    selected_game_mode = gameMode.value;
-    determineGameSize();
+function switchGameSizeOptions(toHide, toDisplay) {
+  let previousGameSizes = document.getElementById(`${toHide}GameSizes`);
+  let newGameSizes = document.getElementById(`${toDisplay}GameSizes`);
+  previousGameSizes.style.display = "none";
+  newGameSizes.style.animation = "none";
+  newGameSizes.style.display = "flex";
+}
+
+function switchGameMode(newModeElm) {
+  let previousModeElm = document.getElementById(selected_game_mode);
+  previousModeElm.classList.remove("selected");
+  newModeElm.classList.add("selected");
+  switchGameSizeOptions(selected_game_mode, newModeElm.id);
+  selected_game_mode = newModeElm.id;
+  // determineGameSize();
+}
+
+function switchGameSize(newGameSize) {
+  let previousGameSize = selected_game_size[selected_game_mode];
+  let previousGameSizeElm = document.getElementById(previousGameSize);
+  newGameSize.classList.add("selected");
+  previousGameSizeElm.classList.remove("selected");
+  selected_game_size[selected_game_mode] = newGameSize.id;
+}
+
+function determineGameMode(string) {
+  if (string.startsWith("classic")) {
+    return "classic";
+  } else {
+    return "timed";
   }
 }
 
 function determineGameSize() {
-  let gameSizes = document.querySelectorAll(
-    `input[name=${selected_game_mode}Size]`
-  );
-  for (let i = 0; i < gameSizes.length; i++) {
-    if (gameSizes[i].checked) {
-      GAME_SIZE = gameSizes[i].value;
-    }
-  }
+  let selectedSize = selected_game_size[selected_game_mode];
+  GAME_SIZE = getIntegerFromString(selectedSize);
 }
 
 function startGame() {
@@ -453,17 +498,30 @@ function startGame() {
 }
 
 function enableGameMenu() {
-  let gameModes = document.querySelectorAll("input[name=gameModeRadio]");
-  let gameSizes = document.querySelectorAll("div.gameSizes");
+  let gameModes = document.querySelectorAll("span.gameModeLabel");
+  let gameSizes = document.querySelectorAll("span.gameSize");
   gameModes.forEach((gameMode) => {
-    gameMode.addEventListener("change", function () {
-      switchGameSizes(this, gameMode, gameSizes);
+    gameMode.addEventListener("click", function () {
+      if (gameMode.id != selected_game_mode) {
+        let selectedModeSize = selected_game_size[gameMode.id];
+        let newGameSize = document.getElementById(selectedModeSize);
+        switchHighScore(newGameSize);
+        switchGameMode(gameMode);
+      }
     });
   });
   gameSizes.forEach((gameSize) => {
-    gameSize.addEventListener("change", function () {
-      switchHighScore(this, gameSize);
+    gameSize.addEventListener("click", function () {
+      if (gameSize.id != selected_game_size[selected_game_mode]) {
+        switchHighScore(gameSize);
+        switchGameSize(gameSize);
+      }
     });
+    // gameSize.addEventListener("change", function () {
+    //   let mode = determineGameMode(gameSize);
+    //   selected_game_size[mode];
+    //   switchHighScore(gameSize);
+    // });
   });
   document.getElementById("startGame").onclick = function () {
     startGame();
@@ -525,7 +583,8 @@ function activateAdminMode() {
 }
 
 function checkIfLoggedIn() {
-  let username = localStorage.getItem("username");
+  // let username = localStorage.getItem("username");
+  let username = "marlon";
   if (username === "admin") {
     console.log(username);
     activateAdminMode();
