@@ -7,8 +7,8 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/gamePage.css">
-    <!-- <link rel="stylesheet" href="../../public/css/gamePage.css"> -->
+    <!-- <link rel="stylesheet" href="css/gamePage.css"> -->
+    <link rel="stylesheet" href="../../public/css/gamePage.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -55,65 +55,73 @@
         </div>
         <div id="gameMenu">
             <div id="highScoresDiv">
-                <div class="gameModeHighScore selectedGameScore" id="classic20HS">
+                <div class="highScoreText gameModeHighScore selectedGameSizeScore" id="classic20HS">
                     <span class="highScoreText"></span>
                 </div>
-                <div class="gameModeHighScore" id="classic40HS">
+                <div class="highScoreText gameModeHighScore" id="classic40HS">
                     <span class="highScoreText"></span>
                 </div>
-                <div class="gameModeHighScore" id="classic60HS">
+                <div class="highScoreText gameModeHighScore" id="classic60HS">
                     <span class="highScoreText"></span>
                 </div>
-                <div class="gameModeHighScore" id="timed15HS">
+                <div class="highScoreText gameModeHighScore" id="timed15HS">
                     <span class="highScoreText"></span>
                 </div>
-                <div class="gameModeHighScore" id="timed30HS">
+                <div class="highScoreText gameModeHighScore" id="timed30HS">
                     <span class="highScoreText"></span>
                 </div>
-                <div class="gameModeHighScore" id="timed45HS">
+                <div class="highScoreText gameModeHighScore" id="timed45HS">
                     <span class="highScoreText"></span>
                 </div>
             </div>
             <div id="gameModes">
                 <div class="gameMode" id="classicDiv">
-                    <input type="radio" id="classic" name="gameModeRadio" value="classic" checked>
-                    <label class="gameModeLabel" for="classic">Classic</label>
+                    <!-- <input type="radio" id="classic" name="gameModeRadio" value="classic" checked>
+                    <label class="gameModeLabel" for="classic">Classic</label> -->
+                    <span class="gameModeLabel selected" id="classic">Classic</span>
                 </div>
                 <div class="gameMode" id="timedDiv">
-                    <input type="radio" id="timed" name="gameModeRadio" value="timed">
-                    <label class="gameModeLabel" for="timed">Timed</label>
+                    <!-- <input type="radio" id="timed" name="gameModeRadio" value="timed">
+                    <label class="gameModeLabel" for="timed">Timed</label> -->
+                    <span class="gameModeLabel" id="timed">Timed</span>
                 </div>
             </div>
             <div class="gameSizes" id="classicGameSizes">
                 <div class="gameSize">
-                    <input type="radio" id="classic20" name="classicSize" value="20" checked>
-                    <label for="classic20" class="classicSize gameSize">20</label>
+                    <!-- <input type="radio" id="classic20" name="classicSize" value="20" checked>
+                    <label for="classic20" class="classicSize gameSize">20</label> -->
+                    <span class="classicSize gameSize selected" id="classic20">20</span>
                 </div>
 
                 <div class="gameSize">
-                    <input type="radio" id="classic40" name="classicSize" value="40">
-                    <label for="classic40" class="classicSize gameSize">40</label>
+                    <!-- <input type="radio" id="classic40" name="classicSize" value="40">
+                    <label for="classic40" class="classicSize gameSize">40</label> -->
+                    <span class="classicSize gameSize" id="classic40">40</span>
                 </div>
 
                 <div class="gameSize">
-                    <input type="radio" id="classic60" name="classicSize" value="60">
-                    <label for="classic60" class="classicSize gameSize">60</label>
+                    <!-- <input type="radio" id="classic60" name="classicSize" value="60">
+                    <label for="classic60" class="classicSize gameSize">60</label> -->
+                    <span class="classicSize gameSize" id="classic60">60</span>
                 </div>
             </div>
             <div class="gameSizes" id="timedGameSizes">
                 <div class="gameSize">
-                    <input type="radio" id="timed15" name="timedSize" value="15" checked>
-                    <label for="timed15" class="timedSize gameSize">15s</label>
+                    <!-- <input type="radio" id="timed15" name="timedSize" value="15" checked>
+                    <label for="timed15" class="timedSize gameSize">15s</label> -->
+                    <span class="timedSize gameSize selected" id="timed15">15s</span>
                 </div>
 
                 <div class="gameSize">
-                    <input type="radio" id="timed30" name="timedSize" value="30">
-                    <label for="timed30" class="timedSize gameSize">30s</label>
+                    <!-- <input type="radio" id="timed30" name="timedSize" value="30">
+                    <label for="timed30" class="timedSize gameSize">30s</label> -->
+                    <span class="timedSize gameSize" id="timed30">30s</span>
                 </div>
 
                 <div class="gameSize">
-                    <input type="radio" id="timed45" name="timedSize" value="45">
-                    <label for="timed45" class="timedSize gameSize">45s</label>
+                    <!-- <input type="radio" id="timed45" name="timedSize" value="45">
+                    <label for="timed45" class="timedSize gameSize">45s</label> -->
+                    <span class="timedSize gameSize" id="timed45">45s</span>
                 </div>
             </div>
             <button id="startGame">Start</button>
@@ -128,8 +136,8 @@
     </div>
 
 
-    <script src="script/gamePage.js"></script>
-    <!-- <script src="../../public/script/gamePage.js"></script> -->
+    <!-- <script src="script/gamePage.js"></script> -->
+    <script src="../../public/script/gamePage.js"></script>
 </body>
 
 </html>
