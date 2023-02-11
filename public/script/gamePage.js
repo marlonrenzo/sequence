@@ -1,16 +1,17 @@
 const url = "https://sequence.marlonfajardo.ca/server/v2";
-var GAME_SIZE;
-var BUTTONS_TO_DISPLAY = 9;
-var timer_is_active = false;
-var timer;
-var current_score = 0.0;
+let GAME_SIZE;
+let BUTTONS_TO_DISPLAY = 9;
+let timer_is_active = false;
+let timer;
+let current_score = 0.0;
 const game_modes = { classic: startClassicGame, timed: startTimedGame };
-var selected_game_mode = "classic";
-var selected_game_size = {
+let selected_game_mode = "classic";
+let selected_game_size = {
   classic: "classic20",
   timed: "timed15",
 };
-var pausedTimeStamp;
+let pausedTimeStamp;
+let high_scores;
 let testScores = {
   classic20: {
     user: "marlon",
@@ -296,39 +297,38 @@ function countDown() {
 
 function getHighScore() {
   // highScore.innerText = `👑 6.9s (marlon)`; // placeholder
-  // const xhttp = new XMLHttpRequest();
-  // xhttp.open("GET", url + `/scores`, true);
-  // xhttp.send();
-  // xhttp.onreadystatechange = function () {
-  //   if (this.readyState == 4 && this.status == 200) {
-  //     let result = JSON.parse(this.responseText);
-  //     console.log(result);
-  //     for (let mode = 0; mode < 6; mode++) {
-  //       let current_mode = Object.keys(result)[mode];
-  //       let scoreElm = document.getElementById(`${current_mode}HS`);
-  //       if (mode <= 3) {
-  //         let roundedScore =
-  //           Math.floor(result[current_mode]["score"] * 10) / 10;
-  //         let scoreFormatted = roundedScore.toFixed(1);
-  //         scoreElm.innerText = `👑 ${scoreFormatted}s (${result[current_mode]["user"]})`;
-  //       } else {
-  //         scoreElm.innerText = `👑 ${result[current_mode]["score"]} (${result[current_mode]["user"]})`;
-  //       }
-  //     }
-  //   }
-  // };
-  let result = testScores;
-  for (let mode = 0; mode < 6; mode++) {
-    let current_mode = Object.keys(result)[mode];
-    let scoreElm = document.getElementById(`${current_mode}HS`);
-    if (mode <= 3) {
-      let roundedScore = Math.floor(result[current_mode]["score"] * 10) / 10;
-      let scoreFormatted = roundedScore.toFixed(1);
-      scoreElm.innerHTML = `👑 ${scoreFormatted}s (${result[current_mode]["user"]})`;
-    } else {
-      scoreElm.innerHTML = `👑 ${result[current_mode]["score"]} (${result[current_mode]["user"]})`;
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", url + `/scores`, true);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let result = JSON.parse(this.responseText);
+      console.log(result);
+      for (let mode = 0; mode < 6; mode++) {
+        let currentMode = Object.keys(result)[mode];
+        let currentHighScore;
+        if (mode <= 3) {
+          let roundedScore = Math.floor(result[currentMode]["score"] * 10) / 10;
+          let scoreFormatted = roundedScore.toFixed(1);
+          currentHighScore = `${scoreFormatted}s (${result[currentMode]["user"]})`;
+        } else {
+          currentHighScore = `${result[currentMode]["score"]} (${result[currentMode]["user"]})`;
+        }
+        high_scores[currentMode] = currentHighScore;
+      }
+      // for (let mode = 0; mode < 6; mode++) {
+      //   let currentMode = Object.keys(result)[mode];
+      //   let scoreElm = document.getElementById(`${currentMode}HS`);
+      //   if (mode <= 3) {
+      //     let roundedScore = Math.floor(result[currentMode]["score"] * 10) / 10;
+      //     let scoreFormatted = roundedScore.toFixed(1);
+      //     scoreElm.innerText = `👑 ${scoreFormatted}s (${result[currentMode]["user"]})`;
+      //   } else {
+      //     scoreElm.innerText = `👑 ${result[currentMode]["score"]} (${result[currentMode]["user"]})`;
+      //   }
+      // }
     }
-  }
+  };
 }
 
 function uploadScore() {
@@ -432,8 +432,17 @@ function startTimedGame() {
   }, 3000);
 }
 
+function resetGameMenuAnimation() {
+  let gameSizes = document.querySelectorAll(".gameSizes");
+  gameSizes.forEach((size) => {
+    console.log(size);
+    size.style.animation = "reveal-top 1s";
+  });
+}
+
 function switchToMainMenu() {
   document.getElementById("gameMenu").style.display = "none";
+  resetGameMenuAnimation();
   displayMainMenu();
 }
 
@@ -445,11 +454,8 @@ function switchToGameMenu() {
 }
 
 function switchHighScore(gameSize) {
-  let previouslySelected = selected_game_size[selected_game_mode];
-  let highScoreElm = document.getElementById(`${gameSize.id}HS`);
-  let previousHighScoreElm = document.getElementById(`${previouslySelected}HS`);
-  previousHighScoreElm.classList.remove("selectedGameSizeScore");
-  highScoreElm.classList.add("selectedGameSizeScore");
+  let highScoreElm = document.getElementById("selectedHighScore");
+  highScoreElm.innerText = high_scores[gameSize.id];
 }
 
 function switchGameSizeOptions(toHide, toDisplay) {
@@ -477,6 +483,13 @@ function switchGameSize(newGameSize) {
   selected_game_size[selected_game_mode] = newGameSize.id;
 }
 
+function displayIntitialHighScore() {
+  let currentGameSize = selected_game_size[selected_game_mode];
+  let gameSizeElm = document.getElementById(currentGameSize);
+  let highScoreElm = document.getElementById("selectedHighScore");
+  highScoreElm.innerText = high_scores["classic20"];
+}
+
 function determineGameMode(string) {
   if (string.startsWith("classic")) {
     return "classic";
@@ -498,6 +511,7 @@ function startGame() {
 }
 
 function enableGameMenu() {
+  displayIntitialHighScore();
   let gameModes = document.querySelectorAll("span.gameModeLabel");
   let gameSizes = document.querySelectorAll("span.gameSize");
   gameModes.forEach((gameMode) => {
@@ -517,11 +531,6 @@ function enableGameMenu() {
         switchGameSize(gameSize);
       }
     });
-    // gameSize.addEventListener("change", function () {
-    //   let mode = determineGameMode(gameSize);
-    //   selected_game_size[mode];
-    //   switchHighScore(gameSize);
-    // });
   });
   document.getElementById("startGame").onclick = function () {
     startGame();
@@ -583,8 +592,7 @@ function activateAdminMode() {
 }
 
 function checkIfLoggedIn() {
-  // let username = localStorage.getItem("username");
-  let username = "marlon";
+  let username = localStorage.getItem("username");
   if (username === "admin") {
     console.log(username);
     activateAdminMode();

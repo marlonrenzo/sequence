@@ -45,9 +45,8 @@ body {
     animation: appear 2s;
 }
 
-#highScoreDiv {
-    padding-top: 10px;
-    padding-left: 10px;
+#highScoresDiv {
+    text-align: center;
 }
 
 .titleBar > div:nth-child(1) {
@@ -154,6 +153,10 @@ input[type="radio"]:checked ~ label{
 .gameSize, .highScoreText {
     color: white;
     font-size: 30px;
+}
+
+.highScoreText{
+    display: inline-block;
 }
 
 .selected {
