@@ -298,7 +298,7 @@ function countDown() {
 function getHighScore() {
   // highScore.innerText = `👑 6.9s (marlon)`; // placeholder
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", url + `/scores`, true);
+  xhttp.open("GET", url + `/highscores`, true);
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
