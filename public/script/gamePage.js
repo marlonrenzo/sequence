@@ -259,7 +259,7 @@ function stopGame() {
   let username = localStorage.getItem("username");
   // let username = "marlon";
   stopTimer();
-  // uploadScore();
+  uploadScore();
   setTimeout(function () {
     console.log("Finished " + selected_game_mode + GAME_SIZE);
     if (selected_game_mode == "classic") {
@@ -338,7 +338,7 @@ function getHighScore() {
 function uploadScore() {
   let username = localStorage.getItem("username");
   const xhttp = new XMLHttpRequest();
-  let gameModeSize = `${selected_game_mode}${GAME_SIZE}`;
+  let gameModeSize = selected_game_size[selected_game_mode];
   xhttp.open(
     "PUT",
     url + `/scores/${username}/${current_score}/${gameModeSize}`,
