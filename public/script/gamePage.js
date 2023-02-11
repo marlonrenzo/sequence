@@ -11,7 +11,7 @@ let selected_game_size = {
   timed: "timed15",
 };
 let pausedTimeStamp;
-let high_scores;
+let high_scores = {};
 let testScores = {
   classic20: {
     user: "marlon",
