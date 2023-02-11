@@ -327,6 +327,7 @@ function getHighScore() {
       //     scoreElm.innerText = `👑 ${result[currentMode]["score"]} (${result[currentMode]["user"]})`;
       //   }
       // }
+      displayIntitialHighScore();
     }
   };
 }
@@ -484,8 +485,7 @@ function switchGameSize(newGameSize) {
 }
 
 function displayIntitialHighScore() {
-  let currentGameSize = selected_game_size[selected_game_mode];
-  let gameSizeElm = document.getElementById(currentGameSize);
+  document.getElementById("highScoresDiv").style.display = "block";
   let highScoreElm = document.getElementById("selectedHighScore");
   highScoreElm.innerText = high_scores["classic20"];
 }
@@ -511,7 +511,6 @@ function startGame() {
 }
 
 function enableGameMenu() {
-  displayIntitialHighScore();
   let gameModes = document.querySelectorAll("span.gameModeLabel");
   let gameSizes = document.querySelectorAll("span.gameSize");
   gameModes.forEach((gameMode) => {
