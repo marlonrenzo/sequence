@@ -81,7 +81,7 @@ function displayButton(id) {
 }
 
 function activateFinalButton(currentNum) {
-  if (currentNum == selected_game_size[selected_game_mode]) {
+  if (currentNum == GAME_SIZE) {
     let finalBtn = document.getElementById("btn" + GAME_SIZE);
     finalBtn.onclick = function () {
       removeButton("btn" + GAME_SIZE);
@@ -110,7 +110,6 @@ function removeButtonAfterClick(id) {
     ) {
       revealButton(currentNumber);
       current_score += 1;
-      console.log(current_score);
     }
     currentNumber++;
     document.getElementById("currentNumber").innerText = currentNumber;
@@ -258,8 +257,9 @@ function resetTimer() {
 
 function stopGame() {
   let username = localStorage.getItem("username");
+  // let username = "marlon";
   stopTimer();
-  uploadScore();
+  // uploadScore();
   setTimeout(function () {
     console.log("Finished " + selected_game_mode + GAME_SIZE);
     if (selected_game_mode == "classic") {
@@ -316,20 +316,23 @@ function getHighScore() {
         }
         high_scores[currentMode] = currentHighScore;
       }
-      // for (let mode = 0; mode < 6; mode++) {
-      //   let currentMode = Object.keys(result)[mode];
-      //   let scoreElm = document.getElementById(`${currentMode}HS`);
-      //   if (mode <= 3) {
-      //     let roundedScore = Math.floor(result[currentMode]["score"] * 10) / 10;
-      //     let scoreFormatted = roundedScore.toFixed(1);
-      //     scoreElm.innerText = `👑 ${scoreFormatted}s (${result[currentMode]["user"]})`;
-      //   } else {
-      //     scoreElm.innerText = `👑 ${result[currentMode]["score"]} (${result[currentMode]["user"]})`;
-      //   }
-      // }
       displayIntitialHighScore();
     }
   };
+  // let result = testScores;
+  // for (let mode = 0; mode < 6; mode++) {
+  //   let currentMode = Object.keys(result)[mode];
+  //   let currentHighScore;
+  //   if (mode <= 3) {
+  //     let roundedScore = Math.floor(result[currentMode]["score"] * 10) / 10;
+  //     let scoreFormatted = roundedScore.toFixed(1);
+  //     currentHighScore = `${scoreFormatted}s (${result[currentMode]["user"]})`;
+  //   } else {
+  //     currentHighScore = `${result[currentMode]["score"]} (${result[currentMode]["user"]})`;
+  //   }
+  //   high_scores[currentMode] = currentHighScore;
+  // }
+  // displayIntitialHighScore();
 }
 
 function uploadScore() {
@@ -508,6 +511,8 @@ function startGame() {
   let run_game = game_modes[selected_game_mode];
   current_score = 0.0;
   run_game();
+  console.log("Game size: " + GAME_SIZE);
+  console.log("Game mode: " + selected_game_mode);
 }
 
 function enableGameMenu() {
@@ -592,6 +597,7 @@ function activateAdminMode() {
 
 function checkIfLoggedIn() {
   let username = localStorage.getItem("username");
+  // let username = "marlon";
   if (username === "admin") {
     console.log(username);
     activateAdminMode();
