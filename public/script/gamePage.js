@@ -614,7 +614,7 @@ function fixMobileSizing() {
   }
 }
 
+getHighScore();
 fixMobileSizing();
 checkIfLoggedIn();
-getHighScore();
 enableGameMenu();
